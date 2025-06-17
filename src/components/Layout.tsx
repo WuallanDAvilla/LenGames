@@ -1,19 +1,15 @@
 // src/components/Layout.tsx
 
 import { Outlet } from 'react-router-dom';
-import { Navbar } from './NavBar';
+import { NavBar } from './NavBar.tsx'; // Importando com 'B' maiúsculo
 
-// O <Outlet /> é um componente especial do React Router.
-// Ele funciona como um espaço reservado onde as páginas das rotas filhas
-// (Home, Games, Profile, etc.) serão renderizadas.
 export function Layout() {
   return (
     <>
-      <Navbar />
+      <NavBar /> {/* Usando o componente com 'B' maiúsculo */}
       <main>
         <Outlet />
       </main>
-      {/* No futuro, você poderia adicionar um <Footer /> aqui */}
     </>
   );
-} 
+}

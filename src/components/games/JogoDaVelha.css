@@ -1,0 +1,54 @@
+/* src/components/games/JogoDaVelha.css */
+
+.tictactoe-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.status {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(3, 100px);
+  gap: 5px;
+  background-color: #1a1a2e;
+}
+
+.square {
+  width: 100px;
+  height: 100px;
+  background-color: #e3e3e3;
+  border: none;
+  font-size: 3rem;
+  font-weight: bold;
+  color: #16213e;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.square:hover {
+  background-color: #c0c0c0;
+}
+
+.reset-button {
+  margin-top: 30px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: white;
+  background-color: #e94560;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.reset-button:hover {
+  background-color: #b8364c;
+}

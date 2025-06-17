@@ -1,0 +1,130 @@
+/* src/styles/Settings.css */
+
+.settings-page-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 50px 20px;
+  background-color: #1a1a2e;
+  min-height: calc(100vh - 80px);
+}
+
+.settings-card {
+  background: #0f3460;
+  color: white;
+  padding: 40px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+  font-family: "Segoe UI", sans-serif;
+}
+
+.settings-card h1 {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 40px;
+  color: #e94560;
+}
+
+.settings-section {
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #16213e;
+}
+
+.settings-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.settings-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+/* Reutilizando o estilo do formulário de login */
+.input-group {
+  margin-bottom: 20px;
+}
+.input-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #a9a9a9;
+}
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #16213e;
+  border-radius: 8px;
+  background: #e3e3e3;
+  color: #16213e;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+.settings-button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: #e94560;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.settings-button:hover {
+  background-color: #ff5274;
+}
+
+/* Mensagens de feedback */
+.success-message {
+  padding: 12px;
+  background-color: rgba(46, 204, 113, 0.2);
+  border: 1px solid #2ecc71;
+  color: #2ecc71;
+  border-radius: 8px;
+  text-align: center;
+  margin-top: 20px;
+}
+.error-message {
+  padding: 12px;
+  background: rgba(255, 82, 82, 0.1);
+  border: 1px solid #ff5252;
+  color: #ff5252;
+  border-radius: 8px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Estilo para a Zona de Perigo */
+.danger-zone {
+  background-color: rgba(231, 76, 60, 0.1);
+  border: 1px solid #e74c3c;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.danger-zone h2 {
+  color: #e74c3c;
+}
+
+.danger-button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: #e74c3c;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.danger-button:hover {
+  background-color: #c0392b;
+}

@@ -14,6 +14,7 @@ E por enquanto é isso que quero, e no final, quero dar o Deploy no Vencel, assi
 npm create vite@latest
 npm install firebase
 npm install -g firebase-tools
+npm install react-hot-toast
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";

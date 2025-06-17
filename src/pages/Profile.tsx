@@ -1,76 +1,51 @@
 // src/pages/Profile.tsx
 
 import { useAuth } from '../contexts/AuthContext.tsx';
-import { auth } from '../firebase.ts';
 import { signOut } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
+import { auth } from '../firebase.ts';
+import { useNavigate, Link } from 'react-router-dom';
+import '../styles/Profile.css'; // Usaremos um arquivo CSS dedicado
 
 export function Profile() {
-  // Pegamos o usuário e a função de logout do nosso contexto
   const { currentUser } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      alert("Você foi desconectado com sucesso.");
-      navigate('/login'); // Manda o usuário para a página de login
+      navigate('/login');
     } catch (error) {
       console.error("Erro ao fazer logout:", error);
-      alert("Não foi possível sair. Tente novamente.");
     }
   };
 
-  // Estilos básicos para a página não ficar "pelada"
-  const pageStyle: React.CSSProperties = {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    minHeight: '100vh',
-    backgroundColor: '#1a1a2e',
-    color: 'white',
-    fontFamily: 'Segoe UI, sans-serif'
-  };
-
-  const cardStyle: React.CSSProperties = {
-    background: '#0f3460',
-    padding: '40px',
-    borderRadius: '12px',
-    textAlign: 'left',
-    width: '100%',
-    maxWidth: '500px'
-  };
-
-  const buttonStyle: React.CSSProperties = {
-    width: '100%',
-    padding: '12px',
-    border: 'none',
-    borderRadius: '8px',
-    backgroundColor: '#e94560',
-    color: 'white',
-    fontSize: '16px',
-    fontWeight: 'bold',
-    cursor: 'pointer',
-    marginTop: '30px'
-  };
-
   return (
-    <div style={pageStyle}>
-      <div style={cardStyle}>
-        <h1 style={{ textAlign: 'center', marginTop: 0 }}>Perfil do Usuário</h1>
-        {/* Usamos a sintaxe "currentUser && (...)" para garantir que o código só
-            tente acessar os dados do usuário se ele não for nulo. */}
+    <div className="profile-page-container">
+      <div className="profile-card">
         {currentUser && (
-          <div>
-            <p><strong>Email:</strong> {currentUser.email}</p>
-            <p><strong>ID de Usuário (UID):</strong> {currentUser.uid}</p>
-            <p><strong>Conta criada em:</strong> {new Date(currentUser.metadata.creationTime!).toLocaleDateString()}</p>
+          <>
+            <div className="profile-header">
+              <img
+                src={currentUser.photoURL || `https://api.dicebear.com/8.x/bottts/svg?seed=${currentUser.uid}`}
+                alt="Avatar do usuário"
+                className="profile-avatar"
+              />
+              <h1 className="profile-name">{currentUser.displayName || "Usuário Anônimo"}</h1>
+              <p className="profile-email">{currentUser.email}</p>
+            </div>
 
-            <button onClick={handleLogout} style={buttonStyle}>
-              Sair (Logout)
-            </button>
-          </div>
+            <div className="profile-details">
+              <p><strong>ID de Usuário:</strong> {currentUser.uid}</p>
+              <p><strong>Conta criada em:</strong> {new Date(currentUser.metadata.creationTime!).toLocaleDateString()}</p>
+            </div>
+
+            <div className="profile-actions">
+              <Link to="/settings" className="profile-button">Ir para Configurações</Link>
+              <button onClick={handleLogout} className="profile-button-logout">
+                Sair (Logout)
+              </button>
+            </div>
+          </>
         )}
       </div>
     </div>

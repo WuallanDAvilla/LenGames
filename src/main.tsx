@@ -3,11 +3,12 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Toaster } from 'react-hot-toast'; // <-- MUDANÇA 1: Importe o Toaster
 
 // Componentes e Contextos
 import { AuthProvider } from "./contexts/AuthContext.tsx";
 import { ProtectedRoute } from "./components/ProtectedRoute.tsx";
-import { Layout } from './components/Layout.tsx'; // Importe o novo Layout
+import { Layout } from './components/Layout.tsx';
 
 // Páginas
 import { Home } from "./pages/Home.tsx";
@@ -20,9 +21,6 @@ import { GameDetailPage } from "./pages/GameDetailPage.tsx";
 import "./index.css";
 
 const router = createBrowserRouter([
-  // --- MUDANÇA ESTRUTURAL IMPORTANTE ---
-  // Agora temos uma rota "mãe" que renderiza o componente Layout.
-  // Todas as rotas "filhas" (children) serão renderizadas dentro do <Outlet> do Layout.
   {
     element: <Layout />,
     children: [
@@ -47,7 +45,6 @@ const router = createBrowserRouter([
       },
     ],
   },
-  // A rota de Login fica FORA do Layout, pois não queremos a Navbar nela.
   {
     path: "/login",
     element: <Login />,
@@ -57,6 +54,30 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <AuthProvider>
+      {/* MUDANÇA 2: Adicione o Toaster aqui. Ele é o componente que vai renderizar as notificações. */}
+      <Toaster 
+        position="top-right" // Posição das notificações na tela
+        toastOptions={{
+          // Estilos padrão para os toasts
+          style: {
+            background: '#363636',
+            color: '#fff',
+          },
+          // Estilos específicos para sucesso e erro
+          success: {
+            iconTheme: {
+              primary: '#4ade80',
+              secondary: '#fff',
+            },
+          },
+          error: {
+            iconTheme: {
+              primary: '#f87171',
+              secondary: '#fff',
+            },
+          },
+        }}
+      />
       <RouterProvider router={router} />
     </AuthProvider>
   </React.StrictMode>

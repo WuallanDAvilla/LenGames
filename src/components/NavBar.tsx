@@ -1,45 +1,60 @@
-// src/components/Navbar.tsx
+// src/components/NavBar.tsx
 
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext.tsx';
 import { signOut } from 'firebase/auth';
 import { auth } from '../firebase.ts';
-import './NavBar.css'; // Vamos criar este CSS em seguida
+import './NavBar.css';
 
-export function Navbar() {
-    const { currentUser } = useAuth(); // Pega o usuário do nosso contexto de autenticação
+export function NavBar() {
+    const { currentUser } = useAuth();
     const navigate = useNavigate();
+    const [dropdownOpen, setDropdownOpen] = useState(false);
 
-    // Função para deslogar o usuário
     const handleLogout = async () => {
-        try {
-            await signOut(auth);
-            navigate('/login'); // Redireciona para o login após o logout
-        } catch (error) {
-            console.error("Erro ao fazer logout:", error);
-        }
+        setDropdownOpen(false); // Fecha o dropdown ao sair
+        await signOut(auth);
+        navigate('/login');
     };
 
     return (
         <nav className="navbar">
             <div className="navbar-container">
-                {/* Logo do site, que também é um link para a Home */}
-                <Link to="/" className="navbar-logo">
+                <Link to="/" className="navbar-logo" onClick={() => setDropdownOpen(false)}>
                     LenGames
                 </Link>
-
-                {/* Links de navegação */}
                 <div className="navbar-links">
-                    <Link to="/" className="nav-item">Home</Link>
-                    <Link to="/games" className="nav-item">Games</Link>
+                    {/* CORREÇÃO: Links corretos "Home" e "Games" */}
+                    <Link to="/" className="nav-item" onClick={() => setDropdownOpen(false)}>Home</Link>
+                    <Link to="/games" className="nav-item" onClick={() => setDropdownOpen(false)}>Games</Link>
 
-                    {/* Lógica condicional: mostra links diferentes se o usuário está logado ou não */}
                     {currentUser ? (
-                        <>
-                            <Link to="/profile" className="nav-item">Perfil</Link>
-                            <button onClick={handleLogout} className="nav-button">Sair</button>
-                        </>
+                        // CORREÇÃO: Lógica completa do menu dropdown
+                        <div className="nav-profile-menu">
+                            <button
+                                className="nav-item profile-trigger"
+                                onClick={() => setDropdownOpen(!dropdownOpen)}
+                            >
+                                Perfil <span className="arrow-down">▼</span>
+                            </button>
+                            {dropdownOpen && (
+                                <div className="dropdown-content">
+                                    <Link to="/profile" className="dropdown-item" onClick={() => setDropdownOpen(false)}>
+                                        Ver Perfil
+                                    </Link>
+                                    <Link to="/settings" className="dropdown-item" onClick={() => setDropdownOpen(false)}>
+                                        Configurações
+                                    </Link>
+                                    <div className="dropdown-divider"></div>
+                                    <button onClick={handleLogout} className="dropdown-item logout-button">
+                                        Sair
+                                    </button>
+                                </div>
+                            )}
+                        </div>
                     ) : (
+                        // CORREÇÃO: Link correto "Login"
                         <Link to="/login" className="nav-item">Login</Link>
                     )}
                 </div>
