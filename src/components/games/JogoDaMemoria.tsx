@@ -8,13 +8,9 @@ import './JogoDaMemorias.css';
 
 const colors = ['green', 'red', 'yellow', 'blue'];
 
-// --- SOLUÇÃO DEFINITIVA ---
-// Definimos um tipo para a window que PODE ter a propriedade webkitAudioContext
-// Isso evita o uso de 'any' e satisfaz o TypeScript e o ESLint.
 type WindowWithAudioContext = Window & typeof globalThis & {
-  webkitAudioContext?: typeof AudioContext
+    webkitAudioContext?: typeof AudioContext
 };
-
 
 export function JogoDaMemoria() {
     const { currentUser } = useAuth();
@@ -26,12 +22,14 @@ export function JogoDaMemoria() {
     const [score, setScore] = useState(0);
     const [highScore, setHighScore] = useState(0);
 
+    // MUDANÇA: Busca o high score do documento principal do usuário
     const fetchHighScore = useCallback(async () => {
         if (!currentUser) return;
-        const gameDocRef = doc(db, 'users', currentUser.uid, 'gameData', 'genius');
-        const gameDocSnap = await getDoc(gameDocRef);
-        if (gameDocSnap.exists()) {
-            setHighScore(gameDocSnap.data().highScore || 0);
+        const userDocRef = doc(db, 'users', currentUser.uid);
+        const userDocSnap = await getDoc(userDocRef);
+
+        if (userDocSnap.exists()) {
+            setHighScore(userDocSnap.data().geniusHighScore || 0);
         }
     }, [currentUser]);
 
@@ -39,32 +37,35 @@ export function JogoDaMemoria() {
         fetchHighScore();
     }, [fetchHighScore]);
 
+    // MUDANÇA: Salva o high score no documento principal do usuário
     const updateHighScore = async (newScore: number) => {
         if (!currentUser || newScore <= highScore) return;
+
         setHighScore(newScore);
-        const gameDocRef = doc(db, 'users', currentUser.uid, 'gameData', 'genius');
-        await setDoc(gameDocRef, { highScore: newScore }, { merge: true });
+        const userDocRef = doc(db, 'users', currentUser.uid);
+
+        await setDoc(userDocRef, {
+            geniusHighScore: newScore,
+            displayName: currentUser.displayName, // Garante que o nome esteja no doc para a leaderboard
+            photoURL: currentUser.photoURL      // Garante que o avatar esteja no doc para a leaderboard
+        }, { merge: true });
     };
 
     const playSound = (color: string) => {
         try {
-            const audioContextClass = window.AudioContext || (window as WindowWithAudioContext).webkitAudioContext;
-
-            if (!audioContextClass) {
+            const AudioContextClass = window.AudioContext || (window as WindowWithAudioContext).webkitAudioContext;
+            if (!AudioContextClass) {
                 console.warn("AudioContext não é suportado neste navegador.");
                 return;
             }
-
-            const audioContext = new audioContextClass();
+            const audioContext = new AudioContextClass();
             const oscillator = audioContext.createOscillator();
             const gainNode = audioContext.createGain();
             const frequencies: { [key: string]: number } = { green: 329.63, red: 392.00, yellow: 440.00, blue: 523.25 };
-            
             oscillator.frequency.setValueAtTime(frequencies[color], audioContext.currentTime);
             oscillator.type = 'sine';
             gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
             gainNode.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 0.3);
-            
             oscillator.connect(gainNode);
             gainNode.connect(audioContext.destination);
             oscillator.start(audioContext.currentTime);
@@ -104,7 +105,7 @@ export function JogoDaMemoria() {
             showSequence();
         }
     }, [sequence, isGameActive]);
-    
+
     const handlePlayerClick = (color: string) => {
         if (!isGameActive || message !== 'Sua vez!') return;
         playSound(color);
@@ -113,7 +114,7 @@ export function JogoDaMemoria() {
         if (newPlayerSequence[newPlayerSequence.length - 1] !== sequence[newPlayerSequence.length - 1]) {
             setMessage(`Fim de jogo! Sua pontuação: ${score}.`);
             setIsGameActive(false);
-            updateHighScore(score);
+            updateHighScore(score); // Salva o high score quando o jogo termina
             return;
         }
         if (newPlayerSequence.length === sequence.length) {
@@ -122,7 +123,7 @@ export function JogoDaMemoria() {
             setTimeout(nextStep, 1000);
         }
     };
-    
+
     return (
         <div className="genius-container">
             <div className="genius-board">

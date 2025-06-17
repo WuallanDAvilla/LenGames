@@ -1,0 +1,118 @@
+/* src/styles/Leaderboard.css */
+
+.leaderboard-container {
+  padding: 50px 20px;
+  background-color: #1a1a2e;
+  min-height: calc(
+    100vh - 80px - 243px
+  ); /* Altura da tela menos navbar e footer */
+}
+
+.leaderboard-header {
+  text-align: center;
+  color: white;
+  margin-bottom: 40px;
+}
+
+.leaderboard-header h1 {
+  font-size: 2.5rem;
+  color: #facc15; /* Amarelo ouro para combinar com o troféu */
+  text-shadow: 0 0 10px #facc15;
+}
+
+.leaderboard-table-container {
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #0f3460;
+  border-radius: 12px;
+  padding: 10px 20px 20px 20px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  color: white;
+}
+
+th,
+td {
+  padding: 15px;
+  text-align: left;
+}
+
+thead {
+  border-bottom: 2px solid #16213e;
+}
+
+th {
+  font-size: 1.1rem;
+  color: #a9a9a9;
+}
+
+tbody tr {
+  border-bottom: 1px solid #16213e;
+  transition: background-color 0.2s;
+}
+
+tbody tr:last-child {
+  border-bottom: none;
+}
+
+tbody tr:hover {
+  background-color: #16213e;
+}
+
+.rank-cell {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  width: 80px;
+  font-style: italic;
+  color: #a9a9a9;
+}
+th.rank-cell {
+  font-style: normal;
+}
+
+.player-cell {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-weight: 500;
+}
+
+.player-avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: 2px solid #333;
+}
+
+.score-cell {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: right;
+  color: #4ade80;
+}
+th.score-cell {
+  text-align: right;
+}
+
+.top-1 .rank-cell {
+  color: #facc15;
+} /* Ouro */
+.top-2 .rank-cell {
+  color: #e0e0e0;
+} /* Prata */
+.top-3 .rank-cell {
+  color: #cd7f32;
+} /* Bronze */
+
+.leaderboard-loader,
+.no-players-message {
+  text-align: center;
+  color: white;
+  font-size: 1.2rem;
+  padding: 50px;
+}

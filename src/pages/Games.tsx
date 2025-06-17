@@ -2,6 +2,8 @@
 
 import { Link } from 'react-router-dom';
 import '../styles/Games.css';
+import jogoDaVelhaImg from '../assets/jogodavelha.png';
+import jogoDaMemoriaImg from '../assets/jogodamemoria.png';
 
 // --- MUDANÇA: O Jogo da Forca foi removido desta lista ---
 const gamesList = [
@@ -9,13 +11,13 @@ const gamesList = [
     id: 'jogo-da-velha',
     name: 'Jogo da Velha',
     description: 'O clássico atemporal. Desafie um amigo ou o computador.',
-    imageUrl: 'https://images.unsplash.com/photo-1608111283303-a567afd93683?q=80&w=1780'
+    imageUrl: jogoDaVelhaImg
   },
   {
     id: 'genius',
     name: 'Jogo da Memória (Genius)',
     description: 'Teste sua memória e agilidade seguindo a sequência de cores.',
-    imageUrl: 'https://images.unsplash.com/photo-1598550473235-909197253556?q=80&w=1770'
+    imageUrl: jogoDaMemoriaImg
   }
 ];
 

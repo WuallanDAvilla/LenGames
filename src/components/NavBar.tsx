@@ -25,11 +25,12 @@ export function NavBar() {
                 <div className="navbar-links">
                     <Link to="/" className="nav-item" onClick={() => setDropdownOpen(false)}>Home</Link>
                     <Link to="/games" className="nav-item" onClick={() => setDropdownOpen(false)}>Games</Link>
+                    {/* --- AQUI ESTÁ A MUDANÇA --- */}
+                    <Link to="/leaderboard" className="nav-item" onClick={() => setDropdownOpen(false)}>Ranking</Link>
 
                     {currentUser ? (
                         <div className="nav-profile-menu">
                             <button className="nav-item profile-trigger" onClick={() => setDropdownOpen(!dropdownOpen)}>
-                                {/* --- MUDANÇA: Mostra o avatar e o nome --- */}
                                 <img src={currentUser.photoURL!} alt="Avatar" className="navbar-avatar" />
                                 <span>{currentUser.displayName || "Perfil"}</span>
                                 <span className="arrow-down">▼</span>
