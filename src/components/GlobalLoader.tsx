@@ -1,6 +1,4 @@
-// src/components/GlobalLoader.tsx
-
-import './GlobalLoader.css'; // Importando o CSS que fará a mágica
+import './GlobalLoader.css';
 
 export function GlobalLoader() {
     return (

@@ -15,7 +15,7 @@ import { Games } from "./pages/Games.tsx";
 import { Profile } from "./pages/Profile.tsx";
 import { Settings } from "./pages/Settings.tsx";
 import { GameDetailPage } from "./pages/GameDetailPage.tsx";
-import { Leaderboard } from './pages/Leaderboard.tsx'; // <-- Importe a nova página
+import { Leaderboard } from './pages/Leaderboard.tsx';
 
 import "./index.css";
 
@@ -26,7 +26,7 @@ const router = createBrowserRouter([
       { path: "/", element: <Home /> },
       { path: "/games", element: <Games /> },
       { path: "/games/:gameId", element: <GameDetailPage /> },
-      { path: "/leaderboard", element: <Leaderboard /> }, // <-- Adicione a nova rota
+      { path: "/leaderboard", element: <Leaderboard /> }, 
       {
         path: "/profile",
         element: (

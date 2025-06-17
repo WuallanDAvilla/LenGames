@@ -1,5 +1,3 @@
-// src/components/games/JogoDaMemoria.tsx
-
 import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { db } from '../../firebase';
@@ -22,7 +20,6 @@ export function JogoDaMemoria() {
     const [score, setScore] = useState(0);
     const [highScore, setHighScore] = useState(0);
 
-    // MUDANÇA: Busca o high score do documento principal do usuário
     const fetchHighScore = useCallback(async () => {
         if (!currentUser) return;
         const userDocRef = doc(db, 'users', currentUser.uid);
@@ -37,7 +34,6 @@ export function JogoDaMemoria() {
         fetchHighScore();
     }, [fetchHighScore]);
 
-    // MUDANÇA: Salva o high score no documento principal do usuário
     const updateHighScore = async (newScore: number) => {
         if (!currentUser || newScore <= highScore) return;
 
@@ -46,8 +42,8 @@ export function JogoDaMemoria() {
 
         await setDoc(userDocRef, {
             geniusHighScore: newScore,
-            displayName: currentUser.displayName, // Garante que o nome esteja no doc para a leaderboard
-            photoURL: currentUser.photoURL      // Garante que o avatar esteja no doc para a leaderboard
+            displayName: currentUser.displayName,
+            photoURL: currentUser.photoURL    
         }, { merge: true });
     };
 
@@ -114,7 +110,7 @@ export function JogoDaMemoria() {
         if (newPlayerSequence[newPlayerSequence.length - 1] !== sequence[newPlayerSequence.length - 1]) {
             setMessage(`Fim de jogo! Sua pontuação: ${score}.`);
             setIsGameActive(false);
-            updateHighScore(score); // Salva o high score quando o jogo termina
+            updateHighScore(score); 
             return;
         }
         if (newPlayerSequence.length === sequence.length) {

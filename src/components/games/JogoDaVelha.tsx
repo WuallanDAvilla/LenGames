@@ -1,9 +1,6 @@
-// src/components/games/JogoDaVelha.tsx
-
 import { useState } from 'react';
 import './JogoDaVelha.css';
 
-// Componente para um único quadrado do tabuleiro
 function Square({ value, onSquareClick }: { value: string | null, onSquareClick: () => void }) {
     return (
         <button className="square" onClick={onSquareClick}>
@@ -54,7 +51,6 @@ export function JogoDaVelha() {
     );
 }
 
-// Função auxiliar para determinar o vencedor
 function calculateWinner(squares: (string | null)[]) {
     const lines = [
         [0, 1, 2],

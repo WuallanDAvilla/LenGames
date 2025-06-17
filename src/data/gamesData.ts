@@ -1,36 +1,38 @@
-// src/data/gamesData.ts
+import coverTicTacToe from "../assets/game-covers/jogodavelha.png";
+import coverGenius from "../assets/game-covers/jogodamemoria.png";
+import coverSnake from "../assets/game-covers/jogodamemoria.png";
 
-// Importando apenas os tipos que precisamos para os ícones
-import type { IconType } from 'react-icons';
-import { HiOutlineHashtag } from 'react-icons/hi';
-import { BsFillPuzzleFill } from 'react-icons/bs';
-
-// O tipo agora é mais simples: não inclui mais o 'component'.
 export interface GameInfo {
   id: string;
   name: string;
   description: string;
   theme: string;
-  Icon: IconType;
+  coverImage: string;
 }
-
-// A lista agora contém apenas as informações do jogo.
 export const gamesList: GameInfo[] = [
-  { 
-    id: 'jogo-da-velha', 
-    name: 'Jogo da Velha', 
-    description: 'O clássico atemporal. Desafie um amigo ou o computador.', 
-    theme: 'theme-tictactoe',
-    Icon: HiOutlineHashtag
+  {
+    id: "jogo-da-velha",
+    name: "Jogo da Velha",
+    description: "O clássico atemporal. Desafie um amigo ou o computador.",
+    theme: "theme-tictactoe",
+    coverImage: coverTicTacToe,
   },
-  { 
-    id: 'genius', 
-    name: 'Jogo da Memória (Genius)', 
-    description: 'Teste sua memória e agilidade seguindo a sequência de cores.', 
-    theme: 'theme-genius',
-    Icon: BsFillPuzzleFill
-  }
+  {
+    id: "genius",
+    name: "Jogo da Memória (Genius)",
+    description: "Teste sua memória e agilidade seguindo a sequência de cores.",
+    theme: "theme-genius",
+    coverImage: coverGenius,
+  },
+
+  {
+    id: "jogo-da-cobrinha",
+    name: "Jogo da Cobrinha",
+    description:
+      "Coma as frutas e cresça, mas não bata nas paredes ou em si mesmo!",
+    theme: "theme-snake", 
+    coverImage: coverSnake,
+  },
 ];
 
-// O mapa agora também é mais simples.
-export const gamesInfoMap = new Map(gamesList.map(game => [game.id, game]));
+export const gamesInfoMap = new Map(gamesList.map((game) => [game.id, game]));

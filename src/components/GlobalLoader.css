@@ -1,30 +1,25 @@
-/* src/components/GlobalLoader.css */
-
-/* O container que cobre a tela inteira */
 .loader-container {
-  position: fixed; /* Fica fixo na tela, mesmo com rolagem */
+  position: fixed;
   top: 0;
   left: 0;
-  width: 100vw; /* 100% da largura da viewport */
-  height: 100vh; /* 100% da altura da viewport */
-  background-color: #1a1a2e; /* Mesmo fundo escuro do site */
+  width: 100vw; 
+  height: 100vh; 
+  background-color: #1a1a2e; 
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999; /* Garante que ele fique acima de tudo */
+  z-index: 9999; 
 }
 
-/* O spinner em si */
 .loader-spinner {
   width: 60px;
   height: 60px;
-  border: 5px solid #0f3460; /* Uma borda cinza/azul escura */
-  border-top-color: #e94560; /* A parte colorida que vai girar */
-  border-radius: 50%; /* Transforma o quadrado em um círculo perfeito */
-  animation: spin 1s linear infinite; /* Aplica a animação 'spin' */
+  border: 5px solid #0f3460;
+  border-top-color: #e94560;
+  border-radius: 50%; 
+  animation: spin 1s linear infinite; 
 }
 
-/* A animação que faz o spinner girar */
 @keyframes spin {
   from {
     transform: rotate(0deg);

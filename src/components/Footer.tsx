@@ -1,5 +1,3 @@
-// src/components/Footer.tsx
-
 import './Footer.css';
 
 export function Footer() {
@@ -22,7 +20,6 @@ export function Footer() {
         </div>
         <div className="footer-section">
           <h4>Desenvolvido por</h4>
-          {/* Adicionei uma classe para estilizar a lista de desenvolvedores */}
           <ul className="dev-list">
             <li>Wuallan "Len" D'Avilla - Back/Front</li>
             <li>Flávio José - Back/Front</li>

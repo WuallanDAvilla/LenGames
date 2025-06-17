@@ -11,8 +11,11 @@ Ele vai ser em react, o site tem que ter a seguintes telas:
 
 E por enquanto é isso que quero, e no final, quero dar o Deploy no Vencel, assim subindo o servidor publicamente, para meus amigos poderem usar o site, sendo um site normal como qualquer outro, por isso, quero sua ajuda, passo a passo, para me ajudar nessa jornada, eu posso ter esquecido alguma coisa, mas com o tempo, iremos arrumar, eu me chamo Len, e obrigado pela a atenção.
 
+De primeira:
 npm create vite@latest
 npm install firebase
+
+Baixar toda vez que clonar:
 npm install -g firebase-tools
 npm install react-hot-toast
 npm install react-icons

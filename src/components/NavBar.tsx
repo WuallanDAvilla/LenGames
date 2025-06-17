@@ -1,5 +1,3 @@
-// src/components/NavBar.tsx
-
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext.tsx';
@@ -25,7 +23,6 @@ export function NavBar() {
                 <div className="navbar-links">
                     <Link to="/" className="nav-item" onClick={() => setDropdownOpen(false)}>Home</Link>
                     <Link to="/games" className="nav-item" onClick={() => setDropdownOpen(false)}>Games</Link>
-                    {/* --- AQUI ESTÁ A MUDANÇA --- */}
                     <Link to="/leaderboard" className="nav-item" onClick={() => setDropdownOpen(false)}>Ranking</Link>
 
                     {currentUser ? (

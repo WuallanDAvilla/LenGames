@@ -1,7 +1,5 @@
-// src/pages/Games.tsx
-
 import { Link } from 'react-router-dom';
-import { gamesList } from '../data/gamesData'; // Importa a lista do nosso arquivo de dados
+import { gamesList } from '../data/gamesData';
 import '../styles/Games.css';
 
 export function Games() {
@@ -12,10 +10,14 @@ export function Games() {
 
       <div className="games-grid">
         {gamesList.map((game) => (
-          <Link to={`/games/${game.id}`} key={game.id} className={`game-card ${game.theme}-hover`}>
-            <div className="game-card-icon-wrapper">
-              <game.Icon className="game-card-icon" />
+          <Link to={`/games/${game.id}`} key={game.id} className="game-card">
+            
+      
+            <div className="game-card-cover">
+
+              <img src={game.coverImage} alt={`Capa do jogo ${game.name}`} />
             </div>
+
             <div className="game-card-info">
               <h3>{game.name}</h3>
               <p>{game.description}</p>

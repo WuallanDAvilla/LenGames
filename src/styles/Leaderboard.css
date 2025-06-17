@@ -1,11 +1,9 @@
-/* src/styles/Leaderboard.css */
-
 .leaderboard-container {
   padding: 50px 20px;
   background-color: #1a1a2e;
   min-height: calc(
     100vh - 80px - 243px
-  ); /* Altura da tela menos navbar e footer */
+  ); 
 }
 
 .leaderboard-header {
@@ -16,7 +14,7 @@
 
 .leaderboard-header h1 {
   font-size: 2.5rem;
-  color: #facc15; /* Amarelo ouro para combinar com o troféu */
+  color: #facc15;
   text-shadow: 0 0 10px #facc15;
 }
 

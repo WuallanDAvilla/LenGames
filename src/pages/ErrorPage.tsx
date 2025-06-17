@@ -1,14 +1,10 @@
-// src/pages/ErrorPage.tsx
-
 import { Link, useRouteError } from 'react-router-dom';
 import '../styles/ErrorPage.css';
 
 export function ErrorPage() {
-    // O hook useRouteError pega o objeto de erro fornecido pelo React Router
     const error = useRouteError();
-    console.error(error); // Bom para depuração no console do desenvolvedor
+    console.error(error); 
 
-    // Tenta extrair uma mensagem de status ou texto do erro
     let errorMessage = "Ocorreu um erro inesperado.";
     if (typeof error === 'object' && error !== null) {
         if ('statusText' in error && typeof error.statusText === 'string') {
@@ -26,7 +22,6 @@ export function ErrorPage() {
                 <p className="error-description">
                     Parece que você pegou um atalho para uma dimensão desconhecida.
                 </p>
-                {/* Mostra a mensagem de erro específica para ajudar na depuração */}
                 <i className="error-details">{errorMessage}</i>
 
                 <Link to="/" className="error-home-button">

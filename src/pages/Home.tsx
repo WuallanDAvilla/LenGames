@@ -1,7 +1,5 @@
-// src/pages/Home.tsx
-
 import { Link } from 'react-router-dom';
-import '../styles/Home.css'; // Usando sua pasta de estilos
+import '../styles/Home.css'; 
 
 export function Home() {
   return (

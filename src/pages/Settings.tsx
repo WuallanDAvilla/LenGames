@@ -1,5 +1,3 @@
-// src/pages/Settings.tsx
-
 import { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext.tsx';
 import { updatePassword, deleteUser, updateProfile } from 'firebase/auth';
@@ -11,14 +9,14 @@ export function Settings() {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
 
-  // Estados para a edição do perfil
+
   const [displayName, setDisplayName] = useState('');
 
-  // Estados para a mudança de senha
+
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  // Carrega o nome do usuário atual quando o componente monta
+
   useEffect(() => {
     if (currentUser?.displayName) {
       setDisplayName(currentUser.displayName);
@@ -40,7 +38,6 @@ export function Settings() {
   const handleUpdateAvatar = async () => {
     if (!currentUser) return;
 
-    // Gera uma nova URL de avatar aleatória
     const newAvatarUrl = `https://api.dicebear.com/8.x/bottts/svg?seed=${Date.now()}`;
     const promise = updateProfile(currentUser, { photoURL: newAvatarUrl });
 
@@ -95,7 +92,6 @@ export function Settings() {
       <div className="settings-card">
         <h1>Configurações da Conta</h1>
 
-        {/* --- NOVA SEÇÃO DE EDITAR PERFIL --- */}
         <div className="settings-section">
           <h2>Editar Perfil</h2>
           <form onSubmit={handleUpdateProfile} className="profile-edit-form">
@@ -122,7 +118,6 @@ export function Settings() {
           </div>
         </div>
 
-        {/* Seção de Alterar Senha (código inalterado) */}
         <div className="settings-section">
           <h2>Alterar Senha</h2>
           <form onSubmit={handleUpdatePassword}>
@@ -132,7 +127,6 @@ export function Settings() {
           </form>
         </div>
 
-        {/* Zona de Perigo (código inalterado) */}
         <div className="settings-section danger-zone">
           <h2>Zona de Perigo</h2>
           <p>Esta ação é permanente e não pode ser desfeita.</p>

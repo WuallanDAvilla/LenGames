@@ -1,5 +1,3 @@
-// src/pages/Login.tsx
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth, db } from '../firebase.ts';
@@ -10,7 +8,7 @@ import {
   updateProfile
 } from 'firebase/auth';
 import toast from 'react-hot-toast';
-import '../styles/Login.css'; // Importando o CSS
+import '../styles/Login.css'; 
 
 export function Login() {
   const navigate = useNavigate();
@@ -31,7 +29,6 @@ export function Login() {
     }
 
     if (isRegistering) {
-      // --- LÓGICA DE CADASTRO ---
       const loadingToast = toast.loading('Criando sua conta...');
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -62,7 +59,6 @@ export function Login() {
         toast.error('Erro ao criar a conta. Verifique se o e-mail já existe.');
       }
     } else {
-      // --- LÓGICA DE LOGIN ---
       const loadingToast = toast.loading('Entrando...');
       try {
         await signInWithEmailAndPassword(auth, email, password);
@@ -77,12 +73,11 @@ export function Login() {
     }
   };
 
-  // --- AQUI ESTÁ A CORREÇÃO DA ESTRUTURA VISUAL ---
+
   return (
-    // Este div é o container principal que aplica o fundo escuro e centraliza o formulário.
     <div className="login-container">
 
-      {/* Este é o formulário com a caixa azul e os inputs. */}
+
       <form onSubmit={handleAuth} className="login-form">
         <h2>{isRegistering ? 'Criar Conta' : 'Conecte-se'}</h2>
 

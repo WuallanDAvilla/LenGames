@@ -1,10 +1,8 @@
-// src/pages/Profile.tsx
-
 import { useAuth } from '../contexts/AuthContext.tsx';
 import { signOut } from 'firebase/auth';
 import { auth } from '../firebase.ts';
 import { useNavigate, Link } from 'react-router-dom';
-import '../styles/Profile.css'; // Usaremos um arquivo CSS dedicado
+import '../styles/Profile.css'; 
 
 export function Profile() {
   const { currentUser } = useAuth();

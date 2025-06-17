@@ -1,35 +1,32 @@
-/* src/components/Footer.css */
-
 .footer {
   background-color: #0f3460;
   color: #a9a9a9;
-  padding: 50px 20px 20px 20px; /* Aumentei o padding superior */
+  padding: 50px 20px 20px 20px; 
   margin-top: auto;
-  flex-shrink: 0; /* Impede que o footer encolha */
+  flex-shrink: 0;
 }
 
 .footer-container {
   max-width: 1200px;
   margin: 0 auto;
   display: grid;
-  /* MUDANÇA: Ajustei o minmax para dar mais espaço */
+
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 40px; /* Aumentei o espaço entre as colunas */
+  gap: 40px; 
   padding-bottom: 30px;
   border-bottom: 1px solid #16213e;
-  text-align: left; /* Alinha o texto à esquerda por padrão */
+  text-align: left; 
 }
 
 
 .footer-section h4 {
   color: #fff;
   font-size: 1.2rem;
-  margin-bottom: 20px; /* Mais espaço abaixo do título */
+  margin-bottom: 20px; 
   position: relative;
   padding-bottom: 10px;
 }
 
-/* Adiciona uma pequena linha decorativa abaixo dos títulos */
 .footer-section h4::after {
   content: '';
   position: absolute;
@@ -42,7 +39,7 @@
 
 .footer-section p, .footer-section li {
   font-size: 0.9rem;
-  line-height: 1.7; /* Aumenta o espaçamento entre linhas */
+  line-height: 1.7;
 }
 
 .footer-section ul {
@@ -65,7 +62,6 @@
   color: #e94560;
 }
 
-/* Estilo para a lista de desenvolvedores */
 .dev-list {
   margin-bottom: 15px;
 }
@@ -82,7 +78,6 @@
   font-size: 0.8rem;
 }
 
-/* Em telas muito pequenas, centralizamos o texto para melhor legibilidade */
 @media (max-width: 320px) {
   .footer-container {
     text-align: center;

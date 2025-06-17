@@ -1,11 +1,8 @@
-// src/pages/Leaderboard.tsx
-
 import { useState, useEffect } from 'react';
 import { db } from '../firebase';
 import { collection, query, orderBy, limit, getDocs } from 'firebase/firestore';
-import '../styles/Leaderboard.css'; // Vamos criar este CSS
+import '../styles/Leaderboard.css'; 
 
-// Definimos um tipo para os dados do jogador que vamos buscar
 interface PlayerData {
   id: string;
   name: string;
@@ -21,13 +18,12 @@ export function Leaderboard() {
     const fetchLeaderboard = async () => {
       setLoading(true);
       try {
-        // Consultamos a coleção 'users'
+      
         const usersCollectionQuery = query(
           collection(db, 'users'), 
-          // Ordenamos pelo campo 'geniusHighScore' em ordem decrescente.
-          // Só usuários que jogaram e têm esse campo aparecerão.
+          
           orderBy('geniusHighScore', 'desc'), 
-          // Limitamos aos 10 melhores resultados.
+     
           limit(10)
         );
 
@@ -47,7 +43,7 @@ export function Leaderboard() {
         setTopPlayers(players);
       } catch (error) {
         console.error("Erro ao buscar a leaderboard:", error);
-        // Pode ser necessário criar um índice no Firestore. O erro no console do navegador dará o link!
+        
       } finally {
         setLoading(false);
       }
