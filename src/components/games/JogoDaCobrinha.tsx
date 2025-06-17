@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import './JogoDaCobrinha.css';
 
 const GRID_SIZE = 20;
-const TILE_SIZE = 20; 
+const TILE_SIZE = 20;
 
 type Position = { x: number; y: number };
 
@@ -24,7 +24,6 @@ function getRandomPosition(): Position {
     } while (position.x === 10 && position.y === 10);
     return position;
 }
-
 
 export function JogoDaCobrinha() {
     const [gameState, setGameState] = useState(createInitialState());
@@ -93,19 +92,19 @@ export function JogoDaCobrinha() {
     return (
         <div className="snake-game-container">
             <div className="snake-score-display">Pontuação: {score}</div>
-            <div
-                className="snake-grid"
+            <div 
+                className="snake-grid" 
                 style={{ width: GRID_SIZE * TILE_SIZE, height: GRID_SIZE * TILE_SIZE }}
             >
                 {snake.map((segment, index) => (
-                    <div
-                        key={index}
+                    <div 
+                        key={index} 
                         className={`snake-segment ${index === 0 ? 'head' : ''}`}
                         style={{ left: `${segment.x * TILE_SIZE}px`, top: `${segment.y * TILE_SIZE}px` }}
                     />
                 ))}
-                <div
-                    className="snake-food"
+                <div 
+                    className="snake-food" 
                     style={{ left: `${food.x * TILE_SIZE}px`, top: `${food.y * TILE_SIZE}px` }}
                 />
             </div>
