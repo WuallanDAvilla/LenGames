@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext.tsx';
 import { signOut } from 'firebase/auth';
 import { auth } from '../firebase.ts';
-import './Navbar.css'; // Vamos criar este CSS em seguida
+import './NavBar.css'; // Vamos criar este CSS em seguida
 
 export function Navbar() {
     const { currentUser } = useAuth(); // Pega o usuário do nosso contexto de autenticação
