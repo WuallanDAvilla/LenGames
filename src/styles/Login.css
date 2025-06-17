@@ -1,0 +1,114 @@
+/* src/styles/Login.css */
+
+/* Define o container que ocupa a tela inteira */
+.login-container {
+  display: flex; /* Habilita o modo flexbox */
+  justify-content: center; /* Centraliza o conteúdo horizontalmente */
+  align-items: center; /* Centraliza o conteúdo verticalmente */
+  min-height: 100vh; /* Garante que a altura seja no mínimo 100% da tela */
+  background-color: #1a1a2e; /* Fundo azul bem escuro para a página toda */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Uma fonte mais moderna */
+  padding: 20px; /* Adiciona um respiro nas laterais em telas pequenas */
+  box-sizing: border-box; /* Garante que o padding não quebre o layout */
+}
+
+/* Define a aparência do formulário (a caixa azul) */
+.login-form {
+  background: #0f3460;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+/* Estilo do título "Conecte-se" / "Criar Conta" */
+.login-form h2 {
+  color: #e94560; /* Cor rosa/vermelho para destaque */
+  margin-top: 0;
+  margin-bottom: 30px;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+/* Grupo de label + input */
+.input-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #a9a9a9;
+  font-weight: 500;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #16213e;
+  border-radius: 8px;
+  background: #e3e3e3;
+  color: #16213e;
+  box-sizing: border-box;
+  font-size: 16px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #e94560;
+  box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.3);
+}
+
+/* Botão principal de Entrar/Cadastrar */
+.login-button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: #e94560;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  margin-top: 10px;
+}
+
+.login-button:hover {
+  background-color: #ff5274;
+  transform: translateY(-2px); /* Efeito de levantar o botão */
+}
+
+/* Botão de alternar entre login e cadastro */
+.toggle-button {
+  background: none;
+  border: none;
+  color: #a9a9a9;
+  cursor: pointer;
+  margin-top: 25px;
+  font-size: 14px;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.toggle-button:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+/* Caixa de mensagem de erro */
+.error-message {
+  color: #ff5252;
+  background: rgba(255, 82, 82, 0.1);
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ff5252;
+  margin-bottom: 20px;
+  font-size: 14px;
+  text-align: center;
+}
