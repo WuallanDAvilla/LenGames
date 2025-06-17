@@ -44,7 +44,6 @@
   color: #fff;
 }
 
-/* Reutilizando o estilo do formulário de login */
 .input-group {
   margin-bottom: 20px;
 }
@@ -81,38 +80,42 @@
   background-color: #ff5274;
 }
 
-/* Mensagens de feedback */
-.success-message {
-  padding: 12px;
-  background-color: rgba(46, 204, 113, 0.2);
-  border: 1px solid #2ecc71;
-  color: #2ecc71;
-  border-radius: 8px;
-  text-align: center;
-  margin-top: 20px;
+/* --- NOVOS ESTILOS --- */
+.profile-edit-form {
+  margin-bottom: 20px;
 }
-.error-message {
-  padding: 12px;
-  background: rgba(255, 82, 82, 0.1);
-  border: 1px solid #ff5252;
-  color: #ff5252;
-  border-radius: 8px;
-  text-align: center;
-  margin-top: 20px;
+.avatar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.settings-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #1a1a2e;
+}
+.settings-button.secondary {
+  background-color: #16213e;
+  border: 1px solid #e94560;
+  color: #e94560;
+}
+.settings-button.secondary:hover {
+  background-color: #e94560;
+  color: white;
 }
 
-/* Estilo para a Zona de Perigo */
+/* Zona de Perigo */
 .danger-zone {
   background-color: rgba(231, 76, 60, 0.1);
   border: 1px solid #e74c3c;
   padding: 20px;
   border-radius: 8px;
 }
-
 .danger-zone h2 {
   color: #e74c3c;
 }
-
 .danger-button {
   width: 100%;
   padding: 12px;

@@ -1,0 +1,90 @@
+/* src/components/games/JogoDaMemoria.css */
+
+.genius-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.genius-board {
+  position: relative;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background-color: #333;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.genius-pad {
+  cursor: pointer;
+  transition: filter 0.2s;
+}
+
+.genius-pad.green {
+  background-color: #00a74a;
+  border-top-left-radius: 100%;
+}
+.genius-pad.red {
+  background-color: #9f0f17;
+  border-top-right-radius: 100%;
+}
+.genius-pad.yellow {
+  background-color: #cca707;
+  border-bottom-left-radius: 100%;
+}
+.genius-pad.blue {
+  background-color: #094a8f;
+  border-bottom-right-radius: 100%;
+}
+
+.genius-pad.active {
+  filter: brightness(2.5);
+}
+
+.genius-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 180px;
+  height: 180px;
+  background-color: #333;
+  border-radius: 50%;
+  border: 10px solid #222;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+}
+
+.genius-center h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.genius-message {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  min-height: 2.5em; /* Garante que o layout não pule */
+}
+
+.start-button {
+  padding: 10px 15px;
+  font-size: 1rem;
+  color: white;
+  background-color: #e94560;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.start-button:hover {
+  background-color: #ff5274;
+}

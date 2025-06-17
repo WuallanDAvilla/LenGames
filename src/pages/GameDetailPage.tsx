@@ -1,32 +1,26 @@
 // src/pages/GameDetailPage.tsx
 
 import { useParams } from 'react-router-dom';
-import type { ReactNode } from 'react'; // <-- MUDANÇA 1: Importa o tipo ReactNode
+import type { ReactNode } from 'react';
 import { JogoDaVelha } from '../components/games/JogoDaVelha.tsx';
-import '../styles/GameDetailPage.css'; // Usando sua pasta de estilos
+import { JogoDaMemoria } from '../components/games/JogoDaMemoria.tsx'; // <-- MUDANÇA 1: Importe o novo jogo
+import '../styles/GameDetailPage.css';
 
-// Um objeto para mapear o ID do jogo ao seu componente e informações.
-// Isso torna fácil adicionar novos jogos no futuro.
-const gamesData: { [key: string]: { name: string; component: ReactNode } } = { // <-- MUDANÇA 2: Usa ReactNode aqui
+// MUDANÇA 2: Adicione o JogoDaMemoria ao nosso objeto de jogos
+const gamesData: { [key: string]: { name: string; component: ReactNode } } = {
   'jogo-da-velha': {
     name: 'Jogo da Velha',
     component: <JogoDaVelha />
   },
   'genius': {
     name: 'Jogo da Memória (Genius)',
-    component: <div>Em desenvolvimento...</div>
-  },
-  'forca': {
-    name: 'Jogo da Forca',
-    component: <div>Em desenvolvimento...</div>
+    component: <JogoDaMemoria />
   }
 };
 
 export function GameDetailPage() {
-  // O hook useParams pega os parâmetros da URL. No nosso caso, o ':gameId'.
   const { gameId } = useParams<{ gameId: string }>();
 
-  // Se o gameId não for encontrado ou não existir nos nossos dados, mostramos um erro.
   if (!gameId || !gamesData[gameId]) {
     return (
       <div className="game-detail-container">
@@ -42,7 +36,6 @@ export function GameDetailPage() {
     <div className="game-detail-container">
       <h1 className="game-title">{game.name}</h1>
       <div className="game-board-container">
-        {/* Renderiza o componente do jogo correspondente */}
         {game.component}
       </div>
     </div>

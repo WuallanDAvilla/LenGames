@@ -126,3 +126,10 @@
   background-color: #ff5252;
   color: white;
 }
+.navbar-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 10px;
+  background-color: #1a1a2e;
+}

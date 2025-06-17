@@ -1,62 +1,79 @@
 // src/pages/Settings.tsx
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext.tsx';
-import { updatePassword, deleteUser } from 'firebase/auth';
+import { updatePassword, deleteUser, updateProfile } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast'; // <-- MUDANÇA 1: Importe o 'toast'
+import toast from 'react-hot-toast';
 import '../styles/Settings.css';
 
 export function Settings() {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
 
+  // Estados para a edição do perfil
+  const [displayName, setDisplayName] = useState('');
+
+  // Estados para a mudança de senha
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  // --- MUDANÇA 2: Não precisamos mais dos estados de 'message' e 'error' ---
-  // const [message, setMessage] = useState('');
-  // const [error, setError] = useState('');
 
-  const handleUpdatePassword = async (e: React.FormEvent) => {
+  // Carrega o nome do usuário atual quando o componente monta
+  useEffect(() => {
+    if (currentUser?.displayName) {
+      setDisplayName(currentUser.displayName);
+    }
+  }, [currentUser]);
+
+  const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!currentUser) return;
 
-    if (!currentUser) {
-      toast.error("Você precisa estar logado para mudar a senha.");
-      return;
-    }
-    if (newPassword !== confirmPassword) {
-      toast.error("As senhas não coincidem.");
-      return;
-    }
-    if (newPassword.length < 6) {
-      toast.error("A nova senha precisa ter no mínimo 6 caracteres.");
-      return;
-    }
-
-    // Usando o toast.promise para feedback automático de carregando, sucesso e erro
-    const promise = updatePassword(currentUser, newPassword);
-
+    const promise = updateProfile(currentUser, { displayName });
     toast.promise(promise, {
-      loading: 'Atualizando senha...',
-      success: 'Senha atualizada com sucesso!',
-      error: 'Erro ao atualizar. Tente fazer login novamente.',
-    });
-
-    promise.then(() => {
-        setNewPassword('');
-        setConfirmPassword('');
-    }).catch(err => {
-        console.error("Erro ao atualizar a senha:", err);
+      loading: 'Salvando perfil...',
+      success: 'Perfil salvo com sucesso!',
+      error: 'Erro ao salvar o perfil.',
     });
   };
 
-  const handleDeleteAccount = async () => {
-    if (!currentUser) {
-      toast.error("Nenhum usuário logado para excluir.");
-      return;
+  const handleUpdateAvatar = async () => {
+    if (!currentUser) return;
+
+    // Gera uma nova URL de avatar aleatória
+    const newAvatarUrl = `https://api.dicebear.com/8.x/bottts/svg?seed=${Date.now()}`;
+    const promise = updateProfile(currentUser, { photoURL: newAvatarUrl });
+
+    toast.promise(promise, {
+      loading: 'Gerando novo avatar...',
+      success: 'Avatar atualizado com sucesso!',
+      error: 'Erro ao atualizar o avatar.',
+    });
+  };
+
+  const handleUpdatePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!currentUser) return;
+    if (newPassword !== confirmPassword) {
+      toast.error("As senhas não coincidem."); return;
     }
-    
-    // O window.confirm ainda é bom para ações destrutivas
+    if (newPassword.length < 6) {
+      toast.error("A nova senha precisa ter no mínimo 6 caracteres."); return;
+    }
+
+    const promise = updatePassword(currentUser, newPassword);
+    toast.promise(promise, {
+      loading: 'Atualizando senha...',
+      success: 'Senha atualizada!',
+      error: 'Erro ao atualizar. Tente fazer login novamente.',
+    });
+    promise.then(() => {
+      setNewPassword(''); setConfirmPassword('');
+    }).catch(err => console.error(err));
+  };
+
+  const handleDeleteAccount = async () => {
+    if (!currentUser) return;
     const isConfirmed = window.confirm(
       "Você tem CERTEZA que quer excluir sua conta? Esta ação não pode ser desfeita!"
     );
@@ -67,7 +84,7 @@ export function Settings() {
         toast.success("Sua conta foi excluída com sucesso.");
         navigate('/login');
       } catch (err) {
-        console.error("Erro ao excluir conta:", err);
+        console.error(err);
         toast.error("Erro ao excluir. Tente fazer login novamente.");
       }
     }
@@ -78,44 +95,48 @@ export function Settings() {
       <div className="settings-card">
         <h1>Configurações da Conta</h1>
 
+        {/* --- NOVA SEÇÃO DE EDITAR PERFIL --- */}
+        <div className="settings-section">
+          <h2>Editar Perfil</h2>
+          <form onSubmit={handleUpdateProfile} className="profile-edit-form">
+            <div className="input-group">
+              <label htmlFor="displayName">Nome de Exibição</label>
+              <input
+                type="text"
+                id="displayName"
+                value={displayName}
+                onChange={(e) => setDisplayName(e.target.value)}
+                required
+              />
+            </div>
+            <button type="submit" className="settings-button">Salvar Nome</button>
+          </form>
+          <div className="avatar-section">
+            <p>Avatar atual:</p>
+            <img
+              src={currentUser?.photoURL || ''}
+              alt="Avatar"
+              className="settings-avatar"
+            />
+            <button onClick={handleUpdateAvatar} className="settings-button secondary">Gerar Novo Avatar</button>
+          </div>
+        </div>
+
+        {/* Seção de Alterar Senha (código inalterado) */}
         <div className="settings-section">
           <h2>Alterar Senha</h2>
           <form onSubmit={handleUpdatePassword}>
-            {/* O formulário continua o mesmo */}
-            <div className="input-group">
-              <label htmlFor="new-password">Nova Senha</label>
-              <input
-                type="password"
-                id="new-password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                placeholder="Mínimo de 6 caracteres"
-                required
-              />
-            </div>
-            <div className="input-group">
-              <label htmlFor="confirm-password">Confirmar Nova Senha</label>
-              <input
-                type="password"
-                id="confirm-password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="Repita a nova senha"
-                required
-              />
-            </div>
+            <div className="input-group"><label htmlFor="new-password">Nova Senha</label><input type="password" id="new-password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} placeholder="Mínimo de 6 caracteres" required /></div>
+            <div className="input-group"><label htmlFor="confirm-password">Confirmar Nova Senha</label><input type="password" id="confirm-password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="Repita a nova senha" required /></div>
             <button type="submit" className="settings-button">Atualizar Senha</button>
           </form>
         </div>
 
-        {/* --- MUDANÇA 3: Removemos as mensagens de feedback estáticas daqui --- */}
-
+        {/* Zona de Perigo (código inalterado) */}
         <div className="settings-section danger-zone">
           <h2>Zona de Perigo</h2>
           <p>Esta ação é permanente e não pode ser desfeita.</p>
-          <button onClick={handleDeleteAccount} className="danger-button">
-            Excluir Minha Conta
-          </button>
+          <button onClick={handleDeleteAccount} className="danger-button">Excluir Minha Conta</button>
         </div>
       </div>
     </div>
