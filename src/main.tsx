@@ -1,9 +1,15 @@
 // src/main.tsx
+
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-// Importando nossas páginas
+// Componentes e Contextos
+import { AuthProvider } from "./contexts/AuthContext.tsx";
+import { ProtectedRoute } from "./components/ProtectedRoute.tsx";
+import { Layout } from './components/Layout.tsx'; // Importe o novo Layout
+
+// Páginas
 import { Home } from "./pages/Home.tsx";
 import { Login } from "./pages/Login.tsx";
 import { Games } from "./pages/Games.tsx";
@@ -14,35 +20,44 @@ import { GameDetailPage } from "./pages/GameDetailPage.tsx";
 import "./index.css";
 
 const router = createBrowserRouter([
+  // --- MUDANÇA ESTRUTURAL IMPORTANTE ---
+  // Agora temos uma rota "mãe" que renderiza o componente Layout.
+  // Todas as rotas "filhas" (children) serão renderizadas dentro do <Outlet> do Layout.
   {
-    path: "/",
-    element: <Home />,
+    element: <Layout />,
+    children: [
+      { path: "/", element: <Home /> },
+      { path: "/games", element: <Games /> },
+      { path: "/games/:gameId", element: <GameDetailPage /> },
+      {
+        path: "/profile",
+        element: (
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/settings",
+        element: (
+          <ProtectedRoute>
+            <Settings />
+          </ProtectedRoute>
+        ),
+      },
+    ],
   },
+  // A rota de Login fica FORA do Layout, pois não queremos a Navbar nela.
   {
     path: "/login",
     element: <Login />,
-  },
-  {
-    path: "/games",
-    element: <Games />,
-  },
-  {
-    // Rota dinâmica para cada jogo
-    path: "/games/:gameId",
-    element: <GameDetailPage />,
-  },
-  {
-    path: "/profile",
-    element: <Profile />,
-  },
-  {
-    path: "/settings",
-    element: <Settings />,
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </React.StrictMode>
 );
