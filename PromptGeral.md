@@ -15,6 +15,7 @@ npm create vite@latest
 npm install firebase
 npm install -g firebase-tools
 npm install react-hot-toast
+npm install react-icons
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";

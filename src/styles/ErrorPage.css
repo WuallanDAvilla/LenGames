@@ -1,0 +1,63 @@
+/* src/styles/ErrorPage.css */
+
+.error-page-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: radial-gradient(ellipse at center, #4c1d95 0%, #1e1b4b 100%);
+  color: white;
+  text-align: center;
+  font-family: "Segoe UI", sans-serif;
+  padding: 20px;
+}
+
+.error-content {
+  max-width: 600px;
+}
+
+.error-title {
+  font-size: 6rem;
+  font-weight: 900;
+  margin: 0;
+  color: #e94560;
+  text-shadow: 0 0 20px rgba(233, 69, 96, 0.5);
+}
+
+.error-subtitle {
+  font-size: 2rem;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.error-description {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.error-details {
+  color: #a9a9a9;
+  font-size: 0.9rem;
+  display: block;
+  margin-bottom: 40px;
+}
+
+.error-home-button {
+  display: inline-block;
+  padding: 15px 30px;
+  background-color: #e94560;
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+  border-radius: 5px;
+  transition: all 0.3s;
+  font-weight: bold;
+}
+
+.error-home-button:hover {
+  background-color: #fff;
+  color: #16213e;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 15px rgba(233, 69, 96, 0.4);
+}

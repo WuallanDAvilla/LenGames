@@ -1,60 +1,55 @@
 // src/pages/GameDetailPage.tsx
 
 import { useParams } from 'react-router-dom';
-import { useEffect, type ReactNode } from 'react'; // <-- MUDANÇA 1: Importe o useEffect
-import { JogoDaVelha } from '../components/games/JogoDaVelha.tsx';
-import { JogoDaMemoria } from '../components/games/JogoDaMemoria.tsx';
+import { useEffect } from 'react';
+import { gamesInfoMap } from '../data/gamesData'; // Importa o mapa de INFORMAÇÕES
+
+// Importa os componentes de JOGO aqui
+import { JogoDaVelha } from '../components/games/JogoDaVelha';
+import { JogoDaMemoria } from '../components/games/JogoDaMemoria';
+
 import '../styles/GameDetailPage.css';
 
-// MUDANÇA 2: Adicionamos uma propriedade 'theme' para cada jogo
-const gamesData: { [key: string]: { name: string; component: ReactNode; theme: string } } = {
-  'jogo-da-velha': {
-    name: 'Jogo da Velha',
-    component: <JogoDaVelha />,
-    theme: 'theme-tictactoe' // Tema azul e verde
-  },
-  'genius': {
-    name: 'Jogo da Memória (Genius)',
-    component: <JogoDaMemoria />,
-    theme: 'theme-genius' // Tema escuro e neon
-  }
-};
+// Um novo mapa para associar o ID do jogo ao seu componente real
+const gameComponentMap = new Map([
+  ['jogo-da-velha', <JogoDaVelha />],
+  ['genius', <JogoDaMemoria />]
+]);
+
 
 export function GameDetailPage() {
   const { gameId } = useParams<{ gameId: string }>();
+  
+  // Pega as informações do jogo (nome, tema, etc.)
+  const gameInfo = gameId ? gamesInfoMap.get(gameId) : undefined;
+  // Pega o componente do jogo
+  const gameComponent = gameId ? gameComponentMap.get(gameId) : undefined;
 
-  // MUDANÇA 3: Lógica para adicionar e remover a classe do tema no body
   useEffect(() => {
-    // Se o jogo existe, adiciona a classe do tema ao body
-    if (gameId && gamesData[gameId]) {
-      document.body.classList.add(gamesData[gameId].theme);
+    if (gameInfo) {
+      document.body.classList.add(gameInfo.theme);
     }
-
-    // Função de limpeza: será executada quando o componente for "desmontado" (quando o usuário sair da página)
     return () => {
-      if (gameId && gamesData[gameId]) {
-        document.body.classList.remove(gamesData[gameId].theme);
+      if (gameInfo) {
+        document.body.classList.remove(gameInfo.theme);
       }
     };
-  }, [gameId]); // O efeito será re-executado se o gameId mudar
+  }, [gameInfo]);
 
-  if (!gameId || !gamesData[gameId]) {
+  // Se não encontrarmos informações OU o componente, mostramos o erro.
+  if (!gameInfo || !gameComponent) {
     return (
-      <div className="game-detail-container">
+      <div className="game-detail-page">
         <h1>Jogo não encontrado!</h1>
-        <p>O jogo que você está procurando não existe ou foi removido.</p>
       </div>
     );
   }
 
-  const game = gamesData[gameId];
-
   return (
-    // Removemos o container com fundo fixo daqui, pois o tema agora é controlado pelo body
     <div className="game-detail-page">
-      <h1 className="game-title">{game.name}</h1>
+      <h1 className="game-title">{gameInfo.name}</h1>
       <div className="game-board-container">
-        {game.component}
+        {gameComponent}
       </div>
     </div>
   );
