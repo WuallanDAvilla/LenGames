@@ -6,32 +6,45 @@ const TILE_SIZE = 20;
 
 type Position = { x: number; y: number };
 
-const getRandomPosition = (): Position => ({
-    x: Math.floor(Math.random() * GRID_SIZE),
-    y: Math.floor(Math.random() * GRID_SIZE),
+const createInitialState = () => ({
+    snake: [{ x: 10, y: 10 }],
+    food: getRandomPosition(),
+    direction: { x: 0, y: -1 },
+    isGameOver: false,
+    score: 0,
 });
 
+function getRandomPosition(): Position {
+    let position;
+    do {
+        position = {
+            x: Math.floor(Math.random() * GRID_SIZE),
+            y: Math.floor(Math.random() * GRID_SIZE),
+        };
+    } while (position.x === 10 && position.y === 10);
+    return position;
+}
+
+
 export function JogoDaCobrinha() {
-    const [snake, setSnake] = useState<Position[]>([{ x: 10, y: 10 }]);
-    const [food, setFood] = useState<Position>(getRandomPosition());
-    const [direction, setDirection] = useState<Position>({ x: 0, y: -1 }); 
-    const [isGameOver, setIsGameOver] = useState(false);
-    const [score, setScore] = useState(0);
-    const [isGameRunning, setIsGameRunning] = useState(false);
+    const [gameState, setGameState] = useState(createInitialState());
+    const [isRunning, setIsRunning] = useState(false);
+
+    const { snake, food, direction, isGameOver, score } = gameState;
 
     const handleKeyDown = useCallback((e: KeyboardEvent) => {
         switch (e.key) {
             case 'ArrowUp':
-                if (direction.y === 0) setDirection({ x: 0, y: -1 });
+                if (direction.y === 0) setGameState(prev => ({ ...prev, direction: { x: 0, y: -1 } }));
                 break;
             case 'ArrowDown':
-                if (direction.y === 0) setDirection({ x: 0, y: 1 });
+                if (direction.y === 0) setGameState(prev => ({ ...prev, direction: { x: 0, y: 1 } }));
                 break;
             case 'ArrowLeft':
-                if (direction.x === 0) setDirection({ x: -1, y: 0 });
+                if (direction.x === 0) setGameState(prev => ({ ...prev, direction: { x: -1, y: 0 } }));
                 break;
             case 'ArrowRight':
-                if (direction.x === 0) setDirection({ x: 1, y: 0 });
+                if (direction.x === 0) setGameState(prev => ({ ...prev, direction: { x: 1, y: 0 } }));
                 break;
         }
     }, [direction]);
@@ -41,76 +54,67 @@ export function JogoDaCobrinha() {
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [handleKeyDown]);
 
-    const resetGame = () => {
-        setSnake([{ x: 10, y: 10 }]);
-        setFood(getRandomPosition());
-        setDirection({ x: 0, y: -1 });
-        setIsGameOver(false);
-        setScore(0);
-        setIsGameRunning(true);
+    const startGame = () => {
+        setGameState(createInitialState());
+        setIsRunning(true);
     };
 
     useEffect(() => {
-        if (!isGameRunning || isGameOver) return;
+        if (!isRunning || isGameOver) return;
 
         const gameInterval = setInterval(() => {
-            setSnake(prevSnake => {
-                const newSnake = [...prevSnake];
-                const head = { x: newSnake[0].x + direction.x, y: newSnake[0].y + direction.y };
+            setGameState(prev => {
+                const newSnake = [...prev.snake];
+                const head = { x: newSnake[0].x + prev.direction.x, y: newSnake[0].y + prev.direction.y };
+                let newScore = prev.score;
+                let newFood = prev.food;
 
-                if (head.x < 0 || head.x >= GRID_SIZE || head.y < 0 || head.y >= GRID_SIZE) {
-                    setIsGameOver(true);
-                    return prevSnake;
+                if (head.x < 0 || head.x >= GRID_SIZE || head.y < 0 || head.y >= GRID_SIZE || newSnake.some(seg => seg.x === head.x && seg.y === head.y)) {
+                    setIsRunning(false);
+                    return { ...prev, isGameOver: true };
                 }
 
-                for (let i = 1; i < newSnake.length; i++) {
-                    if (head.x === newSnake[i].x && head.y === newSnake[i].y) {
-                        setIsGameOver(true);
-                        return prevSnake;
-                    }
-                }
+                newSnake.unshift(head);
 
-                newSnake.unshift(head); 
-                if (head.x === food.x && head.y === food.y) {
-                    setScore(s => s + 10);
-                    setFood(getRandomPosition());
+                if (head.x === newFood.x && head.y === newFood.y) {
+                    newScore += 10;
+                    newFood = getRandomPosition();
                 } else {
-                    newSnake.pop(); 
+                    newSnake.pop();
                 }
 
-                return newSnake;
+                return { ...prev, snake: newSnake, score: newScore, food: newFood };
             });
-        }, 150); 
+        }, 150);
 
         return () => clearInterval(gameInterval);
-    }, [snake, direction, isGameOver, isGameRunning, food.x, food.y]);
+    }, [isRunning, isGameOver]);
 
     return (
         <div className="snake-game-container">
             <div className="snake-score-display">Pontuação: {score}</div>
-            <div 
-                className="snake-grid" 
+            <div
+                className="snake-grid"
                 style={{ width: GRID_SIZE * TILE_SIZE, height: GRID_SIZE * TILE_SIZE }}
             >
                 {snake.map((segment, index) => (
-                    <div 
-                        key={index} 
-                        className="snake-segment" 
-                        style={{ left: segment.x * TILE_SIZE, top: segment.y * TILE_SIZE }}
+                    <div
+                        key={index}
+                        className={`snake-segment ${index === 0 ? 'head' : ''}`}
+                        style={{ left: `${segment.x * TILE_SIZE}px`, top: `${segment.y * TILE_SIZE}px` }}
                     />
                 ))}
-                <div 
-                    className="snake-food" 
-                    style={{ left: food.x * TILE_SIZE, top: food.y * TILE_SIZE }}
+                <div
+                    className="snake-food"
+                    style={{ left: `${food.x * TILE_SIZE}px`, top: `${food.y * TILE_SIZE}px` }}
                 />
             </div>
-            {!isGameRunning && !isGameOver && (
-                <button onClick={resetGame} className="snake-start-button">Iniciar Jogo</button>
-            )}
-            {isGameOver && (
-                <div className="game-over-overlay">
-                    <div>Fim de Jogo!</div>
-                    <button onClick={resetGame} className="snake-start-button">Jogar Novamente</button>
+            {!isRunning && (
+                <div className="game-start-overlay">
+                    {isGameOver && <div>Fim de Jogo!</div>}
+                    <button onClick={startGame} className="snake-start-button">
+                        {isGameOver ? 'Jogar Novamente' : 'Iniciar Jogo'}
+                    </button>
                 </div>
             )}
         </div>
