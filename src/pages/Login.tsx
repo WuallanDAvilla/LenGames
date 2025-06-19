@@ -1,109 +1,170 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { auth, db } from '../firebase.ts';
-import { doc, setDoc } from 'firebase/firestore';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { auth, db } from "../firebase.ts";
+
+import { doc, getDoc, writeBatch } from "firebase/firestore";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  updateProfile
-} from 'firebase/auth';
-import toast from 'react-hot-toast';
-import '../styles/Login.css'; 
+  updateProfile,
+} from "firebase/auth";
+import toast from "react-hot-toast";
+import "../styles/Login.css";
 
 export function Login() {
   const navigate = useNavigate();
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isRegistering, setIsRegistering] = useState(false);
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (isRegistering && !name) {
-      toast.error("Por favor, preencha seu nome.");
-      return;
-    }
-    if (password.length < 6) {
-      toast.error("A senha precisa ter no mínimo 6 caracteres.");
-      return;
-    }
 
     if (isRegistering) {
-      const loadingToast = toast.loading('Criando sua conta...');
-      try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
+      if (!name || !username) {
+        toast.error("Por favor, preencha todos os campos.");
+        return;
+      }
+      if (username.length < 3 || !/^[a-zA-Z0-9_]+$/.test(username)) {
+        toast.error(
+          "Nome de usuário deve ter 3+ caracteres e conter apenas letras, números ou _."
+        );
+        return;
+      }
+      if (password.length < 6) {
+        toast.error("A senha precisa ter no mínimo 6 caracteres.");
+        return;
+      }
 
+      const loadingToast = toast.loading("Verificando e criando sua conta...");
+
+      const usernameDocRef = doc(db, "usernames", username.toLowerCase());
+      const usernameDocSnap = await getDoc(usernameDocRef);
+
+      if (usernameDocSnap.exists()) {
+        toast.dismiss(loadingToast);
+        toast.error("Este nome de usuário já está em uso. Tente outro.");
+        return;
+      }
+
+      try {
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        const user = userCredential.user;
         const avatarUrl = `https://api.dicebear.com/8.x/bottts/svg?seed=${user.uid}`;
 
-        await updateProfile(user, {
-          displayName: name,
-          photoURL: avatarUrl
-        });
+        await updateProfile(user, { displayName: name, photoURL: avatarUrl });
 
+        const batch = writeBatch(db);
         const userDocRef = doc(db, "users", user.uid);
-        await setDoc(userDocRef, {
+
+        batch.set(userDocRef, {
+          username: username.toLowerCase(),
           displayName: name,
           email: user.email,
           photoURL: avatarUrl,
           createdAt: new Date(),
-          geniusHighScore: 0
+          geniusHighScore: 0,
         });
+        batch.set(usernameDocRef, { uid: user.uid });
+
+        await batch.commit();
 
         toast.dismiss(loadingToast);
-        toast.success('Conta criada com sucesso!');
-        navigate('/');
+        toast.success("Conta criada com sucesso!");
+        navigate("/");
       } catch (err) {
         toast.dismiss(loadingToast);
         console.error(err);
-        toast.error('Erro ao criar a conta. Verifique se o e-mail já existe.');
+        toast.error("Erro ao criar a conta. Verifique se o e-mail já existe.");
       }
     } else {
-      const loadingToast = toast.loading('Entrando...');
+      const loadingToast = toast.loading("Entrando...");
       try {
         await signInWithEmailAndPassword(auth, email, password);
         toast.dismiss(loadingToast);
-        toast.success('Login realizado com sucesso!');
-        navigate('/');
+        toast.success("Login realizado com sucesso!");
+        navigate("/");
       } catch (err) {
         toast.dismiss(loadingToast);
         console.error(err);
-        toast.error('E-mail ou senha incorretos.');
+        toast.error("E-mail ou senha incorretos.");
       }
     }
   };
 
-
   return (
     <div className="login-container">
-
-
       <form onSubmit={handleAuth} className="login-form">
-        <h2>{isRegistering ? 'Criar Conta' : 'Conecte-se'}</h2>
+        <h2>{isRegistering ? "Criar Conta" : "Conecte-se"}</h2>
 
         {isRegistering && (
-          <div className="input-group">
-            <label htmlFor="name">Nome</label>
-            <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} required placeholder="Como devemos te chamar?" />
-          </div>
+          <>
+            <div className="input-group">
+              <label htmlFor="name">Nome de Exibição</label>
+              <input
+                type="text"
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                placeholder="Como devemos te chamar?"
+              />
+            </div>
+            <div className="input-group">
+              <label htmlFor="username">Nome de Usuário (para URL)</label>
+              <input
+                type="text"
+                id="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+                placeholder="Apenas letras, números e _"
+              />
+            </div>
+          </>
         )}
 
         <div className="input-group">
           <label htmlFor="email">E-mail</label>
-          <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="seu-email@exemplo.com" />
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            placeholder="seu-email@exemplo.com"
+          />
         </div>
 
         <div className="input-group">
           <label htmlFor="password">Senha</label>
-          <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required placeholder="Mínimo de 6 caracteres" />
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            placeholder="Mínimo de 6 caracteres"
+          />
         </div>
 
         <button type="submit" className="login-button">
-          {isRegistering ? 'Cadastrar' : 'Entrar'}
+          {isRegistering ? "Cadastrar" : "Entrar"}
         </button>
-
-        <button type="button" onClick={() => setIsRegistering(!isRegistering)} className="toggle-button">
-          {isRegistering ? 'Já tem uma conta? Faça Login' : 'Não tem uma conta? Cadastre-se'}
+        <button
+          type="button"
+          onClick={() => setIsRegistering(!isRegistering)}
+          className="toggle-button"
+        >
+          {isRegistering
+            ? "Já tem uma conta? Faça Login"
+            : "Não tem uma conta? Cadastre-se"}
         </button>
       </form>
     </div>
