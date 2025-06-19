@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom"; // Importe NavLink
 import { useAuth } from "../contexts/AuthContext.tsx";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase.ts";
@@ -16,48 +16,41 @@ export function NavBar() {
     navigate("/login");
   };
 
+  // Função para fechar o dropdown ao clicar fora
+  const closeDropdown = () => setDropdownOpen(false);
+
   return (
     <nav className="navbar">
       <div className="navbar-container">
-        <Link
-          to="/"
-          className="navbar-logo"
-          onClick={() => setDropdownOpen(false)}
-        >
+        <Link to="/" className="navbar-logo" onClick={closeDropdown}>
           LenGames
         </Link>
         <div className="navbar-links">
-          <Link
-            to="/"
-            className="nav-item"
-            onClick={() => setDropdownOpen(false)}
-          >
+          {/* Usamos NavLink aqui para estilização do link ativo */}
+          <NavLink to="/" className="nav-item" onClick={closeDropdown} end>
             Home
-          </Link>
-          <Link
-            to="/games"
-            className="nav-item"
-            onClick={() => setDropdownOpen(false)}
-          >
-            Games
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink to="/games" className="nav-item" onClick={closeDropdown}>
+            Jogos
+          </NavLink>
+          <NavLink
             to="/leaderboard"
             className="nav-item"
-            onClick={() => setDropdownOpen(false)}
+            onClick={closeDropdown}
           >
-            Ranking
-          </Link>
+            Classificação
+          </NavLink>
 
           {currentUser ? (
             <div className="nav-profile-menu">
               <button
                 className="nav-item profile-trigger"
                 onClick={() => setDropdownOpen(!dropdownOpen)}
+                aria-expanded={dropdownOpen}
               >
                 <img
                   src={currentUser.photoURL!}
-                  alt="Avatar"
+                  alt="Avatar do usuário"
                   className="navbar-avatar"
                 />
                 <span>{currentUser.displayName || "Perfil"}</span>
@@ -65,18 +58,17 @@ export function NavBar() {
               </button>
               {dropdownOpen && (
                 <div className="dropdown-content">
-                 
                   <Link
                     to="/conta"
                     className="dropdown-item"
-                    onClick={() => setDropdownOpen(false)}
+                    onClick={closeDropdown}
                   >
                     Minha Conta
                   </Link>
                   <Link
                     to="/settings"
                     className="dropdown-item"
-                    onClick={() => setDropdownOpen(false)}
+                    onClick={closeDropdown}
                   >
                     Configurações
                   </Link>
@@ -91,9 +83,9 @@ export function NavBar() {
               )}
             </div>
           ) : (
-            <Link to="/login" className="nav-item">
+            <NavLink to="/login" className="nav-item">
               Login
-            </Link>
+            </NavLink>
           )}
         </div>
       </div>

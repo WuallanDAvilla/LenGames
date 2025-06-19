@@ -3,14 +3,18 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 
+import "./index.css"; // <<< ADICIONE ESTA LINHA AQUI
+
 import { AuthProvider } from "./contexts/AuthContext.tsx";
 import { ProtectedRoute } from "./components/ProtectedRoute.tsx";
 import { Layout } from "./components/Layout.tsx";
 import { GlobalLoader } from "./components/GlobalLoader.tsx";
 
+// O resto do seu arquivo continua igual...
 const Home = lazy(() =>
   import("./pages/Home.tsx").then((module) => ({ default: module.Home }))
 );
+// ...e assim por diante.
 const Login = lazy(() =>
   import("./pages/Login.tsx").then((module) => ({ default: module.Login }))
 );
@@ -57,7 +61,7 @@ const router = createBrowserRouter([
       { path: "games/:gameId", element: suspenseWrapper(<GameDetailPage />) },
       { path: "leaderboard", element: suspenseWrapper(<Leaderboard />) },
       {
-        path: "conta", 
+        path: "conta",
         element: suspenseWrapper(
           <ProtectedRoute>
             <Profile />
@@ -65,7 +69,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "perfil/:username", 
+        path: "perfil/:username",
         element: suspenseWrapper(<PublicProfile />),
       },
       {

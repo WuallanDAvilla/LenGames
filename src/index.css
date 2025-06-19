@@ -1,9 +1,92 @@
-body {
+/* src/index.css */
+
+/* 1. Definição do nosso "Design System" com Variáveis CSS */
+:root {
+  /* Paleta de Cores */
+  --cor-fundo: #1a202c; /* Azul bem escuro, quase preto */
+  --cor-fundo-navbar: #0f3460; /* O azul original da sua navbar */
+  --cor-fundo-card: #2d3748; /* Azul escuro para cards e seções */
+  --cor-destaque: #e94560; /* O rosa/vermelho vibrante */
+  --cor-destaque-hover: #c53030; /* Um tom mais escuro para o hover */
+
+  --cor-texto-principal: #e2e8f0; /* Branco levemente acinzentado */
+  --cor-texto-secundario: #a0aec0; /* Cinza claro para subtítulos */
+  --cor-sucesso: #48bb78; /* Verde para notificações de sucesso */
+  --cor-perigo: #ff5252; /* Vermelho para ações de perigo (logout) */
+  --cor-borda: #4a5568; /* Cor para divisórias e bordas sutis */
+
+  /* Tipografia */
+  --fonte-principal: "Inter", system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --tamanho-fonte-base: 16px;
+
+  /* Outras variáveis */
+  --raio-borda: 8px;
+  --sombra-card: 0 4px 12px rgba(0, 0, 0, 0.2);
+  --transicao-padrao: all 0.2s ease-in-out;
+}
+
+/* 2. Reset de CSS e Padrões Globais */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+}
+
+html {
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--fonte-principal);
+  font-size: var(--tamanho-fonte-base);
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto-principal);
+  min-height: 100vh;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+  background-color: transparent;
+  border: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: var(--cor-destaque);
+  text-decoration: none;
+  transition: var(--transicao-padrao);
+}
+
+a:hover {
+  color: var(--cor-destaque-hover);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance; /* Melhora a quebra de linha em títulos */
+  line-height: 1.2;
 }

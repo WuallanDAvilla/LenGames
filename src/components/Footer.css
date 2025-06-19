@@ -1,44 +1,45 @@
 .footer {
-  background-color: #0f3460;
-  color: #a9a9a9;
-  padding: 50px 20px 20px 20px; 
-  margin-top: auto;
+  background-color: var(--cor-fundo-navbar);
+  color: var(--cor-texto-secundario);
+  padding: 50px 20px 20px 20px;
+  margin-top: auto; /* Mantém o footer no final da página */
   flex-shrink: 0;
+  border-top: 1px solid var(--cor-borda);
 }
 
 .footer-container {
   max-width: 1200px;
   margin: 0 auto;
   display: grid;
-
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 40px; 
+  gap: 40px;
   padding-bottom: 30px;
-  border-bottom: 1px solid #16213e;
-  text-align: left; 
+  border-bottom: 1px solid var(--cor-borda);
+  text-align: left;
 }
 
-
 .footer-section h4 {
-  color: #fff;
+  color: var(--cor-texto-principal);
   font-size: 1.2rem;
-  margin-bottom: 20px; 
+  margin-bottom: 20px;
   position: relative;
   padding-bottom: 10px;
+  font-weight: 600;
 }
 
 .footer-section h4::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   bottom: 0;
   width: 40px;
   height: 2px;
-  background-color: #e94560;
+  background-color: var(--cor-destaque);
 }
 
-.footer-section p, .footer-section li {
-  font-size: 0.9rem;
+.footer-section p,
+.footer-section li {
+  font-size: 0.95rem;
   line-height: 1.7;
 }
 
@@ -52,14 +53,14 @@
   margin-bottom: 10px;
 }
 
+/* Usando a variável global de link definida no index.css */
 .footer-section ul a {
-  color: #a9a9a9;
-  text-decoration: none;
-  transition: color 0.3s;
+  color: var(--cor-texto-secundario);
 }
 
 .footer-section ul a:hover {
-  color: #e94560;
+  color: var(--cor-destaque);
+  text-decoration: none; /* Evita o sublinhado padrão que definimos no global */
 }
 
 .dev-list {
@@ -68,16 +69,17 @@
 
 .project-description {
   font-style: italic;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   margin-top: 15px;
 }
 
 .footer-bottom {
   text-align: center;
   padding-top: 20px;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
 }
 
+/* Centraliza o sublinhado do título em telas pequenas */
 @media (max-width: 320px) {
   .footer-container {
     text-align: center;
