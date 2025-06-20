@@ -3,7 +3,6 @@ import coverGenius from "../assets/game-covers/jogodamemoria.png";
 import coverSnake from "../assets/game-covers/jogodamemoria.png";
 import coverChess from "../assets/game-covers/jogodamemoria.png";
 import coverTetris from "../assets/game-covers/jogodamemoria.png";
-// NOVO: Importe a capa do Space Invaders
 import coverSpaceInvaders from "../assets/game-covers/jogodamemoria.png";
 import coverDinoRun from "../assets/game-covers/jogodamemoria.png"
 export interface GameInfo {
@@ -52,7 +51,6 @@ export const gamesList: GameInfo[] = [
     theme: "theme-tetris",
     coverImage: coverTetris,
   },
-  // NOVO: Adicione o objeto do jogo Space Invaders
   {
     id: "space-invaders",
     name: "Space Invaders",
@@ -67,7 +65,7 @@ export const gamesList: GameInfo[] = [
     description:
       "Pule sobre os obstáculos e sobreviva o máximo que puder neste clássico infinito!",
     theme: "theme-dino",
-    coverImage: coverDinoRun, // importe a capa
+    coverImage: coverDinoRun, 
   },
 ];
 

@@ -18,8 +18,6 @@ export function Profile() {
   };
 
   if (!currentUser) {
-    // Adiciona um fallback caso o componente seja renderizado sem um usuário
-    // (o ProtectedRoute já deve evitar isso, mas é uma boa prática)
     return (
       <div className="container profile-page-container">
         <p>Carregando informações do usuário...</p>

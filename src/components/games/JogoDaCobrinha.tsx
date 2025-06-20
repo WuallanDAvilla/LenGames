@@ -1,8 +1,6 @@
-// A CORREÇÃO ESTÁ NESTA LINHA:
 import { useState, useEffect } from "react";
 import "./JogoDaCobrinha.css";
 
-// O resto do arquivo permanece exatamente o mesmo
 const GRID_SIZE = 20;
 const TILE_SIZE = 20;
 

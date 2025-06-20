@@ -4,7 +4,6 @@ import "../styles/Games.css";
 
 export function Games() {
   return (
-    // Envolvemos tudo em um 'div' com a classe 'container'
     <div className="container">
       <div className="games-page-header">
         <h1 className="section-title">Nossos Jogos</h1>
@@ -19,7 +18,6 @@ export function Games() {
             <div className="game-card-cover">
               <img src={game.coverImage} alt={`Capa do jogo ${game.name}`} />
               <div className="cover-overlay"></div>{" "}
-              {/* Overlay para efeito de hover */}
             </div>
             <div className="game-card-info">
               <h3>{game.name}</h3>

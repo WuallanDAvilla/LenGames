@@ -1,24 +1,22 @@
-/* Note que agora não precisamos definir cor de fundo ou de texto aqui, pois o body já cuida disso. */
 .home-container {
   width: 100%;
 }
 
-/* --- Seção Hero --- */
 .home-hero {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 6rem 1.5rem; /* Mais espaçamento vertical */
+  padding: 6rem 1.5rem; 
   min-height: 50vh;
   background-color: var(
     --cor-fundo
-  ); /* Fundo sólido para um visual mais limpo */
+  ); 
 }
 
 .home-title {
-  font-size: clamp(2.5rem, 5vw, 4rem); /* Fonte responsiva */
+  font-size: clamp(2.5rem, 5vw, 4rem); 
   font-weight: 800;
   margin-bottom: 1rem;
   color: var(--cor-texto-principal);
@@ -55,17 +53,15 @@
   box-shadow: 0 6px 20px rgba(233, 69, 96, 0.3);
 }
 
-/* --- Seção Features --- */
 .home-features {
   padding: 4rem 0;
   background-color: var(
     --cor-fundo-navbar
-  ); /* Um fundo levemente diferente para contraste */
+  ); 
   border-top: 1px solid var(--cor-borda);
   border-bottom: 1px solid var(--cor-borda);
 }
 
-/* Classe utilitária que definimos no index.css */
 .container {
   width: 90%;
   max-width: 1200px;

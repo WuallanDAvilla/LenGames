@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
 import "./JogoDaVelha.css";
-
-// Componente para um único quadrado do tabuleiro
 function Square({
   value,
   onSquareClick,
@@ -17,25 +15,19 @@ function Square({
 }
 
 export function JogoDaVelha() {
-  // NOVO: Estado para controlar o modo de jogo (ainda não selecionado)
   const [gameMode, setGameMode] = useState<"pvp" | "pvc" | null>(null);
 
   const [squares, setSquares] = useState(Array(9).fill(null));
   const [xIsNext, setXIsNext] = useState(true);
 
-  // Determina se é a vez do computador (apenas no modo PVC e se for a vez de 'O')
   const isComputerTurn = gameMode === "pvc" && !xIsNext;
 
-  // Lógica para o computador fazer sua jogada
   useEffect(() => {
-    // Se não for a vez do computador ou se o jogo já acabou, não faz nada
     if (!isComputerTurn || calculateWinner(squares)) {
       return;
     }
 
-    // Adiciona um pequeno "delay" para simular o computador "pensando"
     const timer = setTimeout(() => {
-      // Encontra todos os quadrados vazios
       const emptySquaresIndexes: number[] = [];
       squares.forEach((square, index) => {
         if (square === null) {
@@ -43,25 +35,21 @@ export function JogoDaVelha() {
         }
       });
 
-      // Escolhe um quadrado vazio aleatoriamente
       const randomIndex = Math.floor(
         Math.random() * emptySquaresIndexes.length
       );
       const computerMove = emptySquaresIndexes[randomIndex];
 
-      // Aplica a jogada do computador
       const nextSquares = squares.slice();
       nextSquares[computerMove] = "O";
       setSquares(nextSquares);
-      setXIsNext(true); // Passa a vez de volta para o jogador
-    }, 700); // 700ms de "pensamento"
+      setXIsNext(true); 
+    }, 700); 
 
-    // Limpa o timeout se o componente for desmontado
     return () => clearTimeout(timer);
   }, [isComputerTurn, squares, gameMode]);
 
   function handleClick(i: number) {
-    // Não permite clicar se o quadrado já está preenchido, se o jogo acabou, ou se for a vez do computador
     if (squares[i] || calculateWinner(squares) || isComputerTurn) {
       return;
     }
@@ -73,12 +61,11 @@ export function JogoDaVelha() {
   }
 
   function handleReset() {
-    setGameMode(null); // Volta para a tela de seleção de modo
+    setGameMode(null); 
     setSquares(Array(9).fill(null));
     setXIsNext(true);
   }
 
-  // Se nenhum modo de jogo foi selecionado, mostra a tela de seleção
   if (!gameMode) {
     return (
       <div className="tictactoe-container">
@@ -95,7 +82,6 @@ export function JogoDaVelha() {
     );
   }
 
-  // Lógica para determinar o status do jogo (vencedor, empate, próximo jogador)
   const winner = calculateWinner(squares);
   let status;
   if (winner) {
@@ -109,7 +95,6 @@ export function JogoDaVelha() {
   return (
     <div className="tictactoe-container">
       <div className="status">{status}</div>
-      {/* Adiciona uma classe 'disabled' quando for a vez do computador */}
       <div className={`board ${isComputerTurn ? "disabled" : ""}`}>
         {squares.map((_, i) => (
           <Square
@@ -126,7 +111,6 @@ export function JogoDaVelha() {
   );
 }
 
-// Função auxiliar para calcular o vencedor (permanece a mesma)
 function calculateWinner(squares: Array<"X" | "O" | null>) {
   const lines = [
     [0, 1, 2],

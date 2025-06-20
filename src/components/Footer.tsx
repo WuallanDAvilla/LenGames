@@ -26,11 +26,12 @@ export function Footer() {
           </ul>
         </div>
         <div className="footer-section">
-          <h4>Desenvolvido por</h4>
+          <h4>Equipe de Desenvolvedores</h4>
           <ul className="dev-list">
-            <li>Wuallan "Len" D'Avilla - Back/Front</li>
+            <li>Len D'Avilla - Back/Front</li>
             <li>Flávio José - Back/Front</li>
             <li>NeonCharger - Art Designer</li>
+            <li>Thur - BetaTester</li>
           </ul>
           <p className="project-description">
             Um projeto construído com React e Firebase.

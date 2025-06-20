@@ -15,7 +15,6 @@
   margin-bottom: 2rem;
   text-align: center;
   transition: color 0.5s ease;
-  /* A cor padrão virá dos temas */
 }
 
 .game-board-container {
@@ -25,40 +24,33 @@
   padding: 2rem;
   box-shadow: var(--sombra-card);
   width: 100%;
-  max-width: max-content; /* Faz o contêiner se ajustar ao tamanho do jogo */
+  max-width: max-content; 
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* --- ESTILOS DE TEMA --- */
-
-/* Tema Padrão e Jogo da Velha */
 .theme-default .game-title,
 .theme-tictactoe .game-title {
-  color: #1abc9c; /* Verde-azulado */
+  color: #1abc9c; 
 }
 
-/* Tema Genius (Memória) */
 .theme-genius {
-  /* Um gradiente sutil no fundo da página, mas contido */
   background: radial-gradient(ellipse at top, #3a2d70, var(--cor-fundo) 60%);
 }
 .theme-genius .game-title {
-  color: #facc15; /* Amarelo Dourado */
+  color: #facc15; 
   text-shadow: 0 0 8px #fde047;
 }
 
-/* Tema Cobrinha */
 .theme-snake {
   background: radial-gradient(ellipse at top, #2e7d32, var(--cor-fundo) 70%);
 }
 .theme-snake .game-title {
-  color: #a5d6a7; /* Verde claro */
+  color: #a5d6a7; 
   text-shadow: 1px 1px 2px #1b5e20;
 }
 
-/* --- Estilos para Jogo Não Encontrado --- */
 .game-not-found-text {
   color: var(--cor-texto-secundario);
   margin-top: 1rem;
@@ -77,40 +69,32 @@
   background-color: var(--cor-destaque-hover);
   transform: translateY(-2px);
 }
-/* ... (todo o seu css existente) ... */
 
-/* --- TEMA XADREZ --- */
 .theme-chess {
   background: radial-gradient(ellipse at top, #4a5568, var(--cor-fundo) 70%);
 }
 
 .theme-chess .game-title {
-  color: #e2e8f0; /* Um branco acinzentado */
+  color: #e2e8f0; 
   text-shadow: 1px 1px 2px #1a202c;
 }
-/* ... (todo o seu css existente) ... */
 
-/* --- TEMA TETRIS --- */
 .theme-tetris {
-  /* Um gradiente escuro e divertido */
   background: radial-gradient(ellipse at top, #3c1053, var(--cor-fundo) 80%);
 }
 
 .theme-tetris .game-title {
-  font-family: '"Press Start 2P", sans-serif'; /* Fonte estilo pixel para combinar */
-  color: #fefce8; /* Amarelo bem claro */
+  font-family: '"Press Start 2P", sans-serif'; 
+  color: #fefce8; 
   text-shadow: 2px 2px 0px var(--cor-destaque);
 }
-/* ... (todo o seu css existente) ... */
 
-/* --- TEMA SPACE INVADERS --- */
 .theme-invaders {
-  /* Um gradiente que lembra uma nebulosa escura */
   background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
 }
 
 .theme-invaders .game-title {
   font-family: '"Press Start 2P", sans-serif';
-  color: #4ade80; /* Verde neon */
+  color: #4ade80; 
   text-shadow: 0 0 10px #4ade80;
 }

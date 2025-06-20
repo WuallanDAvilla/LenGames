@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import "../styles/Settings.css";
 
 export function Settings() {
-  const { currentUser, setCurrentUser } = useAuth(); // Precisamos do setCurrentUser
+  const { currentUser, setCurrentUser } = useAuth();
   const navigate = useNavigate();
 
   const [displayName, setDisplayName] = useState("");
@@ -37,7 +37,6 @@ export function Settings() {
     const newAvatarUrl = `https://api.dicebear.com/8.x/bottts/svg?seed=${Date.now()}`;
     const promise = updateProfile(currentUser, { photoURL: newAvatarUrl }).then(
       () => {
-        // Atualiza o contexto para refletir o novo avatar imediatamente
         setCurrentUser({ ...currentUser, photoURL: newAvatarUrl });
       }
     );
@@ -91,6 +90,7 @@ export function Settings() {
         toast.success("Sua conta foi excluída com sucesso.");
         navigate("/login");
       } catch (err) {
+        console.error("Erro ao excluir a conta:", err); // <-- ERRO CORRIGIDO
         toast.error("Erro ao excluir. Faça login novamente e tente de novo.");
       }
     } else if (userInput !== null) {

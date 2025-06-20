@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink, Link, useNavigate } from "react-router-dom"; // Importe NavLink
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext.tsx";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase.ts";
@@ -16,7 +16,6 @@ export function NavBar() {
     navigate("/login");
   };
 
-  // Função para fechar o dropdown ao clicar fora
   const closeDropdown = () => setDropdownOpen(false);
 
   return (
@@ -26,7 +25,6 @@ export function NavBar() {
           LenGames
         </Link>
         <div className="navbar-links">
-          {/* Usamos NavLink aqui para estilização do link ativo */}
           <NavLink to="/" className="nav-item" onClick={closeDropdown} end>
             Home
           </NavLink>

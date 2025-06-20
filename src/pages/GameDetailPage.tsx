@@ -1,15 +1,12 @@
 import { useParams, Link } from "react-router-dom";
 import { gamesInfoMap } from "../data/gamesData";
-
 import { JogoDaVelha } from "../components/games/JogoDaVelha";
 import { JogoDaMemoria } from "../components/games/JogoDaMemoria";
 import { JogoDaCobrinha } from "../components/games/JogoDaCobrinha";
 import { Xadrez } from "../components/games/Xadrez";
 import Tetris from "../components/games/tetris/Tetris";
-// NOVO: Importe o componente Space Invaders
 import { SpaceInvaders } from "../components/games/space-invaders/SpaceInvaders";
 import { DinoRun } from '../components/games/dino-run/DinoRun';
-
 import "../styles/GameDetailPage.css";
 
 const gameComponentMap = new Map<string, React.ReactElement>([
@@ -18,8 +15,6 @@ const gameComponentMap = new Map<string, React.ReactElement>([
   ["jogo-da-cobrinha", <JogoDaCobrinha />],
   ["xadrez", <Xadrez />],
   ["tetris", <Tetris />],
-  
-  // NOVO: Adicione a entrada para o Space Invaders
   ["space-invaders", <SpaceInvaders />],
   ['dino-run', <DinoRun />]
 ]);

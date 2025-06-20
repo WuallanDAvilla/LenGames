@@ -1,22 +1,20 @@
-/* Reutilizando os estilos de cabeçalho de página */
 .leaderboard-header {
   text-align: center;
   margin-bottom: 3rem;
 }
 
-/* O contêiner da nossa tabela */
 .leaderboard-table-container {
   background-color: var(--cor-fundo-card);
   border: 1px solid var(--cor-borda);
   border-radius: var(--raio-borda);
   padding: 1rem;
   box-shadow: var(--sombra-card);
-  overflow: hidden; /* Garante que os cantos da tabela fiquem arredondados */
+  overflow: hidden; 
 }
 
 table {
   width: 100%;
-  border-collapse: collapse; /* Essencial para um visual limpo */
+  border-collapse: collapse; 
   color: var(--cor-texto-principal);
 }
 
@@ -52,8 +50,6 @@ tbody tr:hover {
   background-color: var(--cor-fundo);
 }
 
-/* --- Células Específicas --- */
-
 .rank-cell {
   width: 100px;
   text-align: center;
@@ -63,7 +59,7 @@ tbody tr:hover {
   color: var(--cor-texto-secundario);
 }
 .rank-icon {
-  display: none; /* Só aparece para o pódio */
+  display: none; 
   margin-right: 0.5rem;
   font-style: normal;
 }
@@ -73,7 +69,7 @@ tbody tr:hover {
   align-items: center;
   gap: 1rem;
   text-decoration: none;
-  color: inherit; /* Herda a cor do texto do pai */
+  color: inherit;
   transition: var(--transicao-padrao);
 }
 
@@ -100,8 +96,6 @@ th.score-cell {
   text-align: right;
 }
 
-/* --- Estilos do Pódio --- */
-
 tr.podium {
   background-color: rgba(255, 255, 255, 0.03);
   font-weight: bold;
@@ -109,13 +103,13 @@ tr.podium {
 
 tr.top-1 {
   --podium-color: #facc15;
-} /* Ouro */
+} 
 tr.top-2 {
   --podium-color: #e0e0e0;
-} /* Prata */
+}
 tr.top-3 {
   --podium-color: #cd7f32;
-} /* Bronze */
+}
 
 tr.podium .rank-cell {
   color: var(--podium-color);
@@ -131,8 +125,6 @@ tr.podium .player-avatar {
 tr.podium .player-cell span {
   color: var(--cor-texto-principal);
 }
-
-/* --- Mensagens de Estado --- */
 
 .no-players-message {
   text-align: center;

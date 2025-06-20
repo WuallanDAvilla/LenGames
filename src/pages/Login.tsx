@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom"; // Importar Link
+import { Link, useNavigate } from "react-router-dom"; 
 import { auth, db } from "../firebase.ts";
 
 import { doc, getDoc, writeBatch } from "firebase/firestore";
@@ -18,11 +18,10 @@ export function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isRegistering, setIsRegistering] = useState(false);
-  const [isLoading, setIsLoading] = useState(false); // Estado de loading
-
+  const [isLoading, setIsLoading] = useState(false);
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true); // Inicia o loading
+    setIsLoading(true); 
 
     if (isRegistering) {
       if (!name || !username) {
@@ -92,7 +91,7 @@ export function Login() {
         toast.error("E-mail ou senha incorretos.");
       }
     }
-    setIsLoading(false); // Finaliza o loading
+    setIsLoading(false); 
   };
 
   return (

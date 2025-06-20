@@ -56,8 +56,7 @@
   padding: 0.8rem 1rem;
   border: 1px solid var(--cor-borda);
   border-radius: var(--raio-borda);
-  background-color: var(--cor-fundo); /* Fundo escuro para o input */
-  color: var(--cor-texto-principal);
+  background-color: var(--cor-fundo); 
   font-size: 1rem;
   transition: border-color 0.3s, box-shadow 0.3s;
 }
@@ -70,7 +69,7 @@
 .input-group input:focus {
   outline: none;
   border-color: var(--cor-destaque);
-  box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.2); /* Usa a cor de destaque com alpha */
+  box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.2); 
 }
 
 .auth-button {

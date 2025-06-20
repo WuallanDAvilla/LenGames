@@ -6,7 +6,7 @@
 }
 
 .settings-content-wrapper {
-  background-color: transparent; /* O wrapper é apenas para estrutura */
+  background-color: transparent; 
   width: 100%;
   max-width: 700px;
 }
@@ -43,7 +43,6 @@
   border-bottom: 1px solid var(--cor-borda);
 }
 
-/* Usando as mesmas classes de formulário da página de Login */
 .settings-form .input-group {
   margin-bottom: 1.5rem;
 }
@@ -97,7 +96,6 @@
   transform: translateY(-2px);
 }
 
-/* Seção de Avatar */
 .avatar-section {
   margin-top: 2rem;
   padding-top: 1.5rem;
@@ -120,8 +118,8 @@
 }
 
 .settings-button.secondary {
-  max-width: 250px; /* Limita a largura do botão de avatar */
-  margin-inline: auto; /* Centraliza o botão */
+  max-width: 250px; 
+  margin-inline: auto; 
   background-color: transparent;
   border: 2px solid var(--cor-destaque);
   color: var(--cor-destaque);
@@ -132,9 +130,8 @@
   color: var(--cor-texto-principal);
 }
 
-/* --- Zona de Perigo --- */
 .danger-zone {
-  background-color: rgba(255, 82, 82, 0.05); /* Fundo bem sutil */
+  background-color: rgba(255, 82, 82, 0.05); 
   border: 1px solid var(--cor-perigo);
 }
 
@@ -163,6 +160,6 @@
 }
 
 .danger-button:hover {
-  background-color: #c53030; /* Um vermelho mais escuro */
+  background-color: #c53030; 
   transform: translateY(-2px);
 }

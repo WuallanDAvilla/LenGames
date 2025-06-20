@@ -4,7 +4,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.1rem; /* Um pouco menor para um visual mais limpo */
+  font-size: 1.1rem; 
   position: sticky;
   top: 0;
   z-index: 999;
@@ -35,7 +35,7 @@
   display: flex;
   align-items: center;
   list-style: none;
-  gap: 0.5rem; /* Espaçamento entre os links */
+  gap: 0.5rem; 
 }
 
 .nav-item {
@@ -55,14 +55,12 @@
   opacity: 0.8;
 }
 
-/* Efeito de hover e de página ativa */
 .nav-item:hover,
 .nav-item.active {
   color: var(--cor-texto-principal);
   opacity: 1;
 }
 
-/* Linha sutil embaixo do link ativo/hover */
 .nav-item::after {
   content: "";
   position: absolute;

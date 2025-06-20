@@ -3,12 +3,10 @@
   flex-direction: column;
   align-items: center;
   gap: 1.5rem;
-  /* A CORREÇÃO ESTÁ AQUI: */
-  position: relative; /* Isso cria um novo contexto de posicionamento */
-  width: max-content; /* Garante que o contêiner tenha o tamanho do seu conteúdo */
+  position: relative; 
+  width: max-content; 
 }
 
-/* Adiciona um foco visual para o jogador saber que pode usar o teclado */
 .snake-game-container:focus {
   outline: 2px solid var(--cor-destaque);
   outline-offset: 4px;
@@ -23,23 +21,22 @@
 
 .snake-grid {
   position: relative;
-  background-color: var(--cor-fundo); /* Fundo do grid */
+  background-color: var(--cor-fundo); 
   border: 2px solid var(--cor-borda);
   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
-  /* O tamanho é definido via inline-style no componente */
 }
 
 .snake-segment {
   position: absolute;
-  width: 20px; /* Definindo o tamanho explicitamente no CSS */
+  width: 20px; 
   height: 20px;
-  background-color: #2ecc71; /* Verde da cobrinha */
+  background-color: #2ecc71; 
   border-radius: 4px;
-  box-sizing: border-box; /* Garante que a borda não aumente o tamanho */
+  box-sizing: border-box; 
 }
 
 .snake-segment.head {
-  background-color: #27ae60; /* Verde mais escuro para a cabeça */
+  background-color: #27ae60; 
   z-index: 1;
   border: 1px solid #1b5e20;
 }
@@ -48,7 +45,7 @@
   position: absolute;
   width: 20px;
   height: 20px;
-  background-color: #e74c3c; /* Vermelho da comida */
+  background-color: #e74c3c; 
   border-radius: 50%;
   box-shadow: 0 0 10px #e74c3c;
 }
@@ -59,7 +56,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  border-radius: var(--raio-borda); /* Herda o raio de borda do pai */
+  border-radius: var(--raio-borda);
   background-color: rgba(0, 0, 0, 0.75);
   display: flex;
   flex-direction: column;

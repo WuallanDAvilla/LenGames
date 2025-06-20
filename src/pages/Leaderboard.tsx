@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import { db } from "../firebase";
 import { collection, query, orderBy, limit, getDocs } from "firebase/firestore";
-import { Link } from "react-router-dom"; // Importar Link
-import { GlobalLoader } from "../components/GlobalLoader"; // Importar nosso loader
+import { Link } from "react-router-dom"; 
+import { GlobalLoader } from "../components/GlobalLoader"; 
 import "../styles/Leaderboard.css";
 
 interface PlayerData {
   id: string;
-  name: string; // Este é o displayName
-  username: string; // Precisamos do username para o link do perfil
+  name: string; 
+  username: string; 
   avatarUrl: string;
   highScore: number;
 }
@@ -34,7 +34,7 @@ export function Leaderboard() {
           return {
             id: doc.id,
             name: data.displayName || "Usuário Anônimo",
-            username: data.username || data.displayName, // Fallback para displayName se username não existir
+            username: data.username || data.displayName, 
             avatarUrl:
               data.photoURL ||
               `https://api.dicebear.com/8.x/bottts/svg?seed=${doc.id}`,
@@ -54,7 +54,6 @@ export function Leaderboard() {
   }, []);
 
   if (loading) {
-    // Usando o loader global para consistência!
     return <GlobalLoader />;
   }
 
@@ -86,7 +85,6 @@ export function Leaderboard() {
                   {index + 1}
                 </td>
                 <td className="player-cell">
-                  {/* Upgrade de UX: O jogador agora é um link para o perfil! */}
                   <Link to={`/perfil/${player.username}`}>
                     <img
                       src={player.avatarUrl}

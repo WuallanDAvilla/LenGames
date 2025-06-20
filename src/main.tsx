@@ -2,19 +2,15 @@ import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-
-import "./index.css"; // <<< ADICIONE ESTA LINHA AQUI
-
+import "./index.css"; 
 import { AuthProvider } from "./contexts/AuthContext.tsx";
 import { ProtectedRoute } from "./components/ProtectedRoute.tsx";
 import { Layout } from "./components/Layout.tsx";
 import { GlobalLoader } from "./components/GlobalLoader.tsx";
 
-// O resto do seu arquivo continua igual...
 const Home = lazy(() =>
   import("./pages/Home.tsx").then((module) => ({ default: module.Home }))
 );
-// ...e assim por diante.
 const Login = lazy(() =>
   import("./pages/Login.tsx").then((module) => ({ default: module.Login }))
 );

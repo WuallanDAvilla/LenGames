@@ -4,7 +4,6 @@ import "../styles/Home.css";
 export function Home() {
   return (
     <div className="home-container">
-      {/* Seção Principal (Hero) */}
       <section className="home-hero">
         <h1 className="home-title">
           Bem-vindo ao <span className="highlight-text">LenGames</span>
@@ -17,7 +16,6 @@ export function Home() {
         </Link>
       </section>
 
-      {/* Seção "O que vem?" (Features) */}
       <section className="home-features">
         <div className="container">
           <h2 className="section-title">O que vem?</h2>

@@ -3,14 +3,13 @@
   justify-content: center;
   align-items: center;
 }
-/* O resto do seu CSS para o Genius pode continuar praticamente o mesmo */
-/* ... */
+
 .genius-board {
   position: relative;
   width: 400px;
   height: 400px;
   border-radius: 50%;
-  background-color: #222; /* Um pouco mais claro */
+  background-color: #222; 
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;

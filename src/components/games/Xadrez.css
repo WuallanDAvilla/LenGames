@@ -6,14 +6,12 @@
 }
 
 .chessboard-wrapper {
-  max-width: 90vw; /* Garante que o tabuleiro não saia da tela em telas menores */
-  width: 560px; /* Mantém o tamanho consistente */
+  max-width: 90vw; 
+  width: 560px; 
   box-shadow: var(--sombra-card);
   border-radius: var(--raio-borda);
-  overflow: hidden; /* Garante que a borda arredondada seja aplicada */
+  overflow: hidden; 
 }
-
-/* A biblioteca react-chessboard permite customização via classes, mas o padrão já é ótimo */
 
 .chess-info {
   background-color: var(--cor-fundo-card);
@@ -63,11 +61,8 @@
 .reset-button-chess:hover {
   background-color: var(--cor-destaque-hover);
 }
-/* ... (todo o seu CSS de Xadrez existente) ... */
 
-/* NOVO: Estilo para indicar que o computador está "pensando" */
 .chess-container.computer-thinking .chessboard-wrapper {
-  /* Adiciona um brilho sutil na cor de destaque */
   box-shadow: 0 0 25px rgba(233, 69, 96, 0.4);
   border: 2px solid var(--cor-destaque);
   border-radius: var(--raio-borda);
