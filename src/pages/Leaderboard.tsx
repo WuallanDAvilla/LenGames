@@ -1,11 +1,14 @@
-import { useState, useEffect } from 'react';
-import { db } from '../firebase';
-import { collection, query, orderBy, limit, getDocs } from 'firebase/firestore';
-import '../styles/Leaderboard.css'; 
+import { useState, useEffect } from "react";
+import { db } from "../firebase";
+import { collection, query, orderBy, limit, getDocs } from "firebase/firestore";
+import { Link } from "react-router-dom"; // Importar Link
+import { GlobalLoader } from "../components/GlobalLoader"; // Importar nosso loader
+import "../styles/Leaderboard.css";
 
 interface PlayerData {
   id: string;
-  name: string;
+  name: string; // Este é o displayName
+  username: string; // Precisamos do username para o link do perfil
   avatarUrl: string;
   highScore: number;
 }
@@ -18,32 +21,30 @@ export function Leaderboard() {
     const fetchLeaderboard = async () => {
       setLoading(true);
       try {
-      
-        const usersCollectionQuery = query(
-          collection(db, 'users'), 
-          
-          orderBy('geniusHighScore', 'desc'), 
-     
+        const usersQuery = query(
+          collection(db, "users"),
+          orderBy("geniusHighScore", "desc"),
           limit(10)
         );
 
-        const querySnapshot = await getDocs(usersCollectionQuery);
-        
-        const players: PlayerData[] = [];
-        querySnapshot.forEach(doc => {
+        const querySnapshot = await getDocs(usersQuery);
+
+        const players: PlayerData[] = querySnapshot.docs.map((doc) => {
           const data = doc.data();
-          players.push({
+          return {
             id: doc.id,
-            name: data.displayName || 'Usuário Anônimo',
-            avatarUrl: data.photoURL || `https://api.dicebear.com/8.x/bottts/svg?seed=${doc.id}`,
-            highScore: data.geniusHighScore
-          });
+            name: data.displayName || "Usuário Anônimo",
+            username: data.username || data.displayName, // Fallback para displayName se username não existir
+            avatarUrl:
+              data.photoURL ||
+              `https://api.dicebear.com/8.x/bottts/svg?seed=${doc.id}`,
+            highScore: data.geniusHighScore || 0,
+          };
         });
-        
+
         setTopPlayers(players);
       } catch (error) {
         console.error("Erro ao buscar a leaderboard:", error);
-        
       } finally {
         setLoading(false);
       }
@@ -53,14 +54,17 @@ export function Leaderboard() {
   }, []);
 
   if (loading) {
-    return <div className="leaderboard-loader">Carregando Ranking...</div>;
+    // Usando o loader global para consistência!
+    return <GlobalLoader />;
   }
 
   return (
-    <div className="leaderboard-container">
+    <div className="container">
       <div className="leaderboard-header">
-        <h1>🏆 Leaderboard - Genius 🏆</h1>
-        <p>Veja quem são os 10 melhores jogadores!</p>
+        <h1 className="section-title">🏆 Classificação - Genius 🏆</h1>
+        <p className="section-subtitle">
+          Veja quem são os 10 melhores jogadores da nossa comunidade!
+        </p>
       </div>
       <div className="leaderboard-table-container">
         <table>
@@ -73,11 +77,24 @@ export function Leaderboard() {
           </thead>
           <tbody>
             {topPlayers.map((player, index) => (
-              <tr key={player.id} className={index < 3 ? `top-${index + 1}` : ''}>
-                <td className="rank-cell">{index + 1}</td>
+              <tr
+                key={player.id}
+                className={index < 3 ? `podium top-${index + 1}` : ""}
+              >
+                <td className="rank-cell">
+                  <span className="rank-icon">{index < 3 ? "★" : ""}</span>
+                  {index + 1}
+                </td>
                 <td className="player-cell">
-                  <img src={player.avatarUrl} alt={player.name} className="player-avatar" />
-                  <span>{player.name}</span>
+                  {/* Upgrade de UX: O jogador agora é um link para o perfil! */}
+                  <Link to={`/perfil/${player.username}`}>
+                    <img
+                      src={player.avatarUrl}
+                      alt={player.name}
+                      className="player-avatar"
+                    />
+                    <span>{player.name}</span>
+                  </Link>
                 </td>
                 <td className="score-cell">{player.highScore}</td>
               </tr>
@@ -85,7 +102,9 @@ export function Leaderboard() {
           </tbody>
         </table>
         {topPlayers.length === 0 && !loading && (
-          <p className="no-players-message">Ninguém jogou ainda. Seja o primeiro a deixar sua marca!</p>
+          <p className="no-players-message">
+            Ninguém jogou ainda. Seja o primeiro a deixar sua marca!
+          </p>
         )}
       </div>
     </div>

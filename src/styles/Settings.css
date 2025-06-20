@@ -2,130 +2,167 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 50px 20px;
-  background-color: #1a1a2e;
-  min-height: calc(100vh - 80px);
+  padding: 4rem 0;
 }
 
-.settings-card {
-  background: #0f3460;
-  color: white;
-  padding: 40px;
-  border-radius: 12px;
+.settings-content-wrapper {
+  background-color: transparent; /* O wrapper é apenas para estrutura */
   width: 100%;
-  max-width: 600px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-  font-family: "Segoe UI", sans-serif;
+  max-width: 700px;
 }
 
-.settings-card h1 {
+.settings-header {
   text-align: center;
-  margin-top: 0;
-  margin-bottom: 40px;
-  color: #e94560;
+  margin-bottom: 2.5rem;
+}
+
+.settings-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--cor-texto-principal);
 }
 
 .settings-section {
-  margin-bottom: 40px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #16213e;
+  background-color: var(--cor-fundo-card);
+  padding: 2rem;
+  border-radius: var(--raio-borda);
+  border: 1px solid var(--cor-borda);
+  margin-bottom: 2.5rem;
 }
 
 .settings-section:last-child {
-  border-bottom: none;
   margin-bottom: 0;
 }
 
 .settings-section h2 {
   font-size: 1.5rem;
-  margin-bottom: 20px;
-  color: #fff;
+  font-weight: 600;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--cor-borda);
 }
 
-.input-group {
-  margin-bottom: 20px;
+/* Usando as mesmas classes de formulário da página de Login */
+.settings-form .input-group {
+  margin-bottom: 1.5rem;
 }
-.input-group label {
+
+.settings-form .input-group label {
   display: block;
-  margin-bottom: 8px;
-  font-size: 14px;
-  color: #a9a9a9;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--cor-texto-secundario);
 }
-.input-group input {
+
+.settings-form .input-group input {
   width: 100%;
-  padding: 12px;
-  border: 1px solid #16213e;
-  border-radius: 8px;
-  background: #e3e3e3;
-  color: #16213e;
-  box-sizing: border-box;
-  font-size: 16px;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-borda);
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto-principal);
+  font-size: 1rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.settings-form .input-group input::placeholder {
+  color: var(--cor-texto-secundario);
+  opacity: 0.7;
+}
+
+.settings-form .input-group input:focus {
+  outline: none;
+  border-color: var(--cor-destaque);
+  box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.2);
 }
 
 .settings-button {
   width: 100%;
-  padding: 12px;
+  padding: 0.9rem;
   border: none;
-  border-radius: 8px;
-  background-color: #e94560;
-  color: white;
-  font-size: 16px;
+  border-radius: var(--raio-borda);
+  text-decoration: none;
+  text-align: center;
+  font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: var(--transicao-padrao);
+  background-color: var(--cor-destaque);
+  color: var(--cor-texto-principal);
 }
+
 .settings-button:hover {
-  background-color: #ff5274;
+  background-color: var(--cor-destaque-hover);
+  transform: translateY(-2px);
 }
 
-/* --- NOVOS ESTILOS --- */
-.profile-edit-form {
-  margin-bottom: 20px;
-}
+/* Seção de Avatar */
 .avatar-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
-.settings-avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background-color: #1a1a2e;
-}
-.settings-button.secondary {
-  background-color: #16213e;
-  border: 1px solid #e94560;
-  color: #e94560;
-}
-.settings-button.secondary:hover {
-  background-color: #e94560;
-  color: white;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--cor-borda);
+  text-align: center;
 }
 
-/* Zona de Perigo */
+.avatar-section label {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--cor-texto-secundario);
+  margin-bottom: 1rem;
+}
+
+.settings-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+}
+
+.settings-button.secondary {
+  max-width: 250px; /* Limita a largura do botão de avatar */
+  margin-inline: auto; /* Centraliza o botão */
+  background-color: transparent;
+  border: 2px solid var(--cor-destaque);
+  color: var(--cor-destaque);
+}
+
+.settings-button.secondary:hover {
+  background-color: var(--cor-destaque);
+  color: var(--cor-texto-principal);
+}
+
+/* --- Zona de Perigo --- */
 .danger-zone {
-  background-color: rgba(231, 76, 60, 0.1);
-  border: 1px solid #e74c3c;
-  padding: 20px;
-  border-radius: 8px;
+  background-color: rgba(255, 82, 82, 0.05); /* Fundo bem sutil */
+  border: 1px solid var(--cor-perigo);
 }
+
 .danger-zone h2 {
-  color: #e74c3c;
+  color: var(--cor-perigo);
+  border-bottom-color: rgba(255, 82, 82, 0.2);
 }
+
+.danger-zone p {
+  color: var(--cor-texto-secundario);
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
 .danger-button {
   width: 100%;
-  padding: 12px;
+  padding: 0.9rem;
   border: none;
-  border-radius: 8px;
-  background-color: #e74c3c;
-  color: white;
-  font-size: 16px;
+  border-radius: var(--raio-borda);
+  font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: var(--transicao-padrao);
+  background-color: var(--cor-perigo);
+  color: var(--cor-texto-principal);
 }
+
 .danger-button:hover {
-  background-color: #c0392b;
+  background-color: #c53030; /* Um vermelho mais escuro */
+  transform: translateY(-2px);
 }

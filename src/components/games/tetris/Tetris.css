@@ -1,0 +1,47 @@
+.tetris-wrapper {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tetris-wrapper:focus {
+  outline: none;
+}
+
+.tetris {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  padding: 2rem;
+  margin: 0 auto;
+}
+
+.tetris-stage {
+  flex-shrink: 0;
+}
+
+.tetris aside {
+  width: 100%;
+  max-width: 200px;
+  display: block;
+}
+
+.start-button {
+  padding: 1rem 1.5rem;
+  font-size: 1rem;
+  color: var(--cor-texto-principal);
+  background-color: var(--cor-destaque);
+  border-radius: var(--raio-borda);
+  font-weight: bold;
+  transition: var(--transicao-padrao);
+  width: 100%;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+}
+.start-button:hover {
+  background-color: var(--cor-destaque-hover);
+}

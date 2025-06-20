@@ -20,6 +20,8 @@ npm install -g firebase-tools
 npm install react-hot-toast
 npm install react-icons
 npm install framer-motion
+npm install chess.js
+npm install react-chessboard
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";

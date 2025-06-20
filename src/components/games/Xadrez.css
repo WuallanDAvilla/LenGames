@@ -1,0 +1,80 @@
+.chess-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.chessboard-wrapper {
+  max-width: 90vw; /* Garante que o tabuleiro não saia da tela em telas menores */
+  width: 560px; /* Mantém o tamanho consistente */
+  box-shadow: var(--sombra-card);
+  border-radius: var(--raio-borda);
+  overflow: hidden; /* Garante que a borda arredondada seja aplicada */
+}
+
+/* A biblioteca react-chessboard permite customização via classes, mas o padrão já é ótimo */
+
+.chess-info {
+  background-color: var(--cor-fundo-card);
+  padding: 1.5rem;
+  border-radius: var(--raio-borda);
+  width: 100%;
+  max-width: 560px;
+  text-align: center;
+}
+
+.game-status h2,
+.game-over-status h2 {
+  color: var(--cor-texto-principal);
+  margin: 0 0 1rem 0;
+}
+
+.check-warning {
+  color: var(--cor-destaque);
+  font-weight: bold;
+  font-size: 1.2rem;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.reset-button-chess {
+  margin-top: 1.5rem;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  color: var(--cor-texto-principal);
+  background-color: var(--cor-destaque);
+  border-radius: var(--raio-borda);
+  font-weight: bold;
+  transition: var(--transicao-padrao);
+}
+
+.reset-button-chess:hover {
+  background-color: var(--cor-destaque-hover);
+}
+/* ... (todo o seu CSS de Xadrez existente) ... */
+
+/* NOVO: Estilo para indicar que o computador está "pensando" */
+.chess-container.computer-thinking .chessboard-wrapper {
+  /* Adiciona um brilho sutil na cor de destaque */
+  box-shadow: 0 0 25px rgba(233, 69, 96, 0.4);
+  border: 2px solid var(--cor-destaque);
+  border-radius: var(--raio-borda);
+}
+
+.game-over-status .status-message {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--cor-sucesso);
+}

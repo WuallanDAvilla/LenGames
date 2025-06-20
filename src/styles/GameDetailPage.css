@@ -1,72 +1,103 @@
-.game-detail-page {
+.game-detail-container {
+  padding: 3rem 0;
+  transition: background-color 0.5s ease;
+}
+
+.container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  padding: 50px 20px;
-  min-height: calc(
-    100vh - 80px - 243px
-  ); 
-  transition: background-color 0.5s ease;
 }
 
 .game-title {
-  font-size: 3rem;
-  margin-bottom: 40px;
-  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+  font-size: clamp(2rem, 5vw, 2.8rem);
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-align: center;
   transition: color 0.5s ease;
+  /* A cor padrão virá dos temas */
 }
 
 .game-board-container {
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-  transition: background-color 0.5s ease;
+  background-color: var(--cor-fundo-card);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-borda);
+  padding: 2rem;
+  box-shadow: var(--sombra-card);
+  width: 100%;
+  max-width: max-content; /* Faz o contêiner se ajustar ao tamanho do jogo */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.game-detail-page {
-  background-color: #1a1a2e;
-  color: white;
-}
-.game-title {
-  color: #e94560;
-}
-.game-board-container {
-  background-color: #0f3460;
+/* --- ESTILOS DE TEMA --- */
+
+/* Tema Padrão e Jogo da Velha */
+.theme-default .game-title,
+.theme-tictactoe .game-title {
+  color: #1abc9c; /* Verde-azulado */
 }
 
-body.theme-tictactoe {
-  background-color: #2c3e50; 
+/* Tema Genius (Memória) */
+.theme-genius {
+  /* Um gradiente sutil no fundo da página, mas contido */
+  background: radial-gradient(ellipse at top, #3a2d70, var(--cor-fundo) 60%);
 }
-.theme-tictactoe .game-detail-page .game-title {
-  color: #1abc9c; 
-}
-.theme-tictactoe .game-detail-page .game-board-container {
-  background-color: #34495e; 
-}
-
-
-body.theme-genius {
-
-  background: radial-gradient(ellipse at center, #4c1d95 0%, #1e1b4b 100%);
-}
-.theme-genius .game-detail-page .game-title {
-  color: #facc15; 
-  text-shadow: 0 0 10px #facc15, 0 0 20px #fde047;
-}
-.theme-genius .game-detail-page .game-board-container {
-  background-color: rgba(17, 24, 39, 0.5); 
-  border: 1px solid rgba(255, 255, 255, 0.1);
+.theme-genius .game-title {
+  color: #facc15; /* Amarelo Dourado */
+  text-shadow: 0 0 8px #fde047;
 }
 
-body.theme-snake {
-  background-color: #4caf50; 
+/* Tema Cobrinha */
+.theme-snake {
+  background: radial-gradient(ellipse at top, #2e7d32, var(--cor-fundo) 70%);
 }
-.theme-snake .game-detail-page .game-title {
-  color: #ffffff;
-  text-shadow: 2px 2px 4px #2e7d32;
+.theme-snake .game-title {
+  color: #a5d6a7; /* Verde claro */
+  text-shadow: 1px 1px 2px #1b5e20;
 }
-.theme-snake .game-detail-page .game-board-container {
-  background-color: rgba(0, 0, 0, 0.2); 
-  border: 1px solid rgba(255, 255, 255, 0.2);
+
+/* --- Estilos para Jogo Não Encontrado --- */
+.game-not-found-text {
+  color: var(--cor-texto-secundario);
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
+.back-to-games-button {
+  padding: 0.8rem 1.5rem;
+  background-color: var(--cor-destaque);
+  color: var(--cor-texto-principal);
+  border-radius: var(--raio-borda);
+  font-weight: bold;
+  transition: var(--transicao-padrao);
+}
+.back-to-games-button:hover {
+  background-color: var(--cor-destaque-hover);
+  transform: translateY(-2px);
+}
+/* ... (todo o seu css existente) ... */
+
+/* --- TEMA XADREZ --- */
+.theme-chess {
+  background: radial-gradient(ellipse at top, #4a5568, var(--cor-fundo) 70%);
+}
+
+.theme-chess .game-title {
+  color: #e2e8f0; /* Um branco acinzentado */
+  text-shadow: 1px 1px 2px #1a202c;
+}
+/* ... (todo o seu css existente) ... */
+
+/* --- TEMA TETRIS --- */
+.theme-tetris {
+  /* Um gradiente escuro e divertido */
+  background: radial-gradient(ellipse at top, #3c1053, var(--cor-fundo) 80%);
+}
+
+.theme-tetris .game-title {
+  font-family: '"Press Start 2P", sans-serif'; /* Fonte estilo pixel para combinar */
+  color: #fefce8; /* Amarelo bem claro */
+  text-shadow: 2px 2px 0px var(--cor-destaque);
 }

@@ -1,56 +1,47 @@
-.leaderboard-container {
-  padding: 50px 20px;
-  background-color: #1a1a2e;
-  min-height: calc(
-    100vh - 80px - 243px
-  ); 
-}
-
+/* Reutilizando os estilos de cabeçalho de página */
 .leaderboard-header {
   text-align: center;
-  color: white;
-  margin-bottom: 40px;
+  margin-bottom: 3rem;
 }
 
-.leaderboard-header h1 {
-  font-size: 2.5rem;
-  color: #facc15;
-  text-shadow: 0 0 10px #facc15;
-}
-
+/* O contêiner da nossa tabela */
 .leaderboard-table-container {
-  max-width: 800px;
-  margin: 0 auto;
-  background-color: #0f3460;
-  border-radius: 12px;
-  padding: 10px 20px 20px 20px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+  background-color: var(--cor-fundo-card);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-borda);
+  padding: 1rem;
+  box-shadow: var(--sombra-card);
+  overflow: hidden; /* Garante que os cantos da tabela fiquem arredondados */
 }
 
 table {
   width: 100%;
-  border-collapse: collapse;
-  color: white;
+  border-collapse: collapse; /* Essencial para um visual limpo */
+  color: var(--cor-texto-principal);
 }
 
 th,
 td {
-  padding: 15px;
+  padding: 1.25rem 1rem;
   text-align: left;
+  vertical-align: middle;
 }
 
 thead {
-  border-bottom: 2px solid #16213e;
+  border-bottom: 2px solid var(--cor-borda);
 }
 
 th {
-  font-size: 1.1rem;
-  color: #a9a9a9;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--cor-texto-secundario);
 }
 
 tbody tr {
-  border-bottom: 1px solid #16213e;
-  transition: background-color 0.2s;
+  border-bottom: 1px solid var(--cor-borda);
+  transition: background-color 0.2s ease;
 }
 
 tbody tr:last-child {
@@ -58,59 +49,94 @@ tbody tr:last-child {
 }
 
 tbody tr:hover {
-  background-color: #16213e;
+  background-color: var(--cor-fundo);
 }
 
+/* --- Células Específicas --- */
+
 .rank-cell {
-  font-size: 1.5rem;
-  font-weight: bold;
+  width: 100px;
   text-align: center;
-  width: 80px;
+  font-size: 1.5rem;
+  font-weight: 700;
   font-style: italic;
-  color: #a9a9a9;
+  color: var(--cor-texto-secundario);
 }
-th.rank-cell {
+.rank-icon {
+  display: none; /* Só aparece para o pódio */
+  margin-right: 0.5rem;
   font-style: normal;
 }
 
-.player-cell {
+.player-cell a {
   display: flex;
   align-items: center;
-  gap: 15px;
-  font-weight: 500;
+  gap: 1rem;
+  text-decoration: none;
+  color: inherit; /* Herda a cor do texto do pai */
+  transition: var(--transicao-padrao);
+}
+
+.player-cell a:hover {
+  color: var(--cor-destaque);
 }
 
 .player-avatar {
-  width: 45px;
-  height: 45px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  border: 2px solid #333;
+  border: 2px solid var(--cor-borda);
+  background-color: var(--cor-fundo);
 }
 
 .score-cell {
-  font-size: 1.5rem;
-  font-weight: bold;
+  width: 150px;
   text-align: right;
-  color: #4ade80;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--cor-sucesso);
 }
 th.score-cell {
   text-align: right;
 }
 
-.top-1 .rank-cell {
-  color: #facc15;
+/* --- Estilos do Pódio --- */
+
+tr.podium {
+  background-color: rgba(255, 255, 255, 0.03);
+  font-weight: bold;
+}
+
+tr.top-1 {
+  --podium-color: #facc15;
 } /* Ouro */
-.top-2 .rank-cell {
-  color: #e0e0e0;
+tr.top-2 {
+  --podium-color: #e0e0e0;
 } /* Prata */
-.top-3 .rank-cell {
-  color: #cd7f32;
+tr.top-3 {
+  --podium-color: #cd7f32;
 } /* Bronze */
 
-.leaderboard-loader,
+tr.podium .rank-cell {
+  color: var(--podium-color);
+  font-style: normal;
+}
+tr.podium .rank-icon {
+  display: inline;
+}
+tr.podium .player-avatar {
+  border-color: var(--podium-color);
+  box-shadow: 0 0 10px var(--podium-color);
+}
+tr.podium .player-cell span {
+  color: var(--cor-texto-principal);
+}
+
+/* --- Mensagens de Estado --- */
+
 .no-players-message {
   text-align: center;
-  color: white;
-  font-size: 1.2rem;
-  padding: 50px;
+  color: var(--cor-texto-secundario);
+  font-size: 1.1rem;
+  padding: 4rem 2rem;
 }
