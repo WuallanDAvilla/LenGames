@@ -5,8 +5,9 @@ import { JogoDaVelha } from "../components/games/JogoDaVelha";
 import { JogoDaMemoria } from "../components/games/JogoDaMemoria";
 import { JogoDaCobrinha } from "../components/games/JogoDaCobrinha";
 import { Xadrez } from "../components/games/Xadrez";
-// NOVO: Importe o componente Tetris do diretório correto
 import Tetris from "../components/games/tetris/Tetris";
+// NOVO: Importe o componente Space Invaders
+import { SpaceInvaders } from "../components/games/space-invaders/SpaceInvaders";
 
 import "../styles/GameDetailPage.css";
 
@@ -15,8 +16,9 @@ const gameComponentMap = new Map<string, React.ReactElement>([
   ["genius", <JogoDaMemoria />],
   ["jogo-da-cobrinha", <JogoDaCobrinha />],
   ["xadrez", <Xadrez />],
-  // NOVO: Adicione a entrada para o Tetris
   ["tetris", <Tetris />],
+  // NOVO: Adicione a entrada para o Space Invaders
+  ["space-invaders", <SpaceInvaders />],
 ]);
 
 export function GameDetailPage() {

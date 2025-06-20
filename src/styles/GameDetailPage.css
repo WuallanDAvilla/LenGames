@@ -101,3 +101,16 @@
   color: #fefce8; /* Amarelo bem claro */
   text-shadow: 2px 2px 0px var(--cor-destaque);
 }
+/* ... (todo o seu css existente) ... */
+
+/* --- TEMA SPACE INVADERS --- */
+.theme-invaders {
+  /* Um gradiente que lembra uma nebulosa escura */
+  background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+}
+
+.theme-invaders .game-title {
+  font-family: '"Press Start 2P", sans-serif';
+  color: #4ade80; /* Verde neon */
+  text-shadow: 0 0 10px #4ade80;
+}
