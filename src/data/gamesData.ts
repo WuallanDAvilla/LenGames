@@ -4,8 +4,8 @@ import coverSnake from "../assets/game-covers/jogodamemoria.png";
 import coverChess from "../assets/game-covers/jogodamemoria.png";
 import coverTetris from "../assets/game-covers/jogodamemoria.png";
 // NOVO: Importe a capa do Space Invaders
-import coverSpaceInvaders from "../assets/game-covers/jogodamemoria.png"; 
-
+import coverSpaceInvaders from "../assets/game-covers/jogodamemoria.png";
+import coverDinoRun from "../assets/game-covers/jogodamemoria.png"
 export interface GameInfo {
   id: string;
   name: string;
@@ -32,14 +32,16 @@ export const gamesList: GameInfo[] = [
   {
     id: "jogo-da-cobrinha",
     name: "Jogo da Cobrinha",
-    description: "Coma as frutas e cresça, mas não bata nas paredes ou em si mesmo!",
-    theme: "theme-snake", 
+    description:
+      "Coma as frutas e cresça, mas não bata nas paredes ou em si mesmo!",
+    theme: "theme-snake",
     coverImage: coverSnake,
   },
   {
     id: "xadrez",
     name: "Xadrez",
-    description: "O jogo de estratégia definitivo. Desafie nossa IA e teste suas habilidades.",
+    description:
+      "O jogo de estratégia definitivo. Desafie nossa IA e teste suas habilidades.",
     theme: "theme-chess",
     coverImage: coverChess,
   },
@@ -54,9 +56,18 @@ export const gamesList: GameInfo[] = [
   {
     id: "space-invaders",
     name: "Space Invaders",
-    description: "Defenda a Terra da invasão alienígena neste clássico de arcade!",
+    description:
+      "Defenda a Terra da invasão alienígena neste clássico de arcade!",
     theme: "theme-invaders",
     coverImage: coverSpaceInvaders,
+  },
+  {
+    id: "dino-run",
+    name: "Dino Run",
+    description:
+      "Pule sobre os obstáculos e sobreviva o máximo que puder neste clássico infinito!",
+    theme: "theme-dino",
+    coverImage: coverDinoRun, // importe a capa
   },
 ];
 

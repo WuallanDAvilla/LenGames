@@ -1,0 +1,78 @@
+.dr-game-container {
+  background-color: var(--cor-fundo-card);
+  border: 2px solid var(--cor-borda);
+  position: relative;
+  overflow: hidden;
+  font-family: '"Press Start 2P", sans-serif';
+}
+
+.dr-game-container:focus {
+  outline: none;
+}
+
+/* NOVO: Estilos para a UI (Score) */
+.dr-ui {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: var(--cor-texto-secundario);
+  z-index: 10;
+}
+
+.dr-start-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--cor-texto-secundario);
+  font-size: 1rem;
+  z-index: 10;
+}
+
+.dr-ground {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  border-top: 2px solid var(--cor-texto-principal);
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAACCAYAAAB9c3w2AAAAAXNSR0IArs4c6QAAABJJREFUCB1jZGBgYPh/58+f/w8ANIAxAwC1PhpnZ388UQAAAABJRU5ErkJggg==");
+  background-repeat: repeat-x;
+}
+
+.dr-ground.scrolling {
+  animation: scroll-ground 10s linear infinite;
+}
+
+@keyframes scroll-ground {
+  from {
+    background-position-x: 0;
+  }
+  to {
+    background-position-x: -3000px;
+  }
+}
+
+.dr-dino {
+  position: absolute;
+  left: 20px;
+  width: 40px;
+  height: 40px;
+  background-color: var(--cor-texto-principal);
+  clip-path: polygon(
+    25% 0%,
+    75% 0%,
+    100% 25%,
+    100% 75%,
+    75% 100%,
+    25% 100%,
+    0% 75%,
+    0% 25%
+  );
+}
+
+/* NOVO: Estilos para os Obstáculos (Cactos) */
+.dr-obstacle {
+  position: absolute;
+  background-color: #2ecc71; /* Verde cacto */
+}
