@@ -5,29 +5,20 @@
   margin-bottom: 3rem;
 }
 
-/* --- NOVO LAYOUT DE GRADE --- */
 .leaderboards-grid {
   display: grid;
-  /* Cria colunas responsivas:
-     - auto-fit: Adiciona quantas colunas couberem.
-     - minmax(320px, 1fr): Cada coluna terá no mínimo 320px e no máximo
-       ocupará uma fração igual do espaço disponível.
-  */
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 2rem; /* Espaçamento entre os cards */
+  /* Diminuímos o tamanho mínimo para permitir que mais cards caibam em telas médias */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem; /* Reduzimos um pouco o espaçamento */
 }
 
-/* --- ESTILO DO CARD DE CADA JOGO --- */
 .leaderboard-card {
   display: flex;
   flex-direction: column;
-  background-color: var(
-    --cor-fundo-card,
-    #1f2937
-  ); /* Cor padrão caso a variável não exista */
+  background-color: var(--cor-fundo-card, #1f2937);
   border: 1px solid var(--cor-borda, #374151);
   border-radius: var(--raio-borda, 8px);
-  padding: 1.5rem;
+  padding: 1.25rem; /* Reduzimos o padding */
   box-shadow: var(
     --sombra-card,
     0 4px 6px -1px rgba(0, 0, 0, 0.1),
@@ -36,22 +27,20 @@
 }
 
 .leaderboard-card-title {
-  font-size: 1.75rem;
+  font-size: 1.5rem; /* Reduzimos o título */
   font-weight: 700;
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   color: var(--cor-texto-principal, #f9fafb);
   border-bottom: 2px solid var(--cor-destaque, #e74c3c);
-  padding-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
 }
 
-/* Container da tabela para controle de overflow */
 .leaderboard-table-container {
-  overflow: hidden;
-  flex-grow: 1; /* Garante que a tabela ocupe o espaço disponível */
+  overflow-x: auto; /* Permite scroll horizontal apenas se estritamente necessário */
+  flex-grow: 1;
 }
 
-/* --- ESTILOS DA TABELA (Mantidos e Refinados) --- */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -60,7 +49,7 @@ table {
 
 th,
 td {
-  padding: 1rem;
+  padding: 0.75rem 0.5rem; /* Padding reduzido para mais espaço */
   text-align: left;
   vertical-align: middle;
 }
@@ -70,11 +59,11 @@ thead {
 }
 
 th {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
   color: var(--cor-texto-secundario, #9ca3af);
+  white-space: nowrap;
 }
 
 tbody tr {
@@ -86,26 +75,42 @@ tbody tr:last-child {
   border-bottom: none;
 }
 
-tbody tr:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+/* --- COLUNAS COM LARGURA FLEXÍVEL (A GRANDE MUDANÇA) --- */
+.rank-cell {
+  width: 15%; /* Ocupa 15% do espaço */
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+  white-space: nowrap;
 }
 
-.rank-cell {
-  width: 80px;
-  text-align: center;
-  font-size: 1.25rem;
+.player-cell {
+  width: 60%; /* Ocupa a maior parte do espaço */
+}
+
+.score-cell {
+  width: 25%; /* Ocupa 25% do espaço */
+  text-align: right;
+  font-size: 1.3rem;
   font-weight: 700;
+  color: var(--cor-sucesso, #10b981);
+  white-space: nowrap;
+}
+th.score-cell,
+th.rank-cell {
+  text-align: center;
 }
 
 .rank-icon {
-  margin-right: 0.5rem;
+  margin-right: 0.25rem;
   vertical-align: middle;
+  font-size: 0.9rem;
 }
 
 .player-cell a {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
   text-decoration: none;
   color: inherit;
   transition: var(--transicao-padrao, color 0.2s);
@@ -116,27 +121,15 @@ tbody tr:hover {
 }
 
 .player-avatar {
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
-  border: 2px solid transparent; /* Transparente por padrão */
+  border: 2px solid transparent;
   background-color: var(--cor-fundo, #111827);
   transition: var(--transicao-padrao, border-color 0.2s);
+  flex-shrink: 0;
 }
 
-.score-cell {
-  width: 120px;
-  text-align: right;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--cor-sucesso, #10b981);
-}
-
-th.score-cell {
-  text-align: right;
-}
-
-/* --- ESTILOS DO PÓDIO (Mantidos e Refinados) --- */
 tr.podium {
   background-color: rgba(255, 255, 255, 0.02);
 }
@@ -159,13 +152,12 @@ tr.podium .player-avatar {
   border-color: var(--podium-color);
 }
 
-/* --- MENSAGENS DE FEEDBACK --- */
 .no-players-message,
 .loading-message {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 150px; /* Garante uma altura mínima para o card não ficar pequeno */
+  min-height: 150px;
   text-align: center;
   color: var(--cor-texto-secundario, #9ca3af);
   font-size: 1rem;

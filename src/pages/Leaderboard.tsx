@@ -4,9 +4,9 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { GlobalLoader } from "../components/GlobalLoader";
 import { fetchTopPlayersForGame } from "../firebase";
-// Corrigido o caminho para refletir a estrutura do seu projeto
 import { gamesList, type GameInfo } from "../data/gamesData";
 import "../styles/Leaderboard.css";
+
 interface PlayerData {
   id: string;
   name: string;
@@ -21,13 +21,11 @@ interface GameLeaderboardProps {
   isLoading: boolean;
 }
 
-// O componente interno GameLeaderboard foi ajustado
 const GameLeaderboard = ({
   game,
   players,
   isLoading,
 }: GameLeaderboardProps) => (
-  // Cada ranking agora é um 'card' individual
   <div className="leaderboard-card">
     <h2 className="leaderboard-card-title">{game.name}</h2>
     <div className="leaderboard-table-container">
@@ -37,9 +35,10 @@ const GameLeaderboard = ({
         <table>
           <thead>
             <tr>
-              <th className="rank-cell">Rank</th>
+              {/* MUDANÇA AQUI: Cabeçalhos ainda mais compactos */}
+              <th className="rank-cell">#</th>
               <th>Jogador</th>
-              <th className="score-cell">Pontuação</th>
+              <th className="score-cell">Pts</th>
             </tr>
           </thead>
           <tbody>
