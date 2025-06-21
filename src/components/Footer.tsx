@@ -31,7 +31,7 @@ export function Footer() {
             <li>Len D'Avilla - Back/Front</li>
             <li>Flávio José - Back/Front</li>
             <li>NeonCharger - Art Designer</li>
-            <li>Thur - BetaTester</li>
+            <li>Arthur - BetaTester</li>
           </ul>
           <p className="project-description">
             Um projeto construído com React e Firebase.
