@@ -1,4 +1,8 @@
+// src/components/games/space-invaders/SpaceInvaders.tsx
+
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useAuth } from "../../../contexts/AuthContext"; // 1. Importado o AuthContext
+import { updateUserHighScore } from "../../../firebase"; // 2. Importada nossa função de ranking
 import "./SpaceInvaders.css";
 
 // --- Constantes ---
@@ -16,6 +20,7 @@ const PLAYER_PROJECTILE_SPEED = 7;
 const INVADER_PROJECTILE_SPEED = 4;
 const PLAYER_SHOOT_COOLDOWN = 400;
 const INVADER_SHOOT_INTERVAL = 800;
+const GAME_ID = "space-invaders"; // 3. ID do Jogo para o ranking
 
 // --- Tipos ---
 type Position = { x: number; y: number };
@@ -53,11 +58,19 @@ export function SpaceInvaders() {
   const [gameOver, setGameOver] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
 
+  const { currentUser } = useAuth(); // 4. Obtendo o usuário logado
   const [keys, setKeys] = useState<Record<string, boolean>>({});
   const lastInvaderMoveTimeRef = useRef<number>(0);
   const lastPlayerShootTimeRef = useRef<number>(0);
   const lastInvaderShootTimeRef = useRef<number>(0);
   const gameLoopRef = useRef<number | null>(null);
+
+  // 5. Efeito para salvar a pontuação quando o jogo termina
+  useEffect(() => {
+    if (gameOver && currentUser && score > 0) {
+      updateUserHighScore(currentUser.uid, GAME_ID, score);
+    }
+  }, [gameOver, score, currentUser]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -175,30 +188,30 @@ export function SpaceInvaders() {
       }
 
       // Colisões
-      // CORREÇÃO: Trocamos 'let' por 'const'
-      const newInvaders = [...invaders];
+      const mutableInvaders = [...invaders];
       const projectilesToRemove = new Set<number>();
+      let scoreToAdd = 0;
 
       playerProjectiles.forEach((proj, projIndex) => {
-        newInvaders.forEach((inv, invIndex) => {
+        for (let i = mutableInvaders.length - 1; i >= 0; i--) {
+          const inv = mutableInvaders[i];
           if (
             proj.x < inv.x + INVADER_SIZE &&
             proj.x + PROJECTILE_WIDTH > inv.x &&
             proj.y < inv.y + INVADER_SIZE &&
             proj.y + PROJECTILE_HEIGHT > inv.y
           ) {
-            newInvaders.splice(invIndex, 1);
+            mutableInvaders.splice(i, 1);
             projectilesToRemove.add(projIndex);
-            setScore((prevScore) => prevScore + 10);
+            scoreToAdd += 10;
+            break;
           }
-        });
+        }
       });
 
-      if (
-        projectilesToRemove.size > 0 ||
-        newInvaders.length !== invaders.length
-      ) {
-        setInvaders(newInvaders);
+      if (scoreToAdd > 0) {
+        setScore((prevScore) => prevScore + scoreToAdd);
+        setInvaders(mutableInvaders);
         setPlayerProjectiles((prev) =>
           prev.filter((_, index) => !projectilesToRemove.has(index))
         );
@@ -237,7 +250,7 @@ export function SpaceInvaders() {
       invaders,
       invaderDirection,
       playerProjectiles,
-      invaderProjectiles,
+      invaderProjectiles, // Removido score das dependências para evitar recriação
     ]
   );
 

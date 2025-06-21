@@ -1,44 +1,84 @@
+/* src/styles/Leaderboard.css */
+
 .leaderboard-header {
   text-align: center;
   margin-bottom: 3rem;
 }
 
-.leaderboard-table-container {
-  background-color: var(--cor-fundo-card);
-  border: 1px solid var(--cor-borda);
-  border-radius: var(--raio-borda);
-  padding: 1rem;
-  box-shadow: var(--sombra-card);
-  overflow: hidden; 
+/* --- NOVO LAYOUT DE GRADE --- */
+.leaderboards-grid {
+  display: grid;
+  /* Cria colunas responsivas:
+     - auto-fit: Adiciona quantas colunas couberem.
+     - minmax(320px, 1fr): Cada coluna terá no mínimo 320px e no máximo
+       ocupará uma fração igual do espaço disponível.
+  */
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem; /* Espaçamento entre os cards */
 }
 
+/* --- ESTILO DO CARD DE CADA JOGO --- */
+.leaderboard-card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(
+    --cor-fundo-card,
+    #1f2937
+  ); /* Cor padrão caso a variável não exista */
+  border: 1px solid var(--cor-borda, #374151);
+  border-radius: var(--raio-borda, 8px);
+  padding: 1.5rem;
+  box-shadow: var(
+    --sombra-card,
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06)
+  );
+}
+
+.leaderboard-card-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: var(--cor-texto-principal, #f9fafb);
+  border-bottom: 2px solid var(--cor-destaque, #e74c3c);
+  padding-bottom: 0.75rem;
+}
+
+/* Container da tabela para controle de overflow */
+.leaderboard-table-container {
+  overflow: hidden;
+  flex-grow: 1; /* Garante que a tabela ocupe o espaço disponível */
+}
+
+/* --- ESTILOS DA TABELA (Mantidos e Refinados) --- */
 table {
   width: 100%;
-  border-collapse: collapse; 
-  color: var(--cor-texto-principal);
+  border-collapse: collapse;
+  color: var(--cor-texto-principal, #f9fafb);
 }
 
 th,
 td {
-  padding: 1.25rem 1rem;
+  padding: 1rem;
   text-align: left;
   vertical-align: middle;
 }
 
 thead {
-  border-bottom: 2px solid var(--cor-borda);
+  border-bottom: 2px solid var(--cor-borda, #374151);
 }
 
 th {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: var(--cor-texto-secundario);
+  color: var(--cor-texto-secundario, #9ca3af);
 }
 
 tbody tr {
-  border-bottom: 1px solid var(--cor-borda);
+  border-bottom: 1px solid var(--cor-borda, #374151);
   transition: background-color 0.2s ease;
 }
 
@@ -47,21 +87,19 @@ tbody tr:last-child {
 }
 
 tbody tr:hover {
-  background-color: var(--cor-fundo);
+  background-color: rgba(255, 255, 255, 0.05);
 }
 
 .rank-cell {
-  width: 100px;
+  width: 80px;
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 700;
-  font-style: italic;
-  color: var(--cor-texto-secundario);
 }
+
 .rank-icon {
-  display: none; 
   margin-right: 0.5rem;
-  font-style: normal;
+  vertical-align: middle;
 }
 
 .player-cell a {
@@ -70,65 +108,66 @@ tbody tr:hover {
   gap: 1rem;
   text-decoration: none;
   color: inherit;
-  transition: var(--transicao-padrao);
+  transition: var(--transicao-padrao, color 0.2s);
 }
 
-.player-cell a:hover {
-  color: var(--cor-destaque);
+.player-cell a:hover span {
+  color: var(--cor-destaque, #e74c3c);
 }
 
 .player-avatar {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  border: 2px solid var(--cor-borda);
-  background-color: var(--cor-fundo);
+  border: 2px solid transparent; /* Transparente por padrão */
+  background-color: var(--cor-fundo, #111827);
+  transition: var(--transicao-padrao, border-color 0.2s);
 }
 
 .score-cell {
-  width: 150px;
+  width: 120px;
   text-align: right;
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   font-weight: 700;
-  color: var(--cor-sucesso);
+  color: var(--cor-sucesso, #10b981);
 }
+
 th.score-cell {
   text-align: right;
 }
 
+/* --- ESTILOS DO PÓDIO (Mantidos e Refinados) --- */
 tr.podium {
-  background-color: rgba(255, 255, 255, 0.03);
-  font-weight: bold;
+  background-color: rgba(255, 255, 255, 0.02);
 }
 
 tr.top-1 {
   --podium-color: #facc15;
-} 
+}
 tr.top-2 {
-  --podium-color: #e0e0e0;
+  --podium-color: #d1d5db;
 }
 tr.top-3 {
-  --podium-color: #cd7f32;
+  --podium-color: #f59e0b;
 }
 
 tr.podium .rank-cell {
   color: var(--podium-color);
-  font-style: normal;
-}
-tr.podium .rank-icon {
-  display: inline;
-}
-tr.podium .player-avatar {
-  border-color: var(--podium-color);
-  box-shadow: 0 0 10px var(--podium-color);
-}
-tr.podium .player-cell span {
-  color: var(--cor-texto-principal);
 }
 
-.no-players-message {
+tr.podium .player-avatar {
+  border-color: var(--podium-color);
+}
+
+/* --- MENSAGENS DE FEEDBACK --- */
+.no-players-message,
+.loading-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 150px; /* Garante uma altura mínima para o card não ficar pequeno */
   text-align: center;
-  color: var(--cor-texto-secundario);
-  font-size: 1.1rem;
-  padding: 4rem 2rem;
+  color: var(--cor-texto-secundario, #9ca3af);
+  font-size: 1rem;
+  padding: 2rem;
 }

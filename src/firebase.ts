@@ -1,6 +1,18 @@
+// src/firebase.ts
+
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore"; 
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  collection,
+  query,
+  orderBy,
+  limit,
+  getDocs,
+} from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -13,6 +25,81 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-
 export const auth = getAuth(app);
-export const db = getFirestore(app); 
+export const db = getFirestore(app);
+
+/**
+ * Atualiza o high score de um usuário para um jogo específico.
+ * Só atualiza se a nova pontuação for maior que a anterior.
+ * @param userId - O ID do usuário.
+ * @param gameId - O ID do jogo (ex: 'genius', 'tetris').
+ * @param newScore - A nova pontuação do jogador.
+ */
+export const updateUserHighScore = async (
+  userId: string,
+  gameId: string,
+  newScore: number
+) => {
+  if (!userId || !gameId || newScore === undefined) return;
+
+  const userDocRef = doc(db, "users", userId);
+
+  try {
+    const userDocSnap = await getDoc(userDocRef);
+
+    // Estrutura de dados: highScores: { genius: 10, tetris: 500 }
+    // Usamos a notação de ponto para acessar campos aninhados.
+    const currentHighScore = userDocSnap.data()?.highScores?.[gameId] || 0;
+
+    if (newScore > currentHighScore) {
+      await setDoc(
+        userDocRef,
+        {
+          highScores: {
+            [gameId]: newScore,
+          },
+        },
+        { merge: true } // ESSENCIAL para não sobrescrever outros scores!
+      );
+      console.log(`High score para ${gameId} atualizado para ${newScore}!`);
+    }
+  } catch (error) {
+    console.error("Erro ao atualizar high score:", error);
+    throw error;
+  }
+};
+
+/**
+ * Busca os melhores jogadores para um jogo específico.
+ * @param gameId - O ID do jogo para o qual buscar o ranking.
+ * @param count - O número de jogadores a serem retornados.
+ * @returns Uma promessa que resolve para um array de dados dos jogadores.
+ */
+export const fetchTopPlayersForGame = async (gameId: string, count: number) => {
+  const usersQuery = query(
+    collection(db, "users"),
+    orderBy(`highScores.${gameId}`, "desc"),
+    limit(count)
+  );
+
+  const querySnapshot = await getDocs(usersQuery);
+
+  return querySnapshot.docs
+    .map((doc) => {
+      const data = doc.data();
+      // Garante que o jogador só apareça se tiver uma pontuação para esse jogo
+      if (data.highScores && data.highScores[gameId] !== undefined) {
+        return {
+          id: doc.id,
+          name: data.displayName || "Usuário Anônimo",
+          username: data.username || data.displayName,
+          avatarUrl:
+            data.photoURL ||
+            `https://api.dicebear.com/8.x/bottts/svg?seed=${doc.id}`,
+          highScore: data.highScores[gameId],
+        };
+      }
+      return null;
+    })
+    .filter((player) => player !== null); // Remove entradas nulas
+};

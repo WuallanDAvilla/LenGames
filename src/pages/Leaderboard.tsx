@@ -1,71 +1,39 @@
-import { useState, useEffect } from "react";
-import { db } from "../firebase";
-import { collection, query, orderBy, limit, getDocs } from "firebase/firestore";
-import { Link } from "react-router-dom"; 
-import { GlobalLoader } from "../components/GlobalLoader"; 
-import "../styles/Leaderboard.css";
+// src/pages/Leaderboard.tsx
 
+import { useState, useEffect, useMemo, useCallback } from "react";
+import { Link } from "react-router-dom";
+import { GlobalLoader } from "../components/GlobalLoader";
+import { fetchTopPlayersForGame } from "../firebase";
+// Corrigido o caminho para refletir a estrutura do seu projeto
+import { gamesList, type GameInfo } from "../data/gamesData";
+import "../styles/Leaderboard.css";
 interface PlayerData {
   id: string;
-  name: string; 
-  username: string; 
+  name: string;
+  username: string;
   avatarUrl: string;
   highScore: number;
 }
 
-export function Leaderboard() {
-  const [topPlayers, setTopPlayers] = useState<PlayerData[]>([]);
-  const [loading, setLoading] = useState(true);
+interface GameLeaderboardProps {
+  game: GameInfo;
+  players: PlayerData[];
+  isLoading: boolean;
+}
 
-  useEffect(() => {
-    const fetchLeaderboard = async () => {
-      setLoading(true);
-      try {
-        const usersQuery = query(
-          collection(db, "users"),
-          orderBy("geniusHighScore", "desc"),
-          limit(10)
-        );
-
-        const querySnapshot = await getDocs(usersQuery);
-
-        const players: PlayerData[] = querySnapshot.docs.map((doc) => {
-          const data = doc.data();
-          return {
-            id: doc.id,
-            name: data.displayName || "Usuário Anônimo",
-            username: data.username || data.displayName, 
-            avatarUrl:
-              data.photoURL ||
-              `https://api.dicebear.com/8.x/bottts/svg?seed=${doc.id}`,
-            highScore: data.geniusHighScore || 0,
-          };
-        });
-
-        setTopPlayers(players);
-      } catch (error) {
-        console.error("Erro ao buscar a leaderboard:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchLeaderboard();
-  }, []);
-
-  if (loading) {
-    return <GlobalLoader />;
-  }
-
-  return (
-    <div className="container">
-      <div className="leaderboard-header">
-        <h1 className="section-title">🏆 Classificação - Genius 🏆</h1>
-        <p className="section-subtitle">
-          Veja quem são os 10 melhores jogadores da nossa comunidade!
-        </p>
-      </div>
-      <div className="leaderboard-table-container">
+// O componente interno GameLeaderboard foi ajustado
+const GameLeaderboard = ({
+  game,
+  players,
+  isLoading,
+}: GameLeaderboardProps) => (
+  // Cada ranking agora é um 'card' individual
+  <div className="leaderboard-card">
+    <h2 className="leaderboard-card-title">{game.name}</h2>
+    <div className="leaderboard-table-container">
+      {isLoading ? (
+        <p className="loading-message">Carregando ranking...</p>
+      ) : players.length > 0 ? (
         <table>
           <thead>
             <tr>
@@ -75,13 +43,13 @@ export function Leaderboard() {
             </tr>
           </thead>
           <tbody>
-            {topPlayers.map((player, index) => (
+            {players.map((player: PlayerData, index: number) => (
               <tr
                 key={player.id}
                 className={index < 3 ? `podium top-${index + 1}` : ""}
               >
                 <td className="rank-cell">
-                  <span className="rank-icon">{index < 3 ? "★" : ""}</span>
+                  <span className="rank-icon">{index < 3 ? "🏆" : ""}</span>
                   {index + 1}
                 </td>
                 <td className="player-cell">
@@ -99,11 +67,77 @@ export function Leaderboard() {
             ))}
           </tbody>
         </table>
-        {topPlayers.length === 0 && !loading && (
-          <p className="no-players-message">
-            Ninguém jogou ainda. Seja o primeiro a deixar sua marca!
-          </p>
-        )}
+      ) : (
+        <p className="no-players-message">
+          Ninguém marcou pontos neste jogo ainda. Que tal ser o primeiro?
+        </p>
+      )}
+    </div>
+  </div>
+);
+
+export function Leaderboard() {
+  const [leaderboards, setLeaderboards] = useState<{
+    [key: string]: PlayerData[];
+  }>({});
+  const [loading, setLoading] = useState(true);
+
+  const gamesWithLeaderboard = useMemo(
+    () => gamesList.filter((game: GameInfo) => game.hasLeaderboard),
+    []
+  );
+
+  const fetchAllLeaderboards = useCallback(async () => {
+    if (gamesWithLeaderboard.length === 0) {
+      setLoading(false);
+      return;
+    }
+    setLoading(true);
+    try {
+      const leaderboardPromises = gamesWithLeaderboard.map((game: GameInfo) =>
+        fetchTopPlayersForGame(game.id, 3)
+      );
+      const results = await Promise.all(leaderboardPromises);
+      const newLeaderboards: { [key: string]: PlayerData[] } = {};
+      gamesWithLeaderboard.forEach((game: GameInfo, index: number) => {
+        const gameResult = results[index];
+        if (gameResult) {
+          newLeaderboards[game.id] = gameResult as PlayerData[];
+        }
+      });
+      setLeaderboards(newLeaderboards);
+    } catch (error) {
+      console.error("Erro ao buscar as leaderboards:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, [gamesWithLeaderboard]);
+
+  useEffect(() => {
+    fetchAllLeaderboards();
+  }, [fetchAllLeaderboards]);
+
+  if (loading) {
+    return <GlobalLoader />;
+  }
+
+  return (
+    <div className="container">
+      <div className="leaderboard-header">
+        <h1>🏆 Hall da Fama 🏆</h1>
+        <p className="section-subtitle">
+          Confira os melhores jogadores em cada um dos nossos jogos!
+        </p>
+      </div>
+      <div className="leaderboards-grid">
+        {gamesWithLeaderboard.map((game: GameInfo) => (
+          <GameLeaderboard
+            key={game.id}
+            game={game}
+            players={leaderboards[game.id] || []}
+            isLoading={!leaderboards[game.id]}
+          />
+        ))}
       </div>
     </div>
   );

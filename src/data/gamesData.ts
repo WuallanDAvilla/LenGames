@@ -1,16 +1,20 @@
+// src/components/games/data/gamesData.ts
+
 import coverTicTacToe from "../assets/game-covers/jogodavelha.png";
 import coverGenius from "../assets/game-covers/jogodamemoria.png";
 import coverSnake from "../assets/game-covers/jogodamemoria.png";
 import coverChess from "../assets/game-covers/jogodamemoria.png";
 import coverTetris from "../assets/game-covers/jogodamemoria.png";
 import coverSpaceInvaders from "../assets/game-covers/jogodamemoria.png";
-import coverDinoRun from "../assets/game-covers/jogodamemoria.png"
+import coverDinoRun from "../assets/game-covers/jogodamemoria.png";
+
 export interface GameInfo {
   id: string;
   name: string;
   description: string;
   theme: string;
   coverImage: string;
+  hasLeaderboard?: boolean; // Propriedade adicionada!
 }
 
 export const gamesList: GameInfo[] = [
@@ -20,6 +24,7 @@ export const gamesList: GameInfo[] = [
     description: "O clássico atemporal. Desafie um amigo ou o computador.",
     theme: "theme-tictactoe",
     coverImage: coverTicTacToe,
+    // hasLeaderboard: false (padrão)
   },
   {
     id: "genius",
@@ -27,6 +32,7 @@ export const gamesList: GameInfo[] = [
     description: "Teste sua memória e agilidade seguindo a sequência de cores.",
     theme: "theme-genius",
     coverImage: coverGenius,
+    hasLeaderboard: true,
   },
   {
     id: "jogo-da-cobrinha",
@@ -35,6 +41,7 @@ export const gamesList: GameInfo[] = [
       "Coma as frutas e cresça, mas não bata nas paredes ou em si mesmo!",
     theme: "theme-snake",
     coverImage: coverSnake,
+    hasLeaderboard: true,
   },
   {
     id: "xadrez",
@@ -50,6 +57,7 @@ export const gamesList: GameInfo[] = [
     description: "Empilhe os blocos e complete linhas neste clássico viciante!",
     theme: "theme-tetris",
     coverImage: coverTetris,
+    hasLeaderboard: true,
   },
   {
     id: "space-invaders",
@@ -58,6 +66,7 @@ export const gamesList: GameInfo[] = [
       "Defenda a Terra da invasão alienígena neste clássico de arcade!",
     theme: "theme-invaders",
     coverImage: coverSpaceInvaders,
+    hasLeaderboard: true,
   },
   {
     id: "dino-run",
@@ -65,7 +74,8 @@ export const gamesList: GameInfo[] = [
     description:
       "Pule sobre os obstáculos e sobreviva o máximo que puder neste clássico infinito!",
     theme: "theme-dino",
-    coverImage: coverDinoRun, 
+    coverImage: coverDinoRun,
+    hasLeaderboard: true,
   },
 ];
 

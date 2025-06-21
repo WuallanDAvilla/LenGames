@@ -1,8 +1,13 @@
-import { useState, useEffect } from "react";
+// src/components/games/JogoDaCobrinha.tsx
+
+import { useState, useEffect, useCallback } from "react";
+import { useAuth } from "../../contexts/AuthContext";
+import { updateUserHighScore } from "../../firebase";
 import "./JogoDaCobrinha.css";
 
 const GRID_SIZE = 20;
 const TILE_SIZE = 20;
+const GAME_ID = "jogo-da-cobrinha";
 
 type Position = { x: number; y: number };
 
@@ -16,44 +21,56 @@ const createInitialState = () => ({
 
 function getRandomPosition(): Position {
   let position;
+  const initialSnakePos = { x: 10, y: 10 };
   do {
     position = {
       x: Math.floor(Math.random() * GRID_SIZE),
       y: Math.floor(Math.random() * GRID_SIZE),
     };
-  } while (position.x === 10 && position.y === 10);
+  } while (position.x === initialSnakePos.x && position.y === initialSnakePos.y);
   return position;
 }
 
 export function JogoDaCobrinha() {
   const [gameState, setGameState] = useState(createInitialState());
   const [isRunning, setIsRunning] = useState(false);
+  
+  const { currentUser } = useAuth();
+  // CORREÇÃO APLICADA AQUI: 'direction' foi removido da desestruturação
+  const { snake, food, isGameOver, score } = gameState;
 
-  const { snake, food, direction, isGameOver, score } = gameState;
+  useEffect(() => {
+    if (isGameOver && currentUser && score > 0) {
+      updateUserHighScore(currentUser.uid, GAME_ID, score);
+    }
+  }, [isGameOver, score, currentUser]);
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+
+  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
     e.preventDefault();
     if (!isRunning) return;
 
-    switch (e.key) {
-      case "ArrowUp":
-        if (direction.y === 0)
-          setGameState((prev) => ({ ...prev, direction: { x: 0, y: -1 } }));
-        break;
-      case "ArrowDown":
-        if (direction.y === 0)
-          setGameState((prev) => ({ ...prev, direction: { x: 0, y: 1 } }));
-        break;
-      case "ArrowLeft":
-        if (direction.x === 0)
-          setGameState((prev) => ({ ...prev, direction: { x: -1, y: 0 } }));
-        break;
-      case "ArrowRight":
-        if (direction.x === 0)
-          setGameState((prev) => ({ ...prev, direction: { x: 1, y: 0 } }));
-        break;
-    }
-  };
+    setGameState((prev) => {
+      const currentDirection = prev.direction;
+      let newDirection = currentDirection;
+
+      switch (e.key) {
+        case "ArrowUp":
+          if (currentDirection.y === 0) newDirection = { x: 0, y: -1 };
+          break;
+        case "ArrowDown":
+          if (currentDirection.y === 0) newDirection = { x: 0, y: 1 };
+          break;
+        case "ArrowLeft":
+          if (currentDirection.x === 0) newDirection = { x: -1, y: 0 };
+          break;
+        case "ArrowRight":
+          if (currentDirection.x === 0) newDirection = { x: 1, y: 0 };
+          break;
+      }
+      return { ...prev, direction: newDirection };
+    });
+  }, [isRunning]);
 
   const startGame = () => {
     setGameState(createInitialState());
@@ -88,12 +105,16 @@ export function JogoDaCobrinha() {
 
         if (head.x === newFood.x && head.y === newFood.y) {
           newScore += 10;
-          newFood = getRandomPosition();
+          let foodPosition: Position;
+          do {
+            foodPosition = getRandomPosition();
+          } while (newSnake.some(seg => seg.x === foodPosition.x && seg.y === foodPosition.y));
+          newFood = foodPosition;
         } else {
           newSnake.pop();
         }
 
-        return { ...prev, snake: newSnake, score: newScore, food: newFood };
+        return { ...prev, snake: newSnake, score: newScore, food: newFood, isGameOver: false };
       });
     }, 150);
 
@@ -132,7 +153,7 @@ export function JogoDaCobrinha() {
       </div>
       {!isRunning && (
         <div className="game-start-overlay">
-          {isGameOver && <div>Fim de Jogo!</div>}
+          {isGameOver && <div>Fim de Jogo! Pontuação: {score}</div>}
           <button onClick={startGame} className="snake-start-button">
             {isGameOver ? "Jogar Novamente" : "Iniciar Jogo"}
           </button>
