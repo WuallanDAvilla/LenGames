@@ -1,7 +1,9 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom"; 
-import { auth, db } from "../firebase.ts";
+// src/pages/Login.tsx
 
+import { useState } from "react";
+// 1. Importamos useLocation para obter informações da rota
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { auth, db } from "../firebase.ts";
 import { doc, getDoc, writeBatch } from "firebase/firestore";
 import {
   createUserWithEmailAndPassword,
@@ -13,15 +15,22 @@ import "../styles/Login.css";
 
 export function Login() {
   const navigate = useNavigate();
+  const location = useLocation(); // 2. Usamos o hook para acessar a localização
+
+  // 3. Pegamos a página de origem do state, ou definimos a home ("/") como padrão.
+  //    Isso vem do "state" que passamos no componente ProtectedRoute.
+  const from = location.state?.from?.pathname || "/";
+
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isRegistering, setIsRegistering] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true); 
+    setIsLoading(true);
 
     if (isRegistering) {
       if (!name || !username) {
@@ -70,13 +79,15 @@ export function Login() {
           email: user.email,
           photoURL: avatarUrl,
           createdAt: new Date(),
-          geniusHighScore: 0,
+          // Inicializa o objeto de high scores para evitar erros futuros
+          highScores: {},
         });
         batch.set(usernameDocRef, { uid: user.uid });
         await batch.commit();
 
         toast.success("Conta criada com sucesso!");
-        navigate("/");
+        // 4. Redireciona para a página de origem após o cadastro
+        navigate(from, { replace: true });
       } catch (err) {
         console.error(err);
         toast.error("Erro ao criar a conta. Verifique o e-mail.");
@@ -85,13 +96,14 @@ export function Login() {
       try {
         await signInWithEmailAndPassword(auth, email, password);
         toast.success("Login realizado com sucesso!");
-        navigate("/");
+        // 5. Redireciona para a página de origem após o login
+        navigate(from, { replace: true });
       } catch (err) {
         console.error(err);
         toast.error("E-mail ou senha incorretos.");
       }
     }
-    setIsLoading(false); 
+    setIsLoading(false);
   };
 
   return (
