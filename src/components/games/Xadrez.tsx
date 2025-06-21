@@ -1,11 +1,16 @@
+// src/components/games/Xadrez.tsx
+
 import { useState, useEffect } from "react";
 import { Chess } from "chess.js";
 import { Chessboard } from "react-chessboard";
+import { useAuth } from "../../contexts/AuthContext";
+import { LoginToPlay } from "../LoginToPlay";
 import "./Xadrez.css";
 
 type Player = "Brancas" | "Pretas";
 
 export function Xadrez() {
+  const { currentUser } = useAuth();
   const [game, setGame] = useState(new Chess());
 
   function safeGameMutate(modify: (g: Chess) => void) {
@@ -17,27 +22,27 @@ export function Xadrez() {
   }
 
   useEffect(() => {
-    if (game.isGameOver() || game.turn() !== "b") {
+    // A lógica da IA só roda se o usuário estiver logado
+    if (game.isGameOver() || game.turn() !== "b" || !currentUser) {
       return;
     }
 
     const timer = setTimeout(() => {
       const possibleMoves = game.moves();
-
       if (possibleMoves.length === 0) return;
-
       const randomIndex = Math.floor(Math.random() * possibleMoves.length);
       const move = possibleMoves[randomIndex];
-
       safeGameMutate((g) => {
         g.move(move);
       });
-    }, 700); 
+    }, 700);
 
     return () => clearTimeout(timer);
-  }, [game]); 
+  }, [game, currentUser]);
+
   function onDrop(sourceSquare: string, targetSquare: string): boolean {
-    if (game.turn() !== "w") return false;
+    // Ação de mover a peça é protegida
+    if (game.turn() !== "w" || !currentUser) return false;
 
     let moveSuccessful = false;
     safeGameMutate((g) => {
@@ -54,13 +59,19 @@ export function Xadrez() {
   }
 
   function handleReset() {
+    // O reset não precisa de proteção
     safeGameMutate((g) => {
       g.reset();
     });
   }
+
+  // A barreira de login
+  if (!currentUser) {
+    return <LoginToPlay gameName="Xadrez" />;
+  }
+
   const isGameOver = game.isGameOver();
   const isComputerTurn = game.turn() === "b" && !isGameOver;
-
   let gameStatusMessage: string;
   let winner: Player | null = null;
 
@@ -73,6 +84,7 @@ export function Xadrez() {
     gameStatusMessage = "Em andamento";
   }
 
+  // O jogo
   return (
     <div
       className={`chess-container ${isComputerTurn ? "computer-thinking" : ""}`}
@@ -82,7 +94,10 @@ export function Xadrez() {
           position={game.fen()}
           onPieceDrop={onDrop}
           boardWidth={560}
-          arePiecesDraggable={!isGameOver && game.turn() === "w"}
+          // Apenas permite arrastar peças se o usuário estiver logado e não for game over
+          arePiecesDraggable={
+            !isGameOver && game.turn() === "w" && !!currentUser
+          }
         />
       </div>
       <div className="chess-info">

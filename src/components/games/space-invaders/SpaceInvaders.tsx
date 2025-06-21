@@ -1,8 +1,9 @@
 // src/components/games/space-invaders/SpaceInvaders.tsx
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import { useAuth } from "../../../contexts/AuthContext"; // 1. Importado o AuthContext
-import { updateUserHighScore } from "../../../firebase"; // 2. Importada nossa função de ranking
+import { useAuth } from "../../../contexts/AuthContext";
+import { updateUserHighScore } from "../../../firebase";
+import { LoginToPlay } from "../../LoginToPlay";
 import "./SpaceInvaders.css";
 
 // --- Constantes ---
@@ -20,7 +21,7 @@ const PLAYER_PROJECTILE_SPEED = 7;
 const INVADER_PROJECTILE_SPEED = 4;
 const PLAYER_SHOOT_COOLDOWN = 400;
 const INVADER_SHOOT_INTERVAL = 800;
-const GAME_ID = "space-invaders"; // 3. ID do Jogo para o ranking
+const GAME_ID = "space-invaders";
 
 // --- Tipos ---
 type Position = { x: number; y: number };
@@ -43,6 +44,7 @@ const createInvaderFleet = (): Invader[] => {
 
 // --- Componente Principal ---
 export function SpaceInvaders() {
+  const { currentUser } = useAuth();
   const [playerPos, setPlayerPos] = useState<Position>({
     x: GAME_WIDTH / 2 - PLAYER_WIDTH / 2,
     y: GAME_HEIGHT - 50,
@@ -58,14 +60,12 @@ export function SpaceInvaders() {
   const [gameOver, setGameOver] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
 
-  const { currentUser } = useAuth(); // 4. Obtendo o usuário logado
   const [keys, setKeys] = useState<Record<string, boolean>>({});
   const lastInvaderMoveTimeRef = useRef<number>(0);
   const lastPlayerShootTimeRef = useRef<number>(0);
   const lastInvaderShootTimeRef = useRef<number>(0);
   const gameLoopRef = useRef<number | null>(null);
 
-  // 5. Efeito para salvar a pontuação quando o jogo termina
   useEffect(() => {
     if (gameOver && currentUser && score > 0) {
       updateUserHighScore(currentUser.uid, GAME_ID, score);
@@ -88,6 +88,7 @@ export function SpaceInvaders() {
   }, []);
 
   const startGame = () => {
+    if (!currentUser) return;
     setPlayerPos({ x: GAME_WIDTH / 2 - PLAYER_WIDTH / 2, y: GAME_HEIGHT - 50 });
     setPlayerProjectiles([]);
     setInvaders(createInvaderFleet());
@@ -187,7 +188,6 @@ export function SpaceInvaders() {
         }
       }
 
-      // Colisões
       const mutableInvaders = [...invaders];
       const projectilesToRemove = new Set<number>();
       let scoreToAdd = 0;
@@ -250,18 +250,22 @@ export function SpaceInvaders() {
       invaders,
       invaderDirection,
       playerProjectiles,
-      invaderProjectiles, // Removido score das dependências para evitar recriação
+      invaderProjectiles,
     ]
   );
 
   useEffect(() => {
-    if (gameStarted && !gameOver) {
+    if (gameStarted && !gameOver && currentUser) {
       gameLoopRef.current = requestAnimationFrame(gameLoop);
     }
     return () => {
       if (gameLoopRef.current) cancelAnimationFrame(gameLoopRef.current);
     };
-  }, [gameLoop, gameStarted, gameOver]);
+  }, [gameLoop, gameStarted, gameOver, currentUser]);
+
+  if (!currentUser) {
+    return <LoginToPlay gameName="Space Invaders" />;
+  }
 
   return (
     <div className="si-game-wrapper">

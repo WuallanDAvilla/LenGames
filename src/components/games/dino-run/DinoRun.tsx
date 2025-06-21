@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useAuth } from "../../../contexts/AuthContext";
 import { updateUserHighScore } from "../../../firebase";
+import { LoginToPlay } from "../../LoginToPlay";
 import "./DinoRun.css";
 
 // --- Constantes ---
@@ -29,6 +30,7 @@ type Obstacle = {
 
 // --- Componente Principal ---
 export function DinoRun() {
+  const { currentUser } = useAuth();
   const [dinoY, setDinoY] = useState(DINO_INITIAL_Y);
   const [dinoVelocityY, setDinoVelocityY] = useState(0);
   const [isJumping, setIsJumping] = useState(false);
@@ -36,11 +38,8 @@ export function DinoRun() {
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
   const [gameSpeed, setGameSpeed] = useState(INITIAL_GAME_SPEED);
-
   const [gameStarted, setGameStarted] = useState(false);
   const [gameOver, setGameOver] = useState(false);
-
-  const { currentUser } = useAuth();
 
   const nextObstacleTimeRef = useRef<number>(0);
   const gameLoopRef = useRef<number | null>(null);
@@ -58,6 +57,7 @@ export function DinoRun() {
   }, [gameOver, score, currentUser, highScore]);
 
   const resetGame = useCallback(() => {
+    if (!currentUser) return;
     setDinoY(DINO_INITIAL_Y);
     setDinoVelocityY(0);
     setIsJumping(false);
@@ -67,7 +67,7 @@ export function DinoRun() {
     setGameOver(false);
     setGameStarted(true);
     nextObstacleTimeRef.current = 0;
-  }, []);
+  }, [currentUser]);
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
@@ -85,31 +85,30 @@ export function DinoRun() {
   );
 
   useEffect(() => {
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [handleKeyDown]);
+    // Adiciona o listener apenas se o usuário estiver logado
+    if (currentUser) {
+      window.addEventListener("keydown", handleKeyDown);
+      return () => window.removeEventListener("keydown", handleKeyDown);
+    }
+  }, [handleKeyDown, currentUser]);
 
-  // A LÓGICA CORRIGIDA ESTÁ AQUI 👇
   const gameLoop = useCallback(() => {
     if (!gameStarted || gameOver) return;
 
-    // --- Atualização da Física ---
+    // --- Física do Pulo ---
     let newVelocityY = dinoVelocityY - GRAVITY;
     let newDinoY = dinoY + newVelocityY;
-
     if (newDinoY <= GROUND_HEIGHT) {
       newDinoY = GROUND_HEIGHT;
       newVelocityY = 0;
       setIsJumping(false);
     }
-
     setDinoY(newDinoY);
     setDinoVelocityY(newVelocityY);
 
-    // --- Atualização dos Obstáculos ---
+    // --- Lógica dos Obstáculos ---
     let newObstacles = [...obstacles];
     const now = performance.now();
-
     if (now > nextObstacleTimeRef.current) {
       const minInterval = 600;
       const maxInterval = 1800;
@@ -122,11 +121,9 @@ export function DinoRun() {
         height: 30 + Math.random() * 30,
       });
     }
-
     newObstacles = newObstacles
       .map((obs) => ({ ...obs, x: obs.x - gameSpeed }))
       .filter((obs) => obs.x > -obs.width);
-
     setObstacles(newObstacles);
 
     // --- Verificação de Colisão ---
@@ -137,7 +134,6 @@ export function DinoRun() {
       height: DINO_HEIGHT,
     };
     for (const obs of newObstacles) {
-      // Usa a lista de obstáculos atualizada
       if (
         dinoHitbox.x < obs.x + obs.width &&
         dinoHitbox.x + dinoHitbox.width > obs.x &&
@@ -168,19 +164,23 @@ export function DinoRun() {
   ]);
 
   useEffect(() => {
-    if (gameStarted && !gameOver) {
+    if (gameStarted && !gameOver && currentUser) {
       gameContainerRef.current?.focus();
       gameLoopRef.current = requestAnimationFrame(gameLoop);
     }
     return () => {
       if (gameLoopRef.current) cancelAnimationFrame(gameLoopRef.current);
     };
-  }, [gameStarted, gameOver, gameLoop]);
+  }, [gameStarted, gameOver, gameLoop, currentUser]);
 
   const displayScore = Math.floor(score / 10)
     .toString()
     .padStart(5, "0");
   const displayHighScore = Math.floor(highScore).toString().padStart(5, "0");
+
+  if (!currentUser) {
+    return <LoginToPlay gameName="Corrida do Dino" />;
+  }
 
   return (
     <div
@@ -193,7 +193,6 @@ export function DinoRun() {
         <span>HI {displayHighScore}</span>
         <span>{displayScore}</span>
       </div>
-
       {(!gameStarted || gameOver) && (
         <div className="dr-message-overlay">
           <span>
@@ -201,7 +200,6 @@ export function DinoRun() {
           </span>
         </div>
       )}
-
       <div
         className={`dr-ground ${gameStarted && !gameOver ? "scrolling" : ""}`}
         style={{
@@ -212,7 +210,6 @@ export function DinoRun() {
         className={`dr-dino ${gameOver ? "dead" : ""}`}
         style={{ bottom: `${dinoY}px` }}
       />
-
       {obstacles.map((obs) => (
         <div
           key={obs.id}

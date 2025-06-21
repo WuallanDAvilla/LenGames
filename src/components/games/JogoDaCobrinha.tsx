@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { updateUserHighScore } from "../../firebase";
+import { LoginToPlay } from "../LoginToPlay"; // Importamos nossa barreira
 import "./JogoDaCobrinha.css";
 
 const GRID_SIZE = 20;
@@ -27,16 +28,18 @@ function getRandomPosition(): Position {
       x: Math.floor(Math.random() * GRID_SIZE),
       y: Math.floor(Math.random() * GRID_SIZE),
     };
-  } while (position.x === initialSnakePos.x && position.y === initialSnakePos.y);
+  } while (
+    position.x === initialSnakePos.x &&
+    position.y === initialSnakePos.y
+  );
   return position;
 }
 
 export function JogoDaCobrinha() {
   const [gameState, setGameState] = useState(createInitialState());
   const [isRunning, setIsRunning] = useState(false);
-  
+
   const { currentUser } = useAuth();
-  // CORREÇÃO APLICADA AQUI: 'direction' foi removido da desestruturação
   const { snake, food, isGameOver, score } = gameState;
 
   useEffect(() => {
@@ -45,40 +48,43 @@ export function JogoDaCobrinha() {
     }
   }, [isGameOver, score, currentUser]);
 
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLDivElement>) => {
+      e.preventDefault();
+      if (!isRunning) return;
 
-  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    if (!isRunning) return;
-
-    setGameState((prev) => {
-      const currentDirection = prev.direction;
-      let newDirection = currentDirection;
-
-      switch (e.key) {
-        case "ArrowUp":
-          if (currentDirection.y === 0) newDirection = { x: 0, y: -1 };
-          break;
-        case "ArrowDown":
-          if (currentDirection.y === 0) newDirection = { x: 0, y: 1 };
-          break;
-        case "ArrowLeft":
-          if (currentDirection.x === 0) newDirection = { x: -1, y: 0 };
-          break;
-        case "ArrowRight":
-          if (currentDirection.x === 0) newDirection = { x: 1, y: 0 };
-          break;
-      }
-      return { ...prev, direction: newDirection };
-    });
-  }, [isRunning]);
+      setGameState((prev) => {
+        const currentDirection = prev.direction;
+        let newDirection = currentDirection;
+        switch (e.key) {
+          case "ArrowUp":
+            if (currentDirection.y === 0) newDirection = { x: 0, y: -1 };
+            break;
+          case "ArrowDown":
+            if (currentDirection.y === 0) newDirection = { x: 0, y: 1 };
+            break;
+          case "ArrowLeft":
+            if (currentDirection.x === 0) newDirection = { x: -1, y: 0 };
+            break;
+          case "ArrowRight":
+            if (currentDirection.x === 0) newDirection = { x: 1, y: 0 };
+            break;
+        }
+        return { ...prev, direction: newDirection };
+      });
+    },
+    [isRunning]
+  );
 
   const startGame = () => {
+    // Impede o início do jogo se não houver usuário
+    if (!currentUser) return;
     setGameState(createInitialState());
     setIsRunning(true);
   };
 
   useEffect(() => {
-    if (!isRunning || isGameOver) return;
+    if (!isRunning || isGameOver || !currentUser) return;
 
     const gameInterval = setInterval(() => {
       setGameState((prev) => {
@@ -100,27 +106,40 @@ export function JogoDaCobrinha() {
           setIsRunning(false);
           return { ...prev, isGameOver: true };
         }
-
         newSnake.unshift(head);
-
         if (head.x === newFood.x && head.y === newFood.y) {
           newScore += 10;
           let foodPosition: Position;
           do {
             foodPosition = getRandomPosition();
-          } while (newSnake.some(seg => seg.x === foodPosition.x && seg.y === foodPosition.y));
+          } while (
+            newSnake.some(
+              (seg) => seg.x === foodPosition.x && seg.y === foodPosition.y
+            )
+          );
           newFood = foodPosition;
         } else {
           newSnake.pop();
         }
-
-        return { ...prev, snake: newSnake, score: newScore, food: newFood, isGameOver: false };
+        return {
+          ...prev,
+          snake: newSnake,
+          score: newScore,
+          food: newFood,
+          isGameOver: false,
+        };
       });
     }, 150);
 
     return () => clearInterval(gameInterval);
-  }, [isRunning, isGameOver]);
+  }, [isRunning, isGameOver, currentUser]);
 
+  // Se o usuário não estiver logado, mostra a tela de convite para login.
+  if (!currentUser) {
+    return <LoginToPlay gameName="Jogo da Cobrinha" />;
+  }
+
+  // Se o usuário estiver logado, mostra o jogo normalmente.
   return (
     <div
       className="snake-game-container"

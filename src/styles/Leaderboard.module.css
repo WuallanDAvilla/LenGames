@@ -1,24 +1,29 @@
-/* src/styles/Leaderboard.css */
+/* src/styles/Leaderboard.module.css */
 
-.leaderboard-header {
+.leaderboardHeader {
   text-align: center;
   margin-bottom: 3rem;
 }
 
-.leaderboards-grid {
-  display: grid;
-  /* Diminuímos o tamanho mínimo para permitir que mais cards caibam em telas médias */
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem; /* Reduzimos um pouco o espaçamento */
+/* Adicionamos uma classe para o subtítulo para podermos referenciá-la no TSX */
+.sectionSubtitle {
+  color: var(--cor-texto-secundario, #9ca3af);
+  margin-top: 0.5rem;
 }
 
-.leaderboard-card {
+.leaderboardsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+.leaderboardCard {
   display: flex;
   flex-direction: column;
   background-color: var(--cor-fundo-card, #1f2937);
   border: 1px solid var(--cor-borda, #374151);
   border-radius: var(--raio-borda, 8px);
-  padding: 1.25rem; /* Reduzimos o padding */
+  padding: 1.5rem;
   box-shadow: var(
     --sombra-card,
     0 4px 6px -1px rgba(0, 0, 0, 0.1),
@@ -26,18 +31,18 @@
   );
 }
 
-.leaderboard-card-title {
-  font-size: 1.5rem; /* Reduzimos o título */
+.leaderboardCardTitle {
+  font-size: 1.75rem;
   font-weight: 700;
   text-align: center;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   color: var(--cor-texto-principal, #f9fafb);
   border-bottom: 2px solid var(--cor-destaque, #e74c3c);
-  padding-bottom: 0.5rem;
+  padding-bottom: 0.75rem;
 }
 
-.leaderboard-table-container {
-  overflow-x: auto; /* Permite scroll horizontal apenas se estritamente necessário */
+.leaderboardTableContainer {
+  overflow: hidden;
   flex-grow: 1;
 }
 
@@ -49,7 +54,7 @@ table {
 
 th,
 td {
-  padding: 0.75rem 0.5rem; /* Padding reduzido para mais espaço */
+  padding: 1rem;
   text-align: left;
   vertical-align: middle;
 }
@@ -59,9 +64,10 @@ thead {
 }
 
 th {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 600;
   text-transform: uppercase;
+  letter-spacing: 0.5px;
   color: var(--cor-texto-secundario, #9ca3af);
   white-space: nowrap;
 }
@@ -75,54 +81,43 @@ tbody tr:last-child {
   border-bottom: none;
 }
 
-/* --- COLUNAS COM LARGURA FLEXÍVEL (A GRANDE MUDANÇA) --- */
-.rank-cell {
-  width: 15%; /* Ocupa 15% do espaço */
+tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.rankCell {
+  width: 15%;
   text-align: center;
-  font-size: 1.1rem;
+  font-size: 1.25rem;
   font-weight: 700;
   white-space: nowrap;
 }
 
-.player-cell {
-  width: 60%; /* Ocupa a maior parte do espaço */
-}
-
-.score-cell {
-  width: 25%; /* Ocupa 25% do espaço */
-  text-align: right;
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: var(--cor-sucesso, #10b981);
-  white-space: nowrap;
-}
-th.score-cell,
-th.rank-cell {
-  text-align: center;
-}
-
-.rank-icon {
-  margin-right: 0.25rem;
+.rankIcon {
+  margin-right: 0.5rem;
   vertical-align: middle;
-  font-size: 0.9rem;
 }
 
-.player-cell a {
+.playerCell {
+  width: 60%;
+}
+
+.playerCell a {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 1rem;
   text-decoration: none;
   color: inherit;
   transition: var(--transicao-padrao, color 0.2s);
 }
 
-.player-cell a:hover span {
+.playerCell a:hover span {
   color: var(--cor-destaque, #e74c3c);
 }
 
-.player-avatar {
-  width: 35px;
-  height: 35px;
+.playerAvatar {
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   border: 2px solid transparent;
   background-color: var(--cor-fundo, #111827);
@@ -130,30 +125,44 @@ th.rank-cell {
   flex-shrink: 0;
 }
 
-tr.podium {
+.scoreCell {
+  width: 25%;
+  text-align: right;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--cor-sucesso, #10b981);
+  white-space: nowrap;
+}
+
+th.scoreCell,
+th.rankCell {
+  text-align: center;
+}
+
+.podium {
   background-color: rgba(255, 255, 255, 0.02);
 }
 
-tr.top-1 {
+.top-1 {
   --podium-color: #facc15;
 }
-tr.top-2 {
+.top-2 {
   --podium-color: #d1d5db;
 }
-tr.top-3 {
+.top-3 {
   --podium-color: #f59e0b;
 }
 
-tr.podium .rank-cell {
+.podium .rankCell {
   color: var(--podium-color);
 }
 
-tr.podium .player-avatar {
+.podium .playerAvatar {
   border-color: var(--podium-color);
 }
 
-.no-players-message,
-.loading-message {
+.noPlayersMessage,
+.loadingMessage {
   display: flex;
   justify-content: center;
   align-items: center;

@@ -2,14 +2,14 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "../../contexts/AuthContext";
-// Importe a NOVA função do firebase.ts
 import { updateUserHighScore } from "../../firebase";
 import { db } from "../../firebase";
 import { doc, getDoc } from "firebase/firestore";
+import { LoginToPlay } from "../LoginToPlay"; // Importamos a barreira
 import "./JogoDaMemorias.css";
 
 const colors = ["green", "red", "yellow", "blue"];
-const GAME_ID = "genius"; // Definimos o ID do jogo como uma constante
+const GAME_ID = "genius";
 
 type WindowWithAudioContext = Window &
   typeof globalThis & {
@@ -32,20 +32,20 @@ export function JogoDaMemoria() {
     const userDocSnap = await getDoc(userDocRef);
 
     if (userDocSnap.exists()) {
-      // Buscamos o score do objeto highScores
       setHighScore(userDocSnap.data().highScores?.[GAME_ID] || 0);
     }
   }, [currentUser]);
 
   useEffect(() => {
-    fetchHighScore();
-  }, [fetchHighScore]);
+    // Busca o high score apenas se o usuário estiver logado
+    if (currentUser) {
+      fetchHighScore();
+    }
+  }, [currentUser, fetchHighScore]);
 
-  // A função de update agora é um wrapper para a nossa função centralizada
   const handleGameEnd = async (finalScore: number) => {
     if (currentUser) {
       await updateUserHighScore(currentUser.uid, GAME_ID, finalScore);
-      // Atualiza o high score local se for o caso
       if (finalScore > highScore) {
         setHighScore(finalScore);
       }
@@ -96,6 +96,7 @@ export function JogoDaMemoria() {
   }, []);
 
   const startGame = () => {
+    if (!currentUser) return; // Protege o início do jogo
     setSequence([]);
     setPlayerSequence([]);
     setScore(0);
@@ -105,7 +106,7 @@ export function JogoDaMemoria() {
   };
 
   useEffect(() => {
-    if (isGameActive && sequence.length > 0) {
+    if (isGameActive && sequence.length > 0 && currentUser) {
       setMessage("Observe a sequência...");
       const showSequence = (index = 0) => {
         if (index < sequence.length) {
@@ -121,10 +122,10 @@ export function JogoDaMemoria() {
       };
       showSequence();
     }
-  }, [sequence, isGameActive]);
+  }, [sequence, isGameActive, currentUser]);
 
   const handlePlayerClick = (color: string) => {
-    if (!isGameActive || message !== "Sua vez!") return;
+    if (!isGameActive || message !== "Sua vez!" || !currentUser) return;
     playSound(color);
     const newPlayerSequence = [...playerSequence, color];
     setPlayerSequence(newPlayerSequence);
@@ -134,7 +135,7 @@ export function JogoDaMemoria() {
     ) {
       setMessage(`Fim de jogo! Sua pontuação: ${score}.`);
       setIsGameActive(false);
-      handleGameEnd(score); // Usamos a nova função de fim de jogo
+      handleGameEnd(score);
       return;
     }
     if (newPlayerSequence.length === sequence.length) {
@@ -144,6 +145,12 @@ export function JogoDaMemoria() {
     }
   };
 
+  // Se o usuário não estiver logado, mostra a tela de convite para login.
+  if (!currentUser) {
+    return <LoginToPlay gameName="Jogo da Memória (Genius)" />;
+  }
+
+  // Se o usuário estiver logado, mostra o jogo normalmente.
   return (
     <div className="genius-container">
       <div className="genius-board">

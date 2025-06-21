@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { GlobalLoader } from "../components/GlobalLoader";
 import { fetchTopPlayersForGame } from "../firebase";
 import { gamesList, type GameInfo } from "../data/gamesData";
-import "../styles/Leaderboard.css";
+import styles from "../styles/Leaderboard.module.css";
 
 interface PlayerData {
   id: string;
@@ -26,48 +26,53 @@ const GameLeaderboard = ({
   players,
   isLoading,
 }: GameLeaderboardProps) => (
-  <div className="leaderboard-card">
-    <h2 className="leaderboard-card-title">{game.name}</h2>
-    <div className="leaderboard-table-container">
+  <div className={styles.leaderboardCard}>
+    <h2 className={styles.leaderboardCardTitle}>{game.name}</h2>
+    <div className={styles.leaderboardTableContainer}>
       {isLoading ? (
-        <p className="loading-message">Carregando ranking...</p>
+        <p className={styles.loadingMessage}>Carregando ranking...</p>
       ) : players.length > 0 ? (
         <table>
           <thead>
             <tr>
-              {/* MUDANÇA AQUI: Cabeçalhos ainda mais compactos */}
-              <th className="rank-cell">#</th>
+              <th className={styles.rankCell}>#</th>
               <th>Jogador</th>
-              <th className="score-cell">Pts</th>
+              <th className={styles.scoreCell}>Pts</th>
             </tr>
           </thead>
           <tbody>
             {players.map((player: PlayerData, index: number) => (
               <tr
                 key={player.id}
-                className={index < 3 ? `podium top-${index + 1}` : ""}
+                className={
+                  index < 3
+                    ? `${styles.podium} ${styles[`top-${index + 1}`]}`
+                    : ""
+                }
               >
-                <td className="rank-cell">
-                  <span className="rank-icon">{index < 3 ? "🏆" : ""}</span>
+                <td className={styles.rankCell}>
+                  <span className={styles.rankIcon}>
+                    {index < 3 ? "🏆" : ""}
+                  </span>
                   {index + 1}
                 </td>
-                <td className="player-cell">
+                <td className={styles.playerCell}>
                   <Link to={`/perfil/${player.username}`}>
                     <img
                       src={player.avatarUrl}
                       alt={player.name}
-                      className="player-avatar"
+                      className={styles.playerAvatar}
                     />
                     <span>{player.name}</span>
                   </Link>
                 </td>
-                <td className="score-cell">{player.highScore}</td>
+                <td className={styles.scoreCell}>{player.highScore}</td>
               </tr>
             ))}
           </tbody>
         </table>
       ) : (
-        <p className="no-players-message">
+        <p className={styles.noPlayersMessage}>
           Ninguém marcou pontos neste jogo ainda. Que tal ser o primeiro?
         </p>
       )}
@@ -122,13 +127,13 @@ export function Leaderboard() {
 
   return (
     <div className="container">
-      <div className="leaderboard-header">
+      <div className={styles.leaderboardHeader}>
         <h1>🏆 Hall da Fama 🏆</h1>
-        <p className="section-subtitle">
+        <p className={styles.sectionSubtitle}>
           Confira os melhores jogadores em cada um dos nossos jogos!
         </p>
       </div>
-      <div className="leaderboards-grid">
+      <div className={styles.leaderboardsGrid}>
         {gamesWithLeaderboard.map((game: GameInfo) => (
           <GameLeaderboard
             key={game.id}

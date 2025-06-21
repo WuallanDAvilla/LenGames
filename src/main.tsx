@@ -1,8 +1,12 @@
+// src/main.tsx
+
 import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-import "./index.css"; 
+import "./index.css";
+// A importação do Leaderboard.css foi removida daqui
+
 import { AuthProvider } from "./contexts/AuthContext.tsx";
 import { ProtectedRoute } from "./components/ProtectedRoute.tsx";
 import { Layout } from "./components/Layout.tsx";

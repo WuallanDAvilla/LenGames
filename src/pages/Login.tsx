@@ -1,9 +1,8 @@
 // src/pages/Login.tsx
 
 import { useState } from "react";
-// 1. Importamos useLocation para obter informações da rota
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { auth, db } from "../firebase.ts";
+import { auth, db } from "../firebase";
 import { doc, getDoc, writeBatch } from "firebase/firestore";
 import {
   createUserWithEmailAndPassword,
@@ -15,17 +14,19 @@ import "../styles/Login.css";
 
 export function Login() {
   const navigate = useNavigate();
-  const location = useLocation(); // 2. Usamos o hook para acessar a localização
+  const location = useLocation();
 
-  // 3. Pegamos a página de origem do state, ou definimos a home ("/") como padrão.
-  //    Isso vem do "state" que passamos no componente ProtectedRoute.
+  // Pega a página de origem do state, ou define a home ("/") como padrão.
   const from = location.state?.from?.pathname || "/";
+  // Verifica se devemos começar na tela de registro.
+  const [isRegistering, setIsRegistering] = useState(
+    location.state?.isRegistering || false
+  );
 
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isRegistering, setIsRegistering] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleAuth = async (e: React.FormEvent) => {
@@ -79,14 +80,12 @@ export function Login() {
           email: user.email,
           photoURL: avatarUrl,
           createdAt: new Date(),
-          // Inicializa o objeto de high scores para evitar erros futuros
           highScores: {},
         });
         batch.set(usernameDocRef, { uid: user.uid });
         await batch.commit();
 
         toast.success("Conta criada com sucesso!");
-        // 4. Redireciona para a página de origem após o cadastro
         navigate(from, { replace: true });
       } catch (err) {
         console.error(err);
@@ -96,7 +95,6 @@ export function Login() {
       try {
         await signInWithEmailAndPassword(auth, email, password);
         toast.success("Login realizado com sucesso!");
-        // 5. Redireciona para a página de origem após o login
         navigate(from, { replace: true });
       } catch (err) {
         console.error(err);
