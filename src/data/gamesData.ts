@@ -2,11 +2,11 @@
 
 import coverTicTacToe from "../assets/game-covers/jogodavelha.png";
 import coverGenius from "../assets/game-covers/jogodamemoria.png";
-import coverSnake from "../assets/game-covers/jogodamemoria.png";
-import coverChess from "../assets/game-covers/jogodamemoria.png";
-import coverTetris from "../assets/game-covers/jogodamemoria.png";
-import coverSpaceInvaders from "../assets/game-covers/jogodamemoria.png";
-import coverDinoRun from "../assets/game-covers/jogodamemoria.png";
+import coverSnake from "../assets/game-covers/jogodacobrinha.png";
+import coverChess from "../assets/game-covers/xadrez.png";
+import coverTetris from "../assets/game-covers/tetris.png";
+import coverSpaceInvaders from "../assets/game-covers/spaceinvaders.png";
+import coverDinoRun from "../assets/game-covers/dinorun.png";
 
 export interface GameInfo {
   id: string;
