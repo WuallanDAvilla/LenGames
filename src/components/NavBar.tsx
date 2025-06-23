@@ -1,18 +1,18 @@
+// ARQUIVO: src/components/NavBar.tsx
+
 import { useState } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext.tsx";
-import { signOut } from "firebase/auth";
-import { auth } from "../firebase.ts";
 import "./NavBar.css";
 
 export function NavBar() {
-  const { currentUser } = useAuth();
+  const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const handleLogout = async () => {
     setDropdownOpen(false);
-    await signOut(auth);
+    await logout();
     navigate("/login");
   };
 
@@ -51,7 +51,9 @@ export function NavBar() {
                   alt="Avatar do usuário"
                   className="navbar-avatar"
                 />
-                <span>{currentUser.displayName || "Perfil"}</span>
+                <span>
+                  {currentUser.displayName?.split(" ")[0] || "Perfil"}
+                </span>
                 <span className="arrow-down">▼</span>
               </button>
               {dropdownOpen && (

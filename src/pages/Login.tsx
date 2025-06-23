@@ -1,8 +1,8 @@
-// src/pages/Login.tsx
+// ARQUIVO CORRIGIDO E COMPLETO: src/pages/Login.tsx
 
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { auth, db } from "../firebase";
+import { db, auth } from "../firebase";
 import { doc, getDoc, writeBatch } from "firebase/firestore";
 import {
   createUserWithEmailAndPassword,
@@ -11,14 +11,14 @@ import {
 } from "firebase/auth";
 import toast from "react-hot-toast";
 import "../styles/Login.css";
+import { useAuth } from "../contexts/AuthContext";
 
 export function Login() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { signInWithGoogle } = useAuth();
 
-  // Pega a página de origem do state, ou define a home ("/") como padrão.
   const from = location.state?.from?.pathname || "/";
-  // Verifica se devemos começar na tela de registro.
   const [isRegistering, setIsRegistering] = useState(
     location.state?.isRegistering || false
   );
@@ -29,6 +29,21 @@ export function Login() {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  // ✨ ADICIONADO: Handler para o login com Google
+  const handleGoogleLogin = async () => {
+    setIsLoading(true);
+    try {
+      await signInWithGoogle();
+      toast.success("Login com Google realizado com sucesso!");
+      navigate(from, { replace: true });
+    } catch (error) {
+      console.error(error);
+      toast.error("Falha no login com Google. Tente novamente.");
+    }
+    setIsLoading(false);
+  };
+
+  // ✨ RESTAURADO: Sua função original de autenticação por e-mail
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -110,6 +125,8 @@ export function Login() {
         <Link to="/" className="login-logo">
           LenGames
         </Link>
+
+        {/* ✨ RESTAURADO: Seu formulário original completo */}
         <form onSubmit={handleAuth} className="login-form">
           <h1 className="form-title">
             {isRegistering ? "Criar Conta" : "Conecte-se"}
@@ -173,18 +190,32 @@ export function Login() {
               ? "Cadastrar"
               : "Entrar"}
           </button>
-
-          <button
-            type="button"
-            onClick={() => setIsRegistering(!isRegistering)}
-            className="toggle-auth-button"
-            disabled={isLoading}
-          >
-            {isRegistering
-              ? "Já tem uma conta? Faça Login"
-              : "Não tem uma conta? Cadastre-se"}
-          </button>
         </form>
+
+        {/* ✨ ADICIONADO: Divisor e botão Google fora do formulário */}
+        <div className="separator">
+          <span>OU</span>
+        </div>
+
+        <button
+          onClick={handleGoogleLogin}
+          className="google-auth-button"
+          disabled={isLoading}
+        >
+          Entrar com Google
+        </button>
+
+        {/* ✨ RESTAURADO: Seu botão de toggle original */}
+        <button
+          type="button"
+          onClick={() => setIsRegistering(!isRegistering)}
+          className="toggle-auth-button"
+          disabled={isLoading}
+        >
+          {isRegistering
+            ? "Já tem uma conta? Faça Login"
+            : "Não tem uma conta? Cadastre-se"}
+        </button>
       </div>
     </main>
   );

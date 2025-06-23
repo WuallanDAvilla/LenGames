@@ -1,7 +1,7 @@
-// src/firebase.ts
+// ARQUIVO: src/firebase.ts
 
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import {
   getFirestore,
   doc,
@@ -28,6 +28,8 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 
+export const googleProvider = new GoogleAuthProvider();
+
 /**
  * Atualiza o high score de um usuário para um jogo específico.
  * Só atualiza se a nova pontuação for maior que a anterior.
@@ -46,9 +48,6 @@ export const updateUserHighScore = async (
 
   try {
     const userDocSnap = await getDoc(userDocRef);
-
-    // Estrutura de dados: highScores: { genius: 10, tetris: 500 }
-    // Usamos a notação de ponto para acessar campos aninhados.
     const currentHighScore = userDocSnap.data()?.highScores?.[gameId] || 0;
 
     if (newScore > currentHighScore) {
@@ -59,7 +58,7 @@ export const updateUserHighScore = async (
             [gameId]: newScore,
           },
         },
-        { merge: true } // ESSENCIAL para não sobrescrever outros scores!
+        { merge: true }
       );
       console.log(`High score para ${gameId} atualizado para ${newScore}!`);
     }
@@ -87,7 +86,6 @@ export const fetchTopPlayersForGame = async (gameId: string, count: number) => {
   return querySnapshot.docs
     .map((doc) => {
       const data = doc.data();
-      // Garante que o jogador só apareça se tiver uma pontuação para esse jogo
       if (data.highScores && data.highScores[gameId] !== undefined) {
         return {
           id: doc.id,
@@ -101,5 +99,5 @@ export const fetchTopPlayersForGame = async (gameId: string, count: number) => {
       }
       return null;
     })
-    .filter((player) => player !== null); // Remove entradas nulas
+    .filter((player) => player !== null);
 };
