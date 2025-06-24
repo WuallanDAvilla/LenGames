@@ -119,7 +119,7 @@ export function Login() {
     <main className="login-page-container">
       <div className="login-wrapper">
         <Link to="/" className="login-logo">
-          LenGames
+          PixelRush
         </Link>
 
         <form onSubmit={handleAuth} className="login-form">

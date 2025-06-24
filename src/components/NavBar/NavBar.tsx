@@ -20,7 +20,7 @@ export function NavBar() {
     <nav className="navbar">
       <div className="navbar-container">
         <Link to="/" className="navbar-logo" onClick={closeDropdown}>
-          LenGames
+          PixelRush
         </Link>
         <div className="navbar-links">
           <NavLink to="/" className="nav-item" onClick={closeDropdown} end>

@@ -6,7 +6,7 @@ export function Home() {
     <div className="home-container">
       <section className="home-hero">
         <h1 className="home-title">
-          Bem-vindo ao <span className="highlight-text">LenGames</span>
+          Bem-vindo ao <span className="highlight-text">PixelRush</span>
         </h1>
         <p className="home-subtitle">
           Sua plataforma para descobrir e se divertir com minijogos incríveis.

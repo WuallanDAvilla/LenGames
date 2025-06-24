@@ -8,7 +8,7 @@ export function Footer() {
     <footer className="footer">
       <div className="footer-container">
         <div className="footer-section">
-          <h4>LenGames</h4>
+          <h4>PixelRush</h4>
           <p>Sua plataforma de mini-jogos para se divertir a qualquer hora.</p>
         </div>
         <div className="footer-section">
@@ -39,7 +39,7 @@ export function Footer() {
         </div>
       </div>
       <div className="footer-bottom">
-        <p>© {currentYear} LenGames. Todos os direitos reservados.</p>
+        <p>© {currentYear} PixelRush. Todos os direitos reservados.</p>
       </div>
     </footer>
   );
