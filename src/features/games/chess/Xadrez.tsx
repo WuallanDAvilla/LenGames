@@ -1,5 +1,3 @@
-// src/components/games/Xadrez.tsx
-
 import { useState, useEffect } from "react";
 import { Chess } from "chess.js";
 import { Chessboard } from "react-chessboard";
@@ -22,7 +20,6 @@ export function Xadrez() {
   }
 
   useEffect(() => {
-    // A lógica da IA só roda se o usuário estiver logado
     if (game.isGameOver() || game.turn() !== "b" || !currentUser) {
       return;
     }
@@ -41,7 +38,6 @@ export function Xadrez() {
   }, [game, currentUser]);
 
   function onDrop(sourceSquare: string, targetSquare: string): boolean {
-    // Ação de mover a peça é protegida
     if (game.turn() !== "w" || !currentUser) return false;
 
     let moveSuccessful = false;
@@ -59,13 +55,11 @@ export function Xadrez() {
   }
 
   function handleReset() {
-    // O reset não precisa de proteção
     safeGameMutate((g) => {
       g.reset();
     });
   }
 
-  // A barreira de login
   if (!currentUser) {
     return <LoginToPlay gameName="Xadrez" />;
   }
@@ -84,7 +78,6 @@ export function Xadrez() {
     gameStatusMessage = "Em andamento";
   }
 
-  // O jogo
   return (
     <div
       className={`chess-container ${isComputerTurn ? "computer-thinking" : ""}`}
@@ -94,7 +87,6 @@ export function Xadrez() {
           position={game.fen()}
           onPieceDrop={onDrop}
           boardWidth={560}
-          // Apenas permite arrastar peças se o usuário estiver logado e não for game over
           arePiecesDraggable={
             !isGameOver && game.turn() === "w" && !!currentUser
           }

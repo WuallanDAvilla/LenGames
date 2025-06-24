@@ -10,7 +10,6 @@
   outline: none;
 }
 
-/* NOVO: Estilos para a UI (Score) */
 .dr-ui {
   position: absolute;
   top: 10px;
@@ -71,8 +70,7 @@
   );
 }
 
-/* NOVO: Estilos para os Obstáculos (Cactos) */
 .dr-obstacle {
   position: absolute;
-  background-color: #2ecc71; /* Verde cacto */
+  background-color: #2ecc71; 
 }

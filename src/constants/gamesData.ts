@@ -1,5 +1,3 @@
-// src/components/games/data/gamesData.ts
-
 import coverTicTacToe from "../assets/game-covers/jogodavelha.png";
 import coverGenius from "../assets/game-covers/jogodamemoria.png";
 import coverSnake from "../assets/game-covers/jogodacobrinha.png";
@@ -14,7 +12,7 @@ export interface GameInfo {
   description: string;
   theme: string;
   coverImage: string;
-  hasLeaderboard?: boolean; // Propriedade adicionada!
+  hasLeaderboard?: boolean; 
 }
 
 export const gamesList: GameInfo[] = [
@@ -24,7 +22,6 @@ export const gamesList: GameInfo[] = [
     description: "O clássico atemporal. Desafie um amigo ou o computador.",
     theme: "theme-tictactoe",
     coverImage: coverTicTacToe,
-    // hasLeaderboard: false (padrão)
   },
   {
     id: "genius",

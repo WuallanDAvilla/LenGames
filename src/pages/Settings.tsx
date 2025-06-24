@@ -1,10 +1,6 @@
-// ARQUIVO FINAL, CORRIGIDO E SEM ERROS: src/pages/Settings.tsx
-
 import { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
-// CORREÇÃO 1: O tipo 'User' foi removido, pois não era utilizado.
 import { updatePassword, deleteUser, updateProfile } from "firebase/auth";
-// CORREÇÃO 2: Importamos o tipo 'FirebaseError' para tratar os erros corretamente.
 import { FirebaseError } from "firebase/app";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -64,7 +60,6 @@ export function Settings() {
     toast.promise(promise, {
       loading: "Atualizando senha...",
       success: "Senha atualizada!",
-      // CORREÇÃO 3: Usamos 'FirebaseError' para verificar o código do erro sem usar 'any'.
       error: (err) => {
         if (err instanceof FirebaseError && err.code === "auth/requires-recent-login") {
           return "Esta operação é sensível. Faça login novamente para continuar.";
@@ -92,7 +87,7 @@ export function Settings() {
         await deleteUser(currentUser);
         toast.success("Sua conta foi excluída com sucesso.");
         navigate("/login");
-      } catch (err) { // O tipo 'unknown' padrão do catch é aceitável aqui.
+      } catch (err) {
         console.error("Erro ao excluir a conta:", err);
         toast.error("Erro ao excluir. Faça login novamente e tente de novo.");
       }
@@ -102,7 +97,6 @@ export function Settings() {
   };
 
   return (
-    // Seu JSX permanece exatamente o mesmo, sem nenhuma alteração.
     <div className="container settings-page-container">
       <div className="settings-content-wrapper">
         <header className="settings-header">

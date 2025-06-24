@@ -17,7 +17,7 @@ const displayStyle: React.CSSProperties = {
   borderRadius: "20px",
   color: "var(--cor-texto-secundario)",
   background: "var(--cor-fundo)",
-  fontFamily: '"Press Start 2P", sans-serif', // Uma fonte estilo pixel seria legal aqui
+  fontFamily: '"Press Start 2P", sans-serif', 
   fontSize: "1rem",
 };
 

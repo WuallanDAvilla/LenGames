@@ -1,5 +1,3 @@
-// src/components/games/JogoDaMemoria.tsx
-
 import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "../../../contexts/AuthContext";
 import { updateUserHighScore } from "../../../services/firebase";
@@ -37,7 +35,6 @@ export function JogoDaMemoria() {
   }, [currentUser]);
 
   useEffect(() => {
-    // Busca o high score apenas se o usuário estiver logado
     if (currentUser) {
       fetchHighScore();
     }
@@ -96,7 +93,7 @@ export function JogoDaMemoria() {
   }, []);
 
   const startGame = () => {
-    if (!currentUser) return; // Protege o início do jogo
+    if (!currentUser) return; 
     setSequence([]);
     setPlayerSequence([]);
     setScore(0);
@@ -145,12 +142,10 @@ export function JogoDaMemoria() {
     }
   };
 
-  // Se o usuário não estiver logado, mostra a tela de convite para login.
   if (!currentUser) {
     return <LoginToPlay gameName="Jogo da Memória (Genius)" />;
   }
 
-  // Se o usuário estiver logado, mostra o jogo normalmente.
   return (
     <div className="genius-container">
       <div className="genius-board">

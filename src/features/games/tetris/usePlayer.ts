@@ -1,4 +1,3 @@
-// usePlayer.ts
 import { useState, useCallback } from "react";
 import { TETROMINOS } from "./tetrominos";
 import { STAGE_WIDTH, checkCollision, randomTetrominoKey } from "./gameHelpers";
@@ -10,10 +9,8 @@ export const usePlayer = (): [
   () => void,
   (stage: STAGE, dir: number) => void
 ] => {
-  // Função auxiliar para criar um estado inicial limpo
   const createInitialPlayer = (): PLAYER => ({
     pos: { x: 0, y: 0 },
-    // A correção está aqui: Criamos uma cópia que o TS entende como mutável
     tetromino: JSON.parse(JSON.stringify(TETROMINOS[0].shape)),
     collided: false,
   });
@@ -65,7 +62,6 @@ export const usePlayer = (): [
     const newKey = randomTetrominoKey();
     setPlayer({
       pos: { x: STAGE_WIDTH / 2 - 2, y: 0 },
-      // A MESMA CORREÇÃO APLICADA AQUI:
       tetromino: JSON.parse(JSON.stringify(TETROMINOS[newKey].shape)),
       collided: false,
     });

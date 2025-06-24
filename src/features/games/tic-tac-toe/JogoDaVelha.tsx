@@ -1,5 +1,3 @@
-// src/components/games/JogoDaVelha.tsx
-
 import { useState, useEffect } from "react";
 import { useAuth } from "../../../contexts/AuthContext";
 import { LoginToPlay } from "../../../components/LoginToPlay/LoginToPlay";
@@ -28,7 +26,6 @@ export function JogoDaVelha() {
   const isComputerTurn = gameMode === "pvc" && !xIsNext;
 
   useEffect(() => {
-    // A lógica da IA só roda se o jogo estiver em modo PVC e for a vez do computador.
     if (!isComputerTurn || calculateWinner(squares) || !currentUser) {
       return;
     }
@@ -56,13 +53,11 @@ export function JogoDaVelha() {
   }, [isComputerTurn, squares, gameMode, currentUser]);
 
   function handleModeSelection(mode: "pvp" | "pvc") {
-    // Ação de escolher o modo é protegida
     if (!currentUser) return;
     setGameMode(mode);
   }
 
   function handleClick(i: number) {
-    // Ação de clicar no tabuleiro é protegida
     if (
       squares[i] ||
       calculateWinner(squares) ||
@@ -79,18 +74,15 @@ export function JogoDaVelha() {
   }
 
   function handleReset() {
-    // O reset não precisa de proteção, pois leva de volta à tela de seleção
     setGameMode(null);
     setSquares(Array(9).fill(null));
     setXIsNext(true);
   }
 
-  // Se o usuário não estiver logado, ele vê a tela de convite para login.
   if (!currentUser) {
     return <LoginToPlay gameName="Jogo da Velha" />;
   }
 
-  // A tela de seleção de modo só é exibida para o usuário logado
   if (!gameMode) {
     return (
       <div className="tictactoe-container">
@@ -123,7 +115,6 @@ export function JogoDaVelha() {
     status = "Próximo a jogar: " + (xIsNext ? "X" : "O");
   }
 
-  // O tabuleiro do jogo
   return (
     <div className="tictactoe-container">
       <div className="status">{status}</div>

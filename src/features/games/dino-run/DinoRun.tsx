@@ -1,12 +1,9 @@
-// src/components/games/dino-run/DinoRun.tsx
-
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useAuth } from "../../../contexts/AuthContext";
 import { updateUserHighScore } from "../../../services/firebase";
 import { LoginToPlay } from "../../../components/LoginToPlay/LoginToPlay";
 import "./DinoRun.css";
 
-// --- Constantes ---
 const GAME_WIDTH = 600;
 const GAME_HEIGHT = 200;
 const DINO_WIDTH = 40;
@@ -20,7 +17,6 @@ const INITIAL_GAME_SPEED = 5;
 const SPEED_INCREASE_INTERVAL = 500;
 const GAME_ID = "dino-run";
 
-// --- Tipos ---
 type Obstacle = {
   id: number;
   x: number;
@@ -28,7 +24,6 @@ type Obstacle = {
   height: number;
 };
 
-// --- Componente Principal ---
 export function DinoRun() {
   const { currentUser } = useAuth();
   const [dinoY, setDinoY] = useState(DINO_INITIAL_Y);
@@ -85,7 +80,6 @@ export function DinoRun() {
   );
 
   useEffect(() => {
-    // Adiciona o listener apenas se o usuário estiver logado
     if (currentUser) {
       window.addEventListener("keydown", handleKeyDown);
       return () => window.removeEventListener("keydown", handleKeyDown);
@@ -95,7 +89,6 @@ export function DinoRun() {
   const gameLoop = useCallback(() => {
     if (!gameStarted || gameOver) return;
 
-    // --- Física do Pulo ---
     let newVelocityY = dinoVelocityY - GRAVITY;
     let newDinoY = dinoY + newVelocityY;
     if (newDinoY <= GROUND_HEIGHT) {
@@ -106,7 +99,6 @@ export function DinoRun() {
     setDinoY(newDinoY);
     setDinoVelocityY(newVelocityY);
 
-    // --- Lógica dos Obstáculos ---
     let newObstacles = [...obstacles];
     const now = performance.now();
     if (now > nextObstacleTimeRef.current) {
@@ -126,7 +118,6 @@ export function DinoRun() {
       .filter((obs) => obs.x > -obs.width);
     setObstacles(newObstacles);
 
-    // --- Verificação de Colisão ---
     const dinoHitbox = {
       x: 20,
       y: newDinoY,
@@ -145,7 +136,6 @@ export function DinoRun() {
       }
     }
 
-    // --- Atualização de Pontuação e Velocidade ---
     const currentScore = score + 1;
     if (currentScore > 0 && currentScore % SPEED_INCREASE_INTERVAL === 0) {
       setGameSpeed((prevSpeed) => prevSpeed + 0.5);

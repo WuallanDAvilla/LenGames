@@ -1,9 +1,6 @@
-// src/components/games/tetris/Tetris.tsx
-
 import React, { useState, useEffect } from "react";
 import { createStage, checkCollision } from "./gameHelpers";
 
-// Hooks
 import { useInterval } from "./useInterval";
 import { usePlayer } from "./usePlayer";
 import { useStage } from "./useStage";
@@ -11,12 +8,10 @@ import { useGameStatus } from "./useGameStatus";
 import { useAuth } from "../../../contexts/AuthContext";
 import { updateUserHighScore } from "../../../services/firebase";
 
-// Components
 import Stage from "./Stage";
 import Display from "./Display";
-import { LoginToPlay } from "../../../components/LoginToPlay/LoginToPlay"; // 1. Importamos a barreira
+import { LoginToPlay } from "../../../components/LoginToPlay/LoginToPlay"; 
 
-// Styles
 import "./Tetris.css";
 
 const GAME_ID = "tetris";
@@ -25,7 +20,7 @@ const Tetris: React.FC = () => {
   const [dropTime, setDropTime] = useState<number | null>(null);
   const [gameOver, setGameOver] = useState(true);
 
-  const { currentUser } = useAuth(); // 2. Pegamos o usuário logado
+  const { currentUser } = useAuth(); 
   const [player, updatePlayerPos, resetPlayer, playerRotate] = usePlayer();
   const [stage, setStage, rowsCleared] = useStage(player, resetPlayer);
   const [score, setScore, rows, setRows, level, setLevel] =
@@ -44,7 +39,7 @@ const Tetris: React.FC = () => {
   };
 
   const startGame = () => {
-    if (!currentUser) return; // 3. Protegemos a ação de iniciar
+    if (!currentUser) return; 
     setStage(createStage());
     setDropTime(1000);
     resetPlayer();
@@ -94,18 +89,15 @@ const Tetris: React.FC = () => {
   };
 
   useInterval(() => {
-    // 4. Protegemos a lógica principal do jogo
     if (currentUser) {
       drop();
     }
   }, dropTime);
 
-  // 5. A barreira de login
   if (!currentUser) {
     return <LoginToPlay gameName="Tetris" />;
   }
 
-  // O jogo só é renderizado se o usuário estiver logado
   return (
     <div
       className="tetris-wrapper"

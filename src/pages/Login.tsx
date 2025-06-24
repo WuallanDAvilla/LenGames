@@ -1,5 +1,3 @@
-// ARQUIVO CORRIGIDO E COMPLETO: src/pages/Login.tsx
-
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { db, auth } from "../services/firebase";
@@ -29,7 +27,6 @@ export function Login() {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  // ✨ ADICIONADO: Handler para o login com Google
   const handleGoogleLogin = async () => {
     setIsLoading(true);
     try {
@@ -43,7 +40,6 @@ export function Login() {
     setIsLoading(false);
   };
 
-  // ✨ RESTAURADO: Sua função original de autenticação por e-mail
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -126,7 +122,6 @@ export function Login() {
           LenGames
         </Link>
 
-        {/* ✨ RESTAURADO: Seu formulário original completo */}
         <form onSubmit={handleAuth} className="login-form">
           <h1 className="form-title">
             {isRegistering ? "Criar Conta" : "Conecte-se"}
@@ -192,7 +187,6 @@ export function Login() {
           </button>
         </form>
 
-        {/* ✨ ADICIONADO: Divisor e botão Google fora do formulário */}
         <div className="separator">
           <span>OU</span>
         </div>
@@ -205,7 +199,6 @@ export function Login() {
           Entrar com Google
         </button>
 
-        {/* ✨ RESTAURADO: Seu botão de toggle original */}
         <button
           type="button"
           onClick={() => setIsRegistering(!isRegistering)}

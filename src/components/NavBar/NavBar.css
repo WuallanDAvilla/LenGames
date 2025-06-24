@@ -109,8 +109,6 @@
   top: 70px;
   padding: 8px 0;
   overflow: hidden;
-
-  /* Animação de entrada */
   animation: fadeIn 0.15s ease-out;
 }
 

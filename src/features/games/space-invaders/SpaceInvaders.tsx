@@ -1,12 +1,9 @@
-// src/components/games/space-invaders/SpaceInvaders.tsx
-
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useAuth } from "../../../contexts/AuthContext";
 import { updateUserHighScore } from "../../../services/firebase";
 import { LoginToPlay } from "../../../components/LoginToPlay/LoginToPlay";
 import "./SpaceInvaders.css";
 
-// --- Constantes ---
 const GAME_WIDTH = 500;
 const GAME_HEIGHT = 500;
 const PLAYER_WIDTH = 40;
@@ -23,11 +20,9 @@ const PLAYER_SHOOT_COOLDOWN = 400;
 const INVADER_SHOOT_INTERVAL = 800;
 const GAME_ID = "space-invaders";
 
-// --- Tipos ---
 type Position = { x: number; y: number };
 type Invader = Position & { id: number };
 
-// --- Funções Auxiliares ---
 const createInvaderFleet = (): Invader[] => {
   const fleet: Invader[] = [];
   for (let row = 0; row < INVADER_GRID_ROWS; row++) {
@@ -42,7 +37,6 @@ const createInvaderFleet = (): Invader[] => {
   return fleet;
 };
 
-// --- Componente Principal ---
 export function SpaceInvaders() {
   const { currentUser } = useAuth();
   const [playerPos, setPlayerPos] = useState<Position>({

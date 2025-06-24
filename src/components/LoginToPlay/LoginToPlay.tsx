@@ -1,7 +1,5 @@
-// src/components/LoginToPlay.tsx
-
 import { Link, useLocation } from "react-router-dom";
-import "./LoginToPlay.css"; // Vamos criar este CSS a seguir
+import "./LoginToPlay.css"; 
 
 interface LoginToPlayProps {
   gameName: string;

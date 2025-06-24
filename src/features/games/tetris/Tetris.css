@@ -15,21 +15,18 @@
   display: flex;
   align-items: flex-start;
   gap: 2rem;
-  padding: 1rem; /* Reduzimos um pouco o padding para dar mais espaço ao jogo */
+  padding: 1rem; 
   margin: 0 auto;
-  /* A CORREÇÃO ESTÁ AQUI: */
   width: 100%;
-  max-width: 600px; /* Um bom tamanho máximo para o conjunto */
+  max-width: 600px; 
   justify-content: center;
 }
 
 .tetris-stage {
   flex-shrink: 0;
-  /* O tabuleiro agora terá uma largura baseada na altura da janela (vh) */
-  /* 20 linhas * 4vh por linha = 80vh. A largura será ~ metade disso. */
   width: 40vh;
-  max-width: 350px; /* Limite para não ficar gigante */
-  max-height: 80vh; /* Limite de altura */
+  max-width: 350px; 
+  max-height: 80vh; 
 }
 
 .tetris aside {

@@ -1,5 +1,3 @@
-// src/pages/Leaderboard.tsx
-
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { GlobalLoader } from "../components/GlobalLoader/GlobalLoader";

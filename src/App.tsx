@@ -1,14 +1,8 @@
-// src/App.tsx
-
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
-
-// Componentes
 import { Layout } from "./components/Layout/Layout";
 import { ProtectedRoute } from "./router/ProtectedRoute";
-import { GuestRoute } from "./router/GuestRoute"; // Agora este arquivo existe!
-
-// Páginas
+import { GuestRoute } from "./router/GuestRoute"; 
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
 import { Games } from "./pages/Games";
@@ -17,8 +11,6 @@ import { Profile } from "./pages/Profile";
 import { PublicProfile } from "./pages/PublicProfile";
 import { Settings } from "./pages/Settings";
 import { ErrorPage } from "./pages/ErrorPage";
-
-// Jogos (verificando os caminhos com base na sua estrutura)
 import { JogoDaVelha } from "./features/games/tic-tac-toe/JogoDaVelha";
 import { JogoDaMemoria } from "./features/games/memory-game/JogoDaMemoria";
 import { JogoDaCobrinha } from "./features/games/snake/JogoDaCobrinha";

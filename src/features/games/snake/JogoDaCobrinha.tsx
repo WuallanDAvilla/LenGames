@@ -1,9 +1,7 @@
-// src/components/games/JogoDaCobrinha.tsx
-
 import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "../../../contexts/AuthContext";
 import { updateUserHighScore } from "../../../services/firebase";
-import { LoginToPlay } from "../../../components/LoginToPlay/LoginToPlay"; // Importamos nossa barreira
+import { LoginToPlay } from "../../../components/LoginToPlay/LoginToPlay"; 
 import "./JogoDaCobrinha.css";
 
 const GRID_SIZE = 20;
@@ -77,7 +75,6 @@ export function JogoDaCobrinha() {
   );
 
   const startGame = () => {
-    // Impede o início do jogo se não houver usuário
     if (!currentUser) return;
     setGameState(createInitialState());
     setIsRunning(true);
@@ -134,12 +131,10 @@ export function JogoDaCobrinha() {
     return () => clearInterval(gameInterval);
   }, [isRunning, isGameOver, currentUser]);
 
-  // Se o usuário não estiver logado, mostra a tela de convite para login.
   if (!currentUser) {
     return <LoginToPlay gameName="Jogo da Cobrinha" />;
   }
 
-  // Se o usuário estiver logado, mostra o jogo normalmente.
   return (
     <div
       className="snake-game-container"

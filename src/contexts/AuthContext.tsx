@@ -1,9 +1,6 @@
-// ARQUIVO CORRIGIDO: src/contexts/AuthContext.tsx
-
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { onAuthStateChanged, signInWithPopup, signOut } from "firebase/auth";
 import type { User } from "firebase/auth";
-// AQUI ESTÁ A CORREÇÃO: `setDoc` foi removido pois não era utilizado.
 import { doc, getDoc, writeBatch } from "firebase/firestore";
 import { auth, db, googleProvider } from "../services/firebase";
 
@@ -35,7 +32,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const user = result.user;
 
       const userDocRef = doc(db, "users", user.uid);
-      const userDocSnap = await getDoc(userDocRef); // `getDoc` é usado aqui
+      const userDocSnap = await getDoc(userDocRef); 
 
       if (!userDocSnap.exists()) {
         const batch = writeBatch(db);

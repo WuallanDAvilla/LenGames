@@ -1,4 +1,3 @@
-/* Container principal para alinhar info e jogo */
 .si-game-wrapper {
   display: flex;
   flex-direction: column;
@@ -6,7 +5,6 @@
   gap: 1rem;
 }
 
-/* Barra de informações (Pontos, Vidas) */
 .si-game-info {
   display: flex;
   justify-content: space-between;
@@ -41,7 +39,6 @@
     );
 }
 
-/* Overlay de Início/Fim de Jogo */
 .si-overlay {
   position: absolute;
   top: 0;
@@ -104,7 +101,7 @@
 }
 
 .si-projectile.invader {
-  background-color: #f0f; /* Roxo para projéteis inimigos */
+  background-color: #f0f; 
   box-shadow: 0 0 10px #f0f;
 }
 
