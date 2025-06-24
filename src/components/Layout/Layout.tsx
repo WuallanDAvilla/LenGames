@@ -1,8 +1,8 @@
 import { Outlet, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion"; 
-import { NavBar } from "./NavBar.tsx";
-import { Footer } from "./Footer.tsx";
-import { AnimatedPage } from "./AnimatedPage.tsx"; 
+import { NavBar } from "../NavBar/NavBar.tsx";
+import { Footer } from "../Footer/Footer.tsx";
+import { AnimatedPage } from "../AnimatedPage/AnimatedPage.tsx"; 
 import "./Layout.css";
 
 export function Layout() {

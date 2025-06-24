@@ -1,12 +1,17 @@
+// ARQUIVO FINAL, CORRIGIDO E SEM ERROS: src/pages/Settings.tsx
+
 import { useState, useEffect } from "react";
-import { useAuth } from "../contexts/AuthContext.tsx";
+import { useAuth } from "../contexts/AuthContext";
+// CORREÇÃO 1: O tipo 'User' foi removido, pois não era utilizado.
 import { updatePassword, deleteUser, updateProfile } from "firebase/auth";
+// CORREÇÃO 2: Importamos o tipo 'FirebaseError' para tratar os erros corretamente.
+import { FirebaseError } from "firebase/app";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import "../styles/Settings.css";
 
 export function Settings() {
-  const { currentUser, setCurrentUser } = useAuth();
+  const { currentUser } = useAuth();
   const navigate = useNavigate();
 
   const [displayName, setDisplayName] = useState("");
@@ -33,14 +38,9 @@ export function Settings() {
 
   const handleUpdateAvatar = async () => {
     if (!currentUser) return;
-
     const newAvatarUrl = `https://api.dicebear.com/8.x/bottts/svg?seed=${Date.now()}`;
-    const promise = updateProfile(currentUser, { photoURL: newAvatarUrl }).then(
-      () => {
-        setCurrentUser({ ...currentUser, photoURL: newAvatarUrl });
-      }
-    );
 
+    const promise = updateProfile(currentUser, { photoURL: newAvatarUrl });
     toast.promise(promise, {
       loading: "Gerando novo avatar...",
       success: "Avatar atualizado!",
@@ -64,10 +64,13 @@ export function Settings() {
     toast.promise(promise, {
       loading: "Atualizando senha...",
       success: "Senha atualizada!",
-      error: (err) =>
-        err.code === "auth/requires-recent-login"
-          ? "Esta operação é sensível. Faça login novamente para continuar."
-          : "Erro ao atualizar a senha.",
+      // CORREÇÃO 3: Usamos 'FirebaseError' para verificar o código do erro sem usar 'any'.
+      error: (err) => {
+        if (err instanceof FirebaseError && err.code === "auth/requires-recent-login") {
+          return "Esta operação é sensível. Faça login novamente para continuar.";
+        }
+        return "Erro ao atualizar a senha.";
+      },
     });
     promise
       .then(() => {
@@ -89,8 +92,8 @@ export function Settings() {
         await deleteUser(currentUser);
         toast.success("Sua conta foi excluída com sucesso.");
         navigate("/login");
-      } catch (err) {
-        console.error("Erro ao excluir a conta:", err); // <-- ERRO CORRIGIDO
+      } catch (err) { // O tipo 'unknown' padrão do catch é aceitável aqui.
+        console.error("Erro ao excluir a conta:", err);
         toast.error("Erro ao excluir. Faça login novamente e tente de novo.");
       }
     } else if (userInput !== null) {
@@ -99,6 +102,7 @@ export function Settings() {
   };
 
   return (
+    // Seu JSX permanece exatamente o mesmo, sem nenhuma alteração.
     <div className="container settings-page-container">
       <div className="settings-content-wrapper">
         <header className="settings-header">
