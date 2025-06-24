@@ -3,7 +3,7 @@
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext.tsx";
 import type { ReactNode } from "react";
-import { GlobalLoader } from "./GlobalLoader.tsx";
+import { GlobalLoader } from "../components/GlobalLoader/GlobalLoader";
 
 interface ProtectedRouteProps {
   children: ReactNode;

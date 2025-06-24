@@ -2,8 +2,8 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useAuth } from "../../../contexts/AuthContext";
-import { updateUserHighScore } from "../../../firebase";
-import { LoginToPlay } from "../../LoginToPlay";
+import { updateUserHighScore } from "../../../services/firebase";
+import { LoginToPlay } from "../../../components/LoginToPlay/LoginToPlay";
 import "./DinoRun.css";
 
 // --- Constantes ---

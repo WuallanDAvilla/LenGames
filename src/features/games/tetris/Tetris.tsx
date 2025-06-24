@@ -9,12 +9,12 @@ import { usePlayer } from "./usePlayer";
 import { useStage } from "./useStage";
 import { useGameStatus } from "./useGameStatus";
 import { useAuth } from "../../../contexts/AuthContext";
-import { updateUserHighScore } from "../../../firebase";
+import { updateUserHighScore } from "../../../services/firebase";
 
 // Components
 import Stage from "./Stage";
 import Display from "./Display";
-import { LoginToPlay } from "../../LoginToPlay"; // 1. Importamos a barreira
+import { LoginToPlay } from "../../../components/LoginToPlay/LoginToPlay"; // 1. Importamos a barreira
 
 // Styles
 import "./Tetris.css";

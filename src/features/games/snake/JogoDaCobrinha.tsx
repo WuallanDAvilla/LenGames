@@ -1,9 +1,9 @@
 // src/components/games/JogoDaCobrinha.tsx
 
 import { useState, useEffect, useCallback } from "react";
-import { useAuth } from "../../contexts/AuthContext";
-import { updateUserHighScore } from "../../firebase";
-import { LoginToPlay } from "../LoginToPlay"; // Importamos nossa barreira
+import { useAuth } from "../../../contexts/AuthContext";
+import { updateUserHighScore } from "../../../services/firebase";
+import { LoginToPlay } from "../../../components/LoginToPlay/LoginToPlay"; // Importamos nossa barreira
 import "./JogoDaCobrinha.css";
 
 const GRID_SIZE = 20;

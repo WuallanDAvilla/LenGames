@@ -5,7 +5,7 @@ import { onAuthStateChanged, signInWithPopup, signOut } from "firebase/auth";
 import type { User } from "firebase/auth";
 // AQUI ESTÁ A CORREÇÃO: `setDoc` foi removido pois não era utilizado.
 import { doc, getDoc, writeBatch } from "firebase/firestore";
-import { auth, db, googleProvider } from "../firebase";
+import { auth, db, googleProvider } from "../services/firebase";
 
 interface AuthContextType {
   currentUser: User | null;

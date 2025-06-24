@@ -4,13 +4,13 @@ import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-import "./index.css";
+import "../src/styles/global.css";
 // A importação do Leaderboard.css foi removida daqui
 
 import { AuthProvider } from "./contexts/AuthContext.tsx";
-import { ProtectedRoute } from "./components/ProtectedRoute.tsx";
-import { Layout } from "./components/Layout.tsx";
-import { GlobalLoader } from "./components/GlobalLoader.tsx";
+import { ProtectedRoute } from "./router/ProtectedRoute.tsx";
+import { Layout } from "./components/Layout/Layout.tsx";
+import { GlobalLoader } from "./components/GlobalLoader/GlobalLoader.tsx";
 
 const Home = lazy(() =>
   import("./pages/Home.tsx").then((module) => ({ default: module.Home }))

@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { db } from "../firebase";
+import { db } from "../services/firebase";
 import { collection, query, where, getDocs, limit } from "firebase/firestore";
-import { GlobalLoader } from "../components/GlobalLoader";
+import { GlobalLoader } from "../components/GlobalLoader/GlobalLoader";
 import "../styles/Profile.css"; 
 
 interface UserProfile {

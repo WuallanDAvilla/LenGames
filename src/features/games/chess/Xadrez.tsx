@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react";
 import { Chess } from "chess.js";
 import { Chessboard } from "react-chessboard";
-import { useAuth } from "../../contexts/AuthContext";
-import { LoginToPlay } from "../LoginToPlay";
+import { useAuth } from "../../../contexts/AuthContext";
+import { LoginToPlay } from "../../../components/LoginToPlay/LoginToPlay";
 import "./Xadrez.css";
 
 type Player = "Brancas" | "Pretas";

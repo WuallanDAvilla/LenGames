@@ -1,12 +1,12 @@
 import { useParams, Link } from "react-router-dom";
-import { gamesInfoMap } from "../data/gamesData";
-import { JogoDaVelha } from "../components/games/JogoDaVelha";
-import { JogoDaMemoria } from "../components/games/JogoDaMemoria";
-import { JogoDaCobrinha } from "../components/games/JogoDaCobrinha";
-import { Xadrez } from "../components/games/Xadrez";
-import Tetris from "../components/games/tetris/Tetris";
-import { SpaceInvaders } from "../components/games/space-invaders/SpaceInvaders";
-import { DinoRun } from '../components/games/dino-run/DinoRun';
+import { gamesInfoMap } from "../constants/gamesData";
+import { JogoDaVelha } from "../features/games/tic-tac-toe/JogoDaVelha";
+import { JogoDaMemoria } from "../features/games/memory-game/JogoDaMemoria";
+import { JogoDaCobrinha } from "../features/games/snake/JogoDaCobrinha";
+import { Xadrez } from "../features/games/chess/Xadrez";
+import Tetris from "../features/games/tetris/Tetris";
+import { SpaceInvaders } from "../features/games/space-invaders/SpaceInvaders";
+import { DinoRun } from "../features/games/dino-run/DinoRun";
 import "../styles/GameDetailPage.css";
 
 const gameComponentMap = new Map<string, React.ReactElement>([
@@ -16,7 +16,7 @@ const gameComponentMap = new Map<string, React.ReactElement>([
   ["xadrez", <Xadrez />],
   ["tetris", <Tetris />],
   ["space-invaders", <SpaceInvaders />],
-  ['dino-run', <DinoRun />]
+  ["dino-run", <DinoRun />],
 ]);
 
 export function GameDetailPage() {

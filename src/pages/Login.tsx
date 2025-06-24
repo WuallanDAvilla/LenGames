@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { db, auth } from "../firebase";
+import { db, auth } from "../services/firebase";
 import { doc, getDoc, writeBatch } from "firebase/firestore";
 import {
   createUserWithEmailAndPassword,

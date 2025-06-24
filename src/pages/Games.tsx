@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { gamesList } from "../data/gamesData";
+import { gamesList } from "../constants/gamesData";
 import "../styles/Games.css";
 
 export function Games() {

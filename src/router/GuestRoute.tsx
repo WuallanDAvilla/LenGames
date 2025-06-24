@@ -3,7 +3,7 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import type { ReactNode } from "react";
-import { GlobalLoader } from "./GlobalLoader";
+import { GlobalLoader } from "../components/GlobalLoader/GlobalLoader";
 
 interface GuestRouteProps {
   children: ReactNode;

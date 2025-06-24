@@ -1,8 +1,8 @@
 // src/components/games/JogoDaVelha.tsx
 
 import { useState, useEffect } from "react";
-import { useAuth } from "../../contexts/AuthContext";
-import { LoginToPlay } from "../LoginToPlay";
+import { useAuth } from "../../../contexts/AuthContext";
+import { LoginToPlay } from "../../../components/LoginToPlay/LoginToPlay";
 import "./JogoDaVelha.css";
 
 function Square({

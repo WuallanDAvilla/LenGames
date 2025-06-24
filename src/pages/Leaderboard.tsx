@@ -2,9 +2,9 @@
 
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { Link } from "react-router-dom";
-import { GlobalLoader } from "../components/GlobalLoader";
-import { fetchTopPlayersForGame } from "../firebase";
-import { gamesList, type GameInfo } from "../data/gamesData";
+import { GlobalLoader } from "../components/GlobalLoader/GlobalLoader";
+import { fetchTopPlayersForGame } from "../services/firebase";
+import { gamesList, type GameInfo } from "../constants/gamesData";
 import styles from "../styles/Leaderboard.module.css";
 
 interface PlayerData {

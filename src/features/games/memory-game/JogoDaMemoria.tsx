@@ -1,11 +1,11 @@
 // src/components/games/JogoDaMemoria.tsx
 
 import { useState, useEffect, useCallback } from "react";
-import { useAuth } from "../../contexts/AuthContext";
-import { updateUserHighScore } from "../../firebase";
-import { db } from "../../firebase";
+import { useAuth } from "../../../contexts/AuthContext";
+import { updateUserHighScore } from "../../../services/firebase";
+import { db } from "../../../services/firebase";
 import { doc, getDoc } from "firebase/firestore";
-import { LoginToPlay } from "../LoginToPlay"; // Importamos a barreira
+import { LoginToPlay } from "../../../components/LoginToPlay/LoginToPlay"; // Importamos a barreira
 import "./JogoDaMemorias.css";
 
 const colors = ["green", "red", "yellow", "blue"];

@@ -1,6 +1,6 @@
 import { useAuth } from "../contexts/AuthContext.tsx";
 import { signOut } from "firebase/auth";
-import { auth } from "../firebase.ts";
+import { auth } from "../services/firebase";
 import { useNavigate, Link } from "react-router-dom";
 import "../styles/Profile.css";
 
