@@ -1,3 +1,4 @@
+/* SEU CÓDIGO ORIGINAL - INTACTO */
 .home-container {
   width: 100%;
 }
@@ -8,15 +9,13 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 6rem 1.5rem; 
+  padding: 6rem 1.5rem;
   min-height: 50vh;
-  background-color: var(
-    --cor-fundo
-  ); 
+  background-color: var(--cor-fundo);
 }
 
 .home-title {
-  font-size: clamp(2.5rem, 5vw, 4rem); 
+  font-size: clamp(2.5rem, 5vw, 4rem);
   font-weight: 800;
   margin-bottom: 1rem;
   color: var(--cor-texto-principal);
@@ -55,9 +54,7 @@
 
 .home-features {
   padding: 4rem 0;
-  background-color: var(
-    --cor-fundo-navbar
-  ); 
+  background-color: var(--cor-fundo-navbar);
   border-top: 1px solid var(--cor-borda);
   border-bottom: 1px solid var(--cor-borda);
 }
@@ -106,4 +103,41 @@
 .feature-card p {
   color: var(--cor-texto-secundario);
   line-height: 1.6;
+}
+
+/* ======================================= */
+/* === CÓDIGO NOVO ADICIONADO AO FINAL === */
+/* ======================================= */
+
+.home-cta-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.home-changelog-button {
+  background-color: transparent;
+  color: var(--cor-texto-secundario);
+  border: 1px solid var(--cor-borda);
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: var(--raio-borda);
+  cursor: pointer;
+  transition: var(--transicao-padrao);
+}
+
+.home-changelog-button:hover {
+  background-color: var(--cor-fundo-card);
+  color: var(--cor-destaque);
+  border-color: var(--cor-destaque);
+  transform: translateY(-2px);
+}
+
+/* Para telas maiores, colocar os botões lado a lado */
+@media (min-width: 768px) {
+  .home-cta-container {
+    flex-direction: row;
+  }
 }
