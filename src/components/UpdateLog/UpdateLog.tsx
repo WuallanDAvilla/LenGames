@@ -1,5 +1,3 @@
-// src/components/UpdateLog/UpdateLog.tsx
-
 import React from "react";
 import { updateLogEntries } from "../../constants/updateLogData";
 import "./UpdateLog.css";

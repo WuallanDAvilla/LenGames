@@ -1,6 +1,4 @@
-// src/components/Modal/Modal.tsx
-
-import React, { type ReactNode } from "react"; // A CORREÇÃO ESTÁ AQUI
+import React, { type ReactNode } from "react"; 
 import "./Modal.css";
 
 interface ModalProps {
@@ -14,7 +12,6 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
     return null;
   }
 
-  // Permite fechar clicando no fundo, mas não no conteúdo do modal
   const handleOverlayClick = () => {
     onClose();
   };

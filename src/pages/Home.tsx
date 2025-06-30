@@ -1,19 +1,14 @@
-// src/pages/Home.tsx
-
-import { useState } from "react"; // <-- 1. IMPORTAR useState
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import UpdateLog from "../components/UpdateLog/UpdateLog";
-import Modal from "../components/Modal/Modal"; // <-- 2. IMPORTAR O NOVO MODAL
+import Modal from "../components/Modal/Modal"; 
 import "../styles/Home.css";
 
 export function Home() {
-  // 3. ESTADO PARA CONTROLAR A VISIBILIDADE DO MODAL
   const [isLogModalOpen, setLogModalOpen] = useState(false);
 
   return (
     <>
-      {" "}
-      {/* Usar Fragment para não adicionar div extra */}
       <div className="home-container">
         <section className="home-hero">
           <h1 className="home-title">
@@ -23,12 +18,9 @@ export function Home() {
             Sua plataforma para descobrir e se divertir com minijogos incríveis.
           </p>
           <div className="home-cta-container">
-            {" "}
-            {/* Container para os botões */}
             <Link to="/games" className="home-cta-button">
               Ver os Jogos
             </Link>
-            {/* 4. BOTÃO PARA ABRIR O MODAL */}
             <button
               className="home-changelog-button"
               onClick={() => setLogModalOpen(true)}
@@ -58,7 +50,6 @@ export function Home() {
           </div>
         </section>
       </div>
-      {/* 5. RENDERIZAÇÃO DO MODAL */}
       <Modal isOpen={isLogModalOpen} onClose={() => setLogModalOpen(false)}>
         <UpdateLog />
       </Modal>

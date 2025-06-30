@@ -1,11 +1,8 @@
-// src/constants/updateLogData.ts
-
 export interface UpdateEntry {
   version: string;
   description: string;
 }
 
-// Array com os dados dos logs de update. O mais recente deve vir primeiro.
 export const updateLogEntries: UpdateEntry[] = [
   {
     version: "1.0.3",

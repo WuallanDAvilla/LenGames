@@ -1,11 +1,8 @@
-/* src/styles/Leaderboard.module.css */
-
 .leaderboardHeader {
   text-align: center;
   margin-bottom: 3rem;
 }
 
-/* Adicionamos uma classe para o subtítulo para podermos referenciá-la no TSX */
 .sectionSubtitle {
   color: var(--cor-texto-secundario, #9ca3af);
   margin-top: 0.5rem;
